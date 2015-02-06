@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="customStyleBar" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/icons</item>
+        <item name="android:textColorSecondary">@color/icons</item>
+    </style>
+
+    <style name="customStylePopup" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/primary_text</item>
+    </style>
+</resources>
