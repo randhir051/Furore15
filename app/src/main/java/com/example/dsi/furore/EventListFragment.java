@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class EventListFragment extends Fragment {
 
 
@@ -134,7 +135,4 @@ public class EventListFragment extends Fragment {
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
         }
     }
-
-
-
 }

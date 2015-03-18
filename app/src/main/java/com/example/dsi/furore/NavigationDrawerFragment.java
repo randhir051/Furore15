@@ -28,8 +28,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     SharedPreferences getPrefs;
     ActionBarDrawerToggle mDrawerToggle;
-    String NAME = " La";
-    String EMAIL = " Lo";
+    String NAME = "My name";
+    String EMAIL = "my email sddress";
     String ACTIONS[] = {
             "com.broda.snup.Profile",
             "com.broda.snup.CreateGroup",

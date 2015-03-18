@@ -13,10 +13,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private String mNavTitles[]={"Home","Create Group","About Us"};
-    private int mIcons[]= {R.drawable.ic_launcher,
-            R.drawable.ic_launcher,
-    R.drawable.ic_launcher};
+    private String mNavTitles[]={"Events","Furore Timeline","About Us"};
+    private int mIcons[]= {R.drawable.ic_action,
+            R.drawable.ic_action_time,
+    R.drawable.ic_action_about};
 
 
     private String name;

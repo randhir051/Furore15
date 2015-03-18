@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
         mPager = (NonSwipeableViewPager) findViewById(R.id.hello);
         mPager.setAdapter(new myPagerAdapter(getSupportFragmentManager()));
 
-        drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
 

@@ -30,10 +30,10 @@ public class EventTypeFragment extends Fragment {
 
 
     public EventTypeFragment() {
-        data.add(new EventType("Food",R.drawable.ic_launcher));
-        data.add(new EventType("Art",R.drawable.abc_ab_share_pack_holo_dark));
-        data.add(new EventType("Dance",R.drawable.abc_btn_radio_material));
-        data.add(new EventType("Gaming",R.drawable.ic_launcher));
+        data.add(new EventType("Food\n6 events",R.drawable.images));
+        data.add(new EventType("Art\n5 events",R.drawable.art));
+        data.add(new EventType("Dance\n3 events",R.drawable.dance));
+        data.add(new EventType("Gaming\n8 events",R.drawable.game));
         // Required empty public constructor
     }
 
