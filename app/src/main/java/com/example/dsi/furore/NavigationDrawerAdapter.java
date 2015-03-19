@@ -13,10 +13,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private String mNavTitles[]={"Events","Furore Timeline","About Us"};
-    private int mIcons[]= {R.drawable.ic_action,
-            R.drawable.ic_action_time,
-    R.drawable.ic_action_about};
+    private String mNavTitles[] = {"Events", "Furore Timeline", "Selfie", "About Us"};
+    private int mIcons[] = {R.drawable.ic_action,
+            R.drawable.ic_action_time, R.drawable.ic_action,
+            R.drawable.ic_action_about};
 
 
     private String name;
@@ -36,7 +36,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         this.clickListener = clickListener;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         int Holderid;
         TextView textView;
         ImageView imageView;
@@ -65,8 +65,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
         @Override
         public void onClick(View v) {
-            if(clickListener!=null){
-                clickListener.itemClicked(v,getPosition() );
+            if (clickListener != null) {
+                clickListener.itemClicked(v, getPosition());
             }
 
         }
@@ -120,7 +120,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         return position == 0;
     }
 
-    public interface ClickListener{
+    public interface ClickListener {
         public void itemClicked(View view, int position);
     }
 }

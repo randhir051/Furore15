@@ -1,5 +1,6 @@
 package com.example.dsi.furore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,11 +24,10 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if(mPager.getCurrentItem()==0){
+        if (mPager.getCurrentItem() == 0) {
             super.onBackPressed();
-        }
-        else{
-            mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
         }
     }
 
@@ -38,24 +38,24 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-
-
         @Override
         public CharSequence getPageTitle(int position) {
-            if(position==0){
+            if (position == 0) {
                 return "Joined Group";
-            }
-            else{
+            } else {
                 return "Explore";
             }
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch(position){
-                case 0: return type;
-                case 1: return list;
-                case 2: return details;
+            switch (position) {
+                case 0:
+                    return type;
+                case 1:
+                    return list;
+                case 2:
+                    return details;
             }
             return null;
         }
@@ -101,13 +101,13 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent in = new Intent(MainActivity.this, SelfieTimeline.class);
+            startActivity(in);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }
