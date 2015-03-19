@@ -1,15 +1,20 @@
 package com.example.dsi.furore;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class SelfieTimeline extends ActionBarActivity {
 
@@ -21,8 +26,10 @@ public class SelfieTimeline extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_timeline);
+        initFloatingMenu();
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
         gridView.setAdapter(new GridViewAdapter());
+
     }
 
     public class GridViewAdapter extends BaseAdapter {
@@ -56,7 +63,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
             return convertView;
         }
-    }
+
 
 /*
     @Override
@@ -80,4 +87,55 @@ public class SelfieTimeline extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }*/
+    }
+
+    private void initFloatingMenu() {
+
+
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.camera);
+
+        final FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+// change the camera icon
+        Drawable cameraDrawable = getResources().getDrawable(R.drawable.camera);
+        ImageView cameraIcon = new ImageView(this);
+
+        SubActionButton cameraButton = itemBuilder.setContentView(cameraIcon).build();
+        cameraButton.setBackgroundDrawable(cameraDrawable);
+
+
+        Drawable attachDrawable = getResources().getDrawable(R.drawable.camera);
+        ImageView attachIcon = new ImageView(this);
+        SubActionButton attachButton = itemBuilder.setContentView(attachIcon).build();
+        attachButton.setBackgroundDrawable(attachDrawable);
+
+
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(cameraButton)
+                .addSubActionView(attachButton)
+                .attachTo(actionButton)
+
+                .build();
+
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //function to open camera and capture an image
+            }
+        });
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //function to select an existing image
+            }
+        });
+
+    }
 }
