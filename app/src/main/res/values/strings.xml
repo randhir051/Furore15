@@ -9,5 +9,6 @@
     <string name="drawer_close">Close</string>
     <string name="name_placeholder">Name</string>
     <string name="email_placeholder">Email</string>
+    <string name="title_activity_selfie_timeline">SelfieTimeline</string>
 
 </resources>

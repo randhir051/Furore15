@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.etsy.android.grid.util.DynamicHeightImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_height="25dp"
+        android:background="#999999"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignRight="@+id/imageView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#555"
+            android:id="@+id/imageText" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
