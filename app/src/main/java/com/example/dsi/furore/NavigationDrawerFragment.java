@@ -114,7 +114,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     try {
                         Intent intent = new Intent(getActivity(),Class.forName(selectedAction));
                         startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+                        //getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
