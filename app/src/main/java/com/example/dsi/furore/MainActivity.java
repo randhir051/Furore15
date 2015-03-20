@@ -11,13 +11,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
     public ViewPager mPager;
-
+    ImageView back;
     EventTypeFragment type = new EventTypeFragment();
     EventDetails details = new EventDetails();
     EventListFragment list = new EventListFragment();
@@ -74,6 +76,8 @@ public class MainActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
 
+        back = (ImageView) findViewById(R.id.back_button_image);
+
         setSupportActionBar(toolbar);
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -81,6 +85,35 @@ public class MainActivity extends ActionBarActivity {
 
         mPager = (NonSwipeableViewPager) findViewById(R.id.hello);
         mPager.setAdapter(new myPagerAdapter(getSupportFragmentManager()));
+
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position!=0){
+                   back.setVisibility(View.VISIBLE);
+                }
+                else {
+                    back.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPager.setCurrentItem(mPager.getCurrentItem()-1);
+            }
+        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
