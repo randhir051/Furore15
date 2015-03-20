@@ -31,10 +31,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     String NAME = "My name";
     String EMAIL = "my email sddress";
     String ACTIONS[] = {
-            "com.broda.snup.Profile",
-            "com.broda.snup.CreateGroup",
-            "com.broda.snup.CreateGroup",
-            "com.broda.snup.AboutUs"
+            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.AboutUs"
     };
     int PROFILE = R.drawable.ic_launcher;
 
@@ -111,7 +112,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     String selectedAction = ACTIONS[pos];
 
                     try {
-                        startActivity(new Intent(getActivity(),Class.forName(selectedAction)));
+                        Intent intent = new Intent(getActivity(),Class.forName(selectedAction));
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }

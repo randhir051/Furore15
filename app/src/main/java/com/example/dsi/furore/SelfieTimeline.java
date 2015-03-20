@@ -2,8 +2,12 @@ package com.example.dsi.furore;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,7 +21,7 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class SelfieTimeline extends ActionBarActivity {
-
+    private Toolbar toolbar;
     StaggeredGridView gridView;
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
@@ -26,6 +30,12 @@ public class SelfieTimeline extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_timeline);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Selfie!!");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initFloatingMenu();
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
         gridView.setAdapter(new GridViewAdapter());
@@ -64,8 +74,8 @@ public class SelfieTimeline extends ActionBarActivity {
             return convertView;
         }
 
+    }
 
-/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -84,9 +94,10 @@ public class SelfieTimeline extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        else if(id == R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
         return super.onOptionsItemSelected(item);
-    }*/
     }
 
     private void initFloatingMenu() {
