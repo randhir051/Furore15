@@ -112,6 +112,8 @@ public class DBEventDetails {
             } while (mCursor.moveToNext());
         }
 
+        mCursor.close();
+
         return result;
     }
 
