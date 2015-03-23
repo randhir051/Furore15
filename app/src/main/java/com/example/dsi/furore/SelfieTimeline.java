@@ -1,5 +1,7 @@
 package com.example.dsi.furore;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -30,13 +33,30 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class SelfieTimeline extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_LOAD_IMAGE = 2;
     int lastPosition = 0;
     private Toolbar toolbar;
+    public static int number = 0;
+
     StaggeredGridView gridView;
+    ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
+
+
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
 
@@ -56,7 +76,6 @@ public class SelfieTimeline extends ActionBarActivity {
         View footer = inflater.inflate(R.layout.footer, null);
         gridView.addFooterView(footer, "potato", true);
         gridView.setAdapter(new GridViewAdapter());
-        Log.d("footer count:", gridView.getFooterViewsCount() + "");
 
     }
 
@@ -158,7 +177,7 @@ public class SelfieTimeline extends ActionBarActivity {
         attachButton.setBackgroundDrawable(attachDrawable);
 
 
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+        final FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(cameraButton)
                 .addSubActionView(attachButton)
                 .attachTo(actionButton)
@@ -170,6 +189,9 @@ public class SelfieTimeline extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //function to open camera and capture an image
+                if (actionMenu.isOpen()) {
+                    actionMenu.close(true);
+                }
                 clickPicture();
             }
         });
@@ -178,6 +200,9 @@ public class SelfieTimeline extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //function to select an existing image
+                if (actionMenu.isOpen()) {
+                    actionMenu.close(true);
+                }
                 selectPicture();
             }
         });
@@ -202,6 +227,7 @@ public class SelfieTimeline extends ActionBarActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             //add code for displaying picture and uploading it
+            dialog(imageBitmap);
         }
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
@@ -217,6 +243,74 @@ public class SelfieTimeline extends ActionBarActivity {
 
             Bitmap bm = BitmapFactory.decodeFile(picturePath);
 //add function to display and send the data
+            dialog(bm);
         }
     }
+
+    void dialog(Bitmap bitmap) {
+        ImageView iv = new ImageView(this);
+        iv.setImageBitmap(bitmap);
+        new AlertDialog.Builder(this)
+                .setView(iv)
+                .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //function to upload
+                        new imageUrlLoader().execute();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setCancelable(false).show();
+    }
+
+    public class imageUrlLoader extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            HttpClient httpClient = new DefaultHttpClient();
+            try {
+                HttpPost post = new HttpPost("http://bitsmate.in/furore/selfie_timeline.php?page_no=" + number);
+                HttpResponse response = httpClient.execute(post);
+                HttpEntity entity = response.getEntity();
+                String data = EntityUtils.toString(entity);
+                parsedata(data);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("raj", "" + image_urls);
+        }
+
+        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id";
+
+        private void parsedata(String data) {
+//            Log.d("raj", data);
+            try {
+                JSONObject object = new JSONObject(data);
+//                Log.d("raj", "object = " + object);
+                for (int i = 0; i < object.length(); i++) {
+                    JSONObject subObject = object.getJSONObject("" + i);
+//                    Log.d("raj", "" + subObject);
+                    String img_url = subObject.getString(IMG_URL);
+                    String id = subObject.getString(ID);
+                    String fb_id = subObject.getString(FB_ID);
+                    image_urls.add(img_url);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
