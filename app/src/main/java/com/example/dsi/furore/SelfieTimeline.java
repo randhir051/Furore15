@@ -1,5 +1,6 @@
 package com.example.dsi.furore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +52,11 @@ public class SelfieTimeline extends ActionBarActivity {
 
         initFloatingMenu();
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View footer = inflater.inflate(R.layout.footer, null);
+        gridView.addFooterView(footer, "potato", true);
         gridView.setAdapter(new GridViewAdapter());
+        Log.d("footer count:", gridView.getFooterViewsCount() + "");
 
     }
 
