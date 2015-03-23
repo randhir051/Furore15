@@ -32,6 +32,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_LOAD_IMAGE = 2;
+    int lastPosition = 0;
     private Toolbar toolbar;
     StaggeredGridView gridView;
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
@@ -57,9 +58,13 @@ public class SelfieTimeline extends ActionBarActivity {
 
         private void setAnimation(View viewToAnimate, int position) {
             // If the bound view wasn't previously displayed on screen, it's animated
-            int lastPosition = 0;
             if (position > lastPosition) {
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
+                viewToAnimate.startAnimation(animation);
+                lastPosition = position;
+            }
+            else {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
             }
