@@ -21,7 +21,6 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class SelfieTimeline extends ActionBarActivity {
-    private Toolbar toolbar;
     StaggeredGridView gridView;
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
@@ -30,7 +29,7 @@ public class SelfieTimeline extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_timeline);
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Selfie!!");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -95,7 +94,8 @@ public class SelfieTimeline extends ActionBarActivity {
             return true;
         }
         else if(id == R.id.home){
-            NavUtils.navigateUpFromSameTask(this);
+            //NavUtils.navigateUpFromSameTask(this);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

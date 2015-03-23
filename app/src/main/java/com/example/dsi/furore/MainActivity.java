@@ -17,9 +17,8 @@ import android.widget.ImageView;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Toolbar toolbar;
     public ViewPager mPager;
-    ImageView back;
+    //ImageView back;
     EventTypeFragment type = new EventTypeFragment();
     EventDetails details = new EventDetails();
     EventListFragment list = new EventListFragment();
@@ -68,15 +67,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
 
-        back = (ImageView) findViewById(R.id.back_button_image);
+        //back = (ImageView) findViewById(R.id.back_button_image);
 
         setSupportActionBar(toolbar);
 
@@ -95,10 +93,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onPageSelected(int position) {
                 if(position!=0){
-                   back.setVisibility(View.VISIBLE);
+               //    back.setVisibility(View.VISIBLE);
                 }
                 else {
-                    back.setVisibility(View.INVISIBLE);
+                //    back.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -108,16 +106,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPager.setCurrentItem(mPager.getCurrentItem()-1);
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mPager.setCurrentItem(mPager.getCurrentItem()-1);
+//            }
+//        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,6 +138,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
