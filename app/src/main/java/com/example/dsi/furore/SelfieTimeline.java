@@ -1,7 +1,13 @@
 package com.example.dsi.furore;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +29,10 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class SelfieTimeline extends ActionBarActivity {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int RESULT_LOAD_IMAGE = 2;
+    private Toolbar toolbar;
     StaggeredGridView gridView;
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
@@ -29,7 +41,7 @@ public class SelfieTimeline extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_timeline);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Selfie!!");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -42,6 +54,16 @@ public class SelfieTimeline extends ActionBarActivity {
     }
 
     public class GridViewAdapter extends BaseAdapter {
+
+        private void setAnimation(View viewToAnimate, int position) {
+            // If the bound view wasn't previously displayed on screen, it's animated
+            int lastPosition = 0;
+            if (position > lastPosition) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+                viewToAnimate.startAnimation(animation);
+                lastPosition = position;
+            }
+        }
 
         @Override
         public int getCount() {
@@ -69,6 +91,7 @@ public class SelfieTimeline extends ActionBarActivity {
             TextView textView = (TextView) convertView.findViewById(R.id.imageText);
             textView.setText("this is random text");
             iv.setImageResource(drawables[position]);
+            setAnimation(convertView, position);
 
             return convertView;
         }
@@ -92,10 +115,8 @@ public class SelfieTimeline extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.home){
-            //NavUtils.navigateUpFromSameTask(this);
-            finish();
+        } else if (id == R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -138,6 +159,7 @@ public class SelfieTimeline extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //function to open camera and capture an image
+                clickPicture();
             }
         });
 
@@ -145,8 +167,45 @@ public class SelfieTimeline extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //function to select an existing image
+                selectPicture();
             }
         });
 
+    }
+
+    private void selectPicture() {
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+    private void clickPicture() {
+        Intent picIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (picIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(picIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //add code for displaying picture and uploading it
+        }
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Bitmap bm = BitmapFactory.decodeFile(picturePath);
+//add function to display and send the data
+        }
     }
 }
