@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SelfieTimeline extends ActionBarActivity {
 
@@ -51,12 +53,14 @@ public class SelfieTimeline extends ActionBarActivity {
     int lastPosition = 0;
     private Toolbar toolbar;
     public static int number = 0;
+    ArrayList<Float>  lista = new ArrayList<>();
 
     StaggeredGridView gridView;
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
 
 
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
+            R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
 
     @Override
@@ -69,14 +73,19 @@ public class SelfieTimeline extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //for randomising the selfie image height
+        lista.add((float) 0.9);
+        lista.add((float) 1.05);
+        lista.add((float) 0.95);
+        lista.add((float) 1.1);
+
+
         initFloatingMenu();
-
-
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View footer = inflater.inflate(R.layout.footer, null);
+        gridView.addFooterView(footer, "potato", true);
         gridView.setAdapter(new GridViewAdapter());
-        LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.selfie_footer, null);
-        gridView.addFooterView(v);
 
     }
 
@@ -88,7 +97,8 @@ public class SelfieTimeline extends ActionBarActivity {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
-            } else {
+            }
+            else {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
@@ -121,6 +131,7 @@ public class SelfieTimeline extends ActionBarActivity {
             TextView textView = (TextView) convertView.findViewById(R.id.imageText);
             textView.setText("this is random text");
             iv.setImageResource(drawables[position]);
+            iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
 
             return convertView;
@@ -311,6 +322,11 @@ public class SelfieTimeline extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private float getRandomHeight(int position){
+       return lista.get(position%4);
+
     }
 
 }

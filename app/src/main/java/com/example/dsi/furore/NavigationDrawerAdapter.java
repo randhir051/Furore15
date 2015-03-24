@@ -55,7 +55,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             } else {
                 Name = (TextView) itemView.findViewById(R.id.name);
                 email = (TextView) itemView.findViewById(R.id.email);
-                profile = (ImageView) itemView.findViewById(R.id.circleView);
+                //TODO
+                //profile = (ImageView) itemView.findViewById(R.id.circleView);
                 Holderid = 0;
             }
 
@@ -95,7 +96,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             holder.textView.setText(mNavTitles[position - 1]);
             holder.imageView.setImageResource(mIcons[position - 1]);
         } else {
-            holder.profile.setImageResource(profile);
+            //TODO
+            //holder.profile.setImageResource(profile);
             holder.Name.setText(name);
             holder.email.setText(email);
         }
