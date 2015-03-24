@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name=".UploadImage"
+            android:name=".uploadImage"
             android:exported="true">
 
         </service>
