@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -86,6 +87,7 @@ public class SelfieTimeline extends ActionBarActivity {
             // If the bound view wasn't previously displayed on screen, it's animated
             if (position > lastPosition) {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
+
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
             } else {
@@ -231,6 +233,7 @@ public class SelfieTimeline extends ActionBarActivity {
         }
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
+            Log.d("raj","received image from gallery");
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -247,7 +250,7 @@ public class SelfieTimeline extends ActionBarActivity {
         }
     }
 
-    void dialog(Bitmap bitmap) {
+    void dialog(final Bitmap bitmap) {
         ImageView iv = new ImageView(this);
         iv.setImageBitmap(bitmap);
         new AlertDialog.Builder(this)
@@ -255,8 +258,14 @@ public class SelfieTimeline extends ActionBarActivity {
                 .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         //function to upload
-                        new imageUrlLoader().execute();
+                        Intent in = new Intent(SelfieTimeline.this, UploadImage.class);
+                        in.putExtra("bitmap", bitmap);
+                        //put the facebook id here
+                        in.putExtra("fb_id", "00000000");
+                        Log.d("raj", "upload called");
+                        startService(in);
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -312,5 +321,6 @@ public class SelfieTimeline extends ActionBarActivity {
             }
         }
     }
+
 
 }
