@@ -32,9 +32,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     String EMAIL = "my email sddress";
     String ACTIONS[] = {
             "com.example.dsi.furore.SelfieTimeline",
+            "com.exampl, R.drawable.ic_actione.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.SelfieTimeline",
-            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.treasureHunt.QuestionsList",
             "com.example.dsi.furore.AboutUs"
     };
     int PROFILE = R.drawable.ic_launcher;

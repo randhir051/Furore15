@@ -13,9 +13,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private String mNavTitles[] = {"Events", "Furore Timeline", "Selfie", "About Us"};
+    private String mNavTitles[] = {"Events", "Furore Timeline", "Selfie","Treasure Hunt", "About Us"};
     private int mIcons[] = {R.drawable.ic_action,
-            R.drawable.ic_action_time, R.drawable.ic_action,
+            R.drawable.ic_action_time, R.drawable.ic_action, R.drawable.ic_action,
             R.drawable.ic_action_about};
 
 
