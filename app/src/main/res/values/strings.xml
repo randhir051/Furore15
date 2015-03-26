@@ -10,5 +10,6 @@
     <string name="name_placeholder">Name</string>
     <string name="email_placeholder">Email</string>
     <string name="title_activity_selfie_timeline">SelfieTimeline</string>
+    <string name="title_activity_selfie_details">SelfieDetails</string>
 
 </resources>

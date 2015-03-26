@@ -1,6 +1,8 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,10 +11,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,6 +35,8 @@ public class MainActivity extends ActionBarActivity {
     EventTypeFragment type = new EventTypeFragment();
     EventDetails details = new EventDetails();
     EventListFragment list = new EventListFragment();
+    JSONparser jsonParserGet = new JSONparser();
+    SharedPreferences prefs;
 
     @Override
     public void onBackPressed() {
@@ -41,11 +56,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return "Joined Group";
-            } else {
-                return "Explore";
-            }
+            return "Events";
         }
 
         @Override
@@ -76,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
 
         //back = (ImageView) findViewById(R.id.back_button_image);
 
+        prefs = getSharedPreferences(Utility.PREFS,0);
         setSupportActionBar(toolbar);
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -114,6 +126,10 @@ public class MainActivity extends ActionBarActivity {
 //        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        if(prefs.getBoolean("isFirstLogin",true)){
+            new GetData().execute();
+            prefs.edit().putBoolean("isFirstLogin",false).apply();
+        }
     }
 
     @Override
@@ -139,4 +155,98 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    class GetData extends AsyncTask<String, String, JSONObject> {
+
+        JSONObject json;
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+
+//                List<NameValuePair> params = new ArrayList<NameValuePair>();
+//                params.clear();
+//                params.add(new BasicNameValuePair("location", get.getString("location","Vellore")));
+//                params.add(new BasicNameValuePair("user_id", get.getString("user_id","")));
+
+                json = jsonParserGet.makeHttpRequest(
+                        Utility.RETRIEVE_EVENTS, "GET", null);
+                Log.d("Retrieve events attempt",
+                        json.toString());
+                return json;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            if (result != null) {
+               setData(result);
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Sorry, unable to process request", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    private void setData(JSONObject result) {
+
+       String id, name, cordinator, category, rules, timing, fee, cash;
+        DBEventDetails put = new DBEventDetails(this);
+        put.open();
+        try {
+            for(int i=0;i<13;i++){
+                JSONObject c = result.getJSONObject(i+"");
+                id = c.getString("id");
+                name = c.getString("event_name");
+                cordinator = c.getString("co_ordinator_name");
+                category = c.getString("id");
+                rules = c.getString("rules") + "\nContact: " + c.getString("contact");
+                timing = c.getString("time");
+                fee = c.getString("fee");
+                cash = c.getString("cash");
+                put.createEntry(id,name,cordinator,category,rules,timing,fee,cash);
+            }
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        put.close();
+    }
+
+
+//    private void setData(JSONObject result) {
+//        String id, name, cordinator, category, rules, timing, fee, cash;
+//        try {
+//            JSONArray dataArray = result.getJSONArray("events");
+//            for (int i = 0; i < dataArray.length(); i++) {
+//                JSONObject c = dataArray.getJSONObject(i);
+//
+//                gid = c.getString("group_id");
+//                boolean flag = true; //determines weather or not to insert a group
+//                for(int j=0;j<availableGroups.size();j++){
+//                    if(gid.equals(availableGroups.get(j).id)){
+//                        flag = false;
+//                    }
+//                }
+//                if(flag){
+//                    gname = c.getString("group_name");
+//                    gtag = c.getString("group_tagline");
+//                    gdes = c.getString("group_description");
+//                    gnou = c.getInt("group_nou");
+//                    gimg = c.getString("group_image_uri");
+//                    Group gr = new Group(gid, gname, gtag, gdes, gnou,gimg);
+//                    availableGroups.add(gr);
+//                    adapter.notifyItemInserted(availableGroups.size());
+//                }
+//                else{
+//                    Toast.makeText(getActivity(),"Nothing new...",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
