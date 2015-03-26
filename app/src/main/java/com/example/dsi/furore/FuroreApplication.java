@@ -19,6 +19,7 @@ import java.io.File;
 public class FuroreApplication extends Application {
 
     public static DisplayImageOptions defaultOptions;
+    public static ImageLoaderConfiguration config;
 
     @Override
     public void onCreate() {
@@ -35,7 +36,7 @@ public class FuroreApplication extends Application {
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
                 .displayer(new FadeInBitmapDisplayer(300)).build();
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+        config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
                 .defaultDisplayImageOptions(defaultOptions)
                 .memoryCache(new WeakMemoryCache())

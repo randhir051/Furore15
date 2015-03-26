@@ -26,8 +26,12 @@ import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -55,6 +59,10 @@ public class SelfieTimeline extends ActionBarActivity {
     public static ImageLoader imageLoader = ImageLoader.getInstance();
 
     StaggeredGridView gridView;
+
+    DisplayImageOptions defaultOptions;
+    ImageLoaderConfiguration config;
+
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
 
 
@@ -71,7 +79,7 @@ public class SelfieTimeline extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        SelfieTimeline.imageLoader.init(ImageLoaderConfiguration.createDefault(getBaseContext()));
+        configUIL();
 
 //        new imageUrlLoader().execute();
 
@@ -88,6 +96,25 @@ public class SelfieTimeline extends ActionBarActivity {
         View footer = inflater.inflate(R.layout.footer, null);
         gridView.addFooterView(footer, "potato", true);
         gridView.setAdapter(new GridViewAdapter());
+
+    }
+
+    private void configUIL() {
+        defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisc(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+                .displayer(new FadeInBitmapDisplayer(300)).build();
+
+        config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache())
+                .discCacheSize(100 * 1024 * 1024).build();
+
+        ImageLoader.getInstance().init(config);
 
     }
 
@@ -152,7 +179,7 @@ public class SelfieTimeline extends ActionBarActivity {
             mHolder.iv.setImageResource(drawables[position]);
             //load using auil
             imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
-                    , mHolder.iv, FuroreApplication.defaultOptions);
+                    , mHolder.iv, defaultOptions);
 
             mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
