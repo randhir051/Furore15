@@ -12,13 +12,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,6 +26,8 @@ import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -44,7 +43,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class SelfieTimeline extends ActionBarActivity {
 
@@ -53,14 +51,15 @@ public class SelfieTimeline extends ActionBarActivity {
     int lastPosition = 0;
     private Toolbar toolbar;
     public static int number = 0;
-    ArrayList<Float>  lista = new ArrayList<>();
+    ArrayList<Float> lista = new ArrayList<>();
+    public static ImageLoader imageLoader = ImageLoader.getInstance();
 
     StaggeredGridView gridView;
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
 
 
     int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
-            R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
+            R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
             R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
 
     @Override
@@ -72,6 +71,9 @@ public class SelfieTimeline extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        SelfieTimeline.imageLoader.init(ImageLoaderConfiguration.createDefault(getBaseContext()));
+
+//        new imageUrlLoader().execute();
 
         //for randomising the selfie image height
         lista.add((float) 0.9);
@@ -79,8 +81,8 @@ public class SelfieTimeline extends ActionBarActivity {
         lista.add((float) 0.95);
         lista.add((float) 1.1);
 
-
         initFloatingMenu();
+
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View footer = inflater.inflate(R.layout.footer, null);
@@ -91,17 +93,30 @@ public class SelfieTimeline extends ActionBarActivity {
 
     public class GridViewAdapter extends BaseAdapter {
 
+        public GridViewAdapter() {
+            imageLoader = ImageLoader.getInstance();
+        }
+
         private void setAnimation(View viewToAnimate, int position) {
             // If the bound view wasn't previously displayed on screen, it's animated
             if (position > lastPosition) {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
-            }
-            else {
+            } else {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
                 viewToAnimate.startAnimation(animation);
                 lastPosition = position;
+            }
+        }
+
+        class Holder {
+            DynamicHeightImageView iv;
+            TextView textView;
+
+            Holder(View v) {
+                iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
+                textView = (TextView) v.findViewById(R.id.imageText);
             }
         }
 
@@ -122,16 +137,24 @@ public class SelfieTimeline extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = getLayoutInflater();
+            Holder mHolder = null;
             if (convertView == null) {
+                LayoutInflater inflater = getLayoutInflater();
                 convertView = inflater.inflate(R.layout.single_image_view, parent, false);
+                mHolder = new Holder(convertView);
+                convertView.setTag(mHolder);
+            } else {
+                mHolder = (Holder) convertView.getTag();
             }
-            DynamicHeightImageView iv = (DynamicHeightImageView) convertView.findViewById(R.id.imageView);
-            TextView textView = (TextView) convertView.findViewById(R.id.imageText);
-            textView.setText("this is random text");
-            iv.setImageResource(drawables[position]);
-            iv.setHeightRatio(getRandomHeight(position));
+            mHolder.iv = (DynamicHeightImageView) convertView.findViewById(R.id.imageView);
+            mHolder.textView = (TextView) convertView.findViewById(R.id.imageText);
+            mHolder.textView.setText("this is random text");
+            mHolder.iv.setImageResource(drawables[position]);
+            //load using auil
+            imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
+                    , mHolder.iv, FuroreApplication.defaultOptions);
+
+            mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
 
             return convertView;
@@ -139,28 +162,6 @@ public class SelfieTimeline extends ActionBarActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_selfie_timeline, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void initFloatingMenu() {
 
@@ -267,7 +268,6 @@ public class SelfieTimeline extends ActionBarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //function to upload
-                        new imageUrlLoader().execute();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -286,6 +286,7 @@ public class SelfieTimeline extends ActionBarActivity {
             HttpClient httpClient = new DefaultHttpClient();
             try {
                 HttpPost post = new HttpPost("http://bitsmate.in/furore/selfie_timeline.php?page_no=" + number);
+//                HttpPost httpPost = new HttpPost("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
                 HttpResponse response = httpClient.execute(post);
                 HttpEntity entity = response.getEntity();
                 String data = EntityUtils.toString(entity);
@@ -300,6 +301,7 @@ public class SelfieTimeline extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
             Log.d("raj", "" + image_urls);
         }
 
@@ -324,8 +326,8 @@ public class SelfieTimeline extends ActionBarActivity {
         }
     }
 
-    private float getRandomHeight(int position){
-       return lista.get(position%4);
+    private float getRandomHeight(int position) {
+        return lista.get(position % 4);
 
     }
 
