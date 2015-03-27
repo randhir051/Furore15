@@ -10,8 +10,7 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_logo"
-        android:rotation="30"
+        android:background="@android:color/holo_red_light"
         android:src="@drawable/gradient"/>
 
     <LinearLayout

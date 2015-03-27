@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,14 +6,13 @@
     tools:context="com.example.dsi.furore.SelfieTimeline">
 
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+
 
 
     <com.etsy.android.grid.StaggeredGridView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/grid_view"
+        android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:item_margin="2dp"
@@ -22,12 +21,7 @@
         app:grid_paddingLeft="2dp"
         app:grid_paddingRight="2dp"
         />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/load_layout">
-
-        </RelativeLayout>
-
-</LinearLayout>
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+</RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -174,7 +175,7 @@ public class SelfieTimeline extends ActionBarActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             Holder mHolder = null;
             if (convertView == null) {
-                LayoutInflater inflater = getLayoutInflater();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.single_image_view, parent, false);
                 mHolder = new Holder(convertView);
                 convertView.setTag(mHolder);

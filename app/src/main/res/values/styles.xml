@@ -12,6 +12,11 @@
         <item name="android:textColorSecondary">@color/icons</item>
     </style>
 
+    <style name="customStyleBar2" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">@color/icons</item>
+        <item name="android:textColorSecondary">@color/icons</item>
+    </style>
+
     <style name="customStylePopup" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/primary_text</item>
     </style>
