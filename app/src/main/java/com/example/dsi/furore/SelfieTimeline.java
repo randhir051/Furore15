@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
     StaggeredGridView gridView;
 
-    DisplayImageOptions defaultOptions;
+    static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
 
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
@@ -95,6 +96,13 @@ public class SelfieTimeline extends ActionBarActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View footer = inflater.inflate(R.layout.footer, null);
         gridView.addFooterView(footer, "potato", true);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //String url = (String) view.getTag();
+                SelfieDetails.launch(SelfieTimeline.this, view.findViewById(R.id.imageView), "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
+            }
+        });
         gridView.setAdapter(new GridViewAdapter());
 
     }
