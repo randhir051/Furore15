@@ -11,6 +11,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:fitsSystemWindows="true"
+            android:background="@android:color/holo_red_dark"
             android:layout_height="match_parent">
 
             <include
@@ -21,6 +23,7 @@
                 android:id="@+id/hello"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@color/icons"
                 android:layout_weight="1" />
 
 
