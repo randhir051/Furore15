@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,19 +21,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
+import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -64,7 +66,6 @@ public class SelfieTimeline extends ActionBarActivity {
 
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
-
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
 
 
@@ -94,18 +95,24 @@ public class SelfieTimeline extends ActionBarActivity {
         initFloatingMenu();
 
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View footer = inflater.inflate(R.layout.footer, null);
         gridView.addFooterView(footer, "potato", true);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //String url = (String) view.getTag();
                 SelfieDetails.launch(SelfieTimeline.this, view.findViewById(R.id.imageView), "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
             }
-        });
+        });*/
         gridView.setAdapter(new GridViewAdapter());
-
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                add load more function
+            }
+        });
     }
 
     private void configUIL() {
@@ -115,7 +122,7 @@ public class SelfieTimeline extends ActionBarActivity {
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                .displayer(new FadeInBitmapDisplayer(300)).build();
+                .displayer(new RoundedBitmapDisplayer(8)).build();
 
         config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
@@ -148,11 +155,15 @@ public class SelfieTimeline extends ActionBarActivity {
 
         class Holder {
             DynamicHeightImageView iv;
+            ImageView ivLike;
             TextView textView;
+            CardView cv;
 
             Holder(View v) {
                 iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
                 textView = (TextView) v.findViewById(R.id.imageText);
+                cv = (CardView) v.findViewById(R.id.card_view);
+                ivLike = (ImageView) v.findViewById(R.id.ivLike);
             }
         }
 
@@ -182,8 +193,7 @@ public class SelfieTimeline extends ActionBarActivity {
             } else {
                 mHolder = (Holder) convertView.getTag();
             }
-            mHolder.iv = (DynamicHeightImageView) convertView.findViewById(R.id.imageView);
-            mHolder.textView = (TextView) convertView.findViewById(R.id.imageText);
+            mHolder.cv.setPreventCornerOverlap(false);
             mHolder.textView.setText("this is random text");
             mHolder.iv.setImageResource(drawables[position]);
             //load using auil
@@ -192,6 +202,43 @@ public class SelfieTimeline extends ActionBarActivity {
 
             mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
+
+            final Holder finalMHolder = mHolder;
+            mHolder.ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    YoYo.with(Techniques.BounceIn).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            finalMHolder.ivLike.setImageResource(R.drawable.star_gold_);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).duration(500).playOn(v);
+                }
+            });
+
+            mHolder.iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //String url = (String) view.getTag();
+                    SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
+                            , "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
+                }
+            });
 
             return convertView;
         }

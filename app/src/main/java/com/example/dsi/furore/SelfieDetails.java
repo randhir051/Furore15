@@ -1,26 +1,29 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.dsi.furore.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 public class SelfieDetails extends ActionBarActivity {
 
     public static final String EXTRA_IMAGE = "SelfieDetail:image";
     public static ImageLoader imageLoader = ImageLoader.getInstance();
+    DisplayImageOptions options;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +34,18 @@ public class SelfieDetails extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ImageView image = (ImageView) findViewById(R.id.image);
+        {
+            options = new DisplayImageOptions.Builder()
+                    .cacheOnDisc(true).cacheInMemory(true)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+                    .displayer(new FadeInBitmapDisplayer(300)).build();
+        }
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
         imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
-                , image, SelfieTimeline.defaultOptions);
+                , image, options);
     }
 
 
@@ -55,7 +67,7 @@ public class SelfieDetails extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.home){
+        if (id == R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
 

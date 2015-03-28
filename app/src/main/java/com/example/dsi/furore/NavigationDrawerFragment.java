@@ -35,7 +35,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             "com.exampl, R.drawable.ic_actione.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.SelfieTimeline",
-            "com.example.dsi.furore.treasureHunt.QuestionsList",
+            "com.example.dsi.furore.Facebook",
             "com.example.dsi.furore.AboutUs"
     };
     int PROFILE = R.drawable.ic_launcher;
@@ -87,13 +87,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             }
 
 
-
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 //        mDrawerLayout.post(new Runnable() {
 //            @Override
 //            public void run() {
-                mDrawerToggle.syncState();
+        mDrawerToggle.syncState();
 //            }
 //        });
 
@@ -113,7 +112,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     String selectedAction = ACTIONS[pos];
 
                     try {
-                        Intent intent = new Intent(getActivity(),Class.forName(selectedAction));
+                        Intent intent = new Intent(getActivity(), Class.forName(selectedAction));
                         startActivity(intent);
                         //getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
                     } catch (ClassNotFoundException e) {
@@ -121,7 +120,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     }
                 }
             }
-        },200);
+        }, 200);
 
 
     }
