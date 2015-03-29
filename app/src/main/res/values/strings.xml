@@ -11,5 +11,8 @@
     <string name="email_placeholder">Email</string>
     <string name="title_activity_selfie_timeline">SelfieTimeline</string>
     <string name="title_activity_selfie_details">SelfieDetails</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_facebook">Facebook</string>
+    <string name="facebook_app_id">1609052322640922</string>
 
 </resources>

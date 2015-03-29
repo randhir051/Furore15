@@ -25,6 +25,9 @@ android {
     }
 }
 
+repositories { mavenCentral() }
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
@@ -38,6 +41,7 @@ dependencies {
     compile 'me.dm7.barcodescanner:zxing:1.6.3'
     compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.facebook.android:facebook-android-sdk:3.23.1'
     compile('org.apache.httpcomponents:httpmime:4.3.5') {
         exclude module: 'org.apache.httpcomponents:httpclient'
 
