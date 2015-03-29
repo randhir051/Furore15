@@ -36,6 +36,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -118,11 +119,11 @@ public class SelfieTimeline extends ActionBarActivity {
     private void configUIL() {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
+                .imageScaleType(ImageScaleType.NONE)
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                .displayer(new RoundedBitmapDisplayer(8)).build();
+                .displayer(new SimpleBitmapDisplayer()).build();
 
         config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
@@ -196,10 +197,12 @@ public class SelfieTimeline extends ActionBarActivity {
             mHolder.cv.setPreventCornerOverlap(false);
             mHolder.textView.setText("this is random text");
             mHolder.iv.setImageResource(drawables[position]);
+
             //load using auil
             imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
                     , mHolder.iv, defaultOptions);
-
+//            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
+//            mHolder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
 

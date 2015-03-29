@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     card_view:cardElevation="3dp"
     card_view:cardUseCompatPadding="true"
-
+    card_view:cardPreventCornerOverlap="false"
     card_view:cardBackgroundColor="@color/icons"
-    card_view:cardCornerRadius="7dp"
+    card_view:cardCornerRadius="4dp"
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
@@ -19,7 +19,6 @@
         android:layout_height="match_parent">
 
         <com.etsy.android.grid.util.DynamicHeightImageView
-
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="centerCrop"

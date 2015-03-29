@@ -18,6 +18,11 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SelfieTimeline"
@@ -41,17 +46,8 @@
                 android:value="com.example.dsi.furore.SelfieTimeline" />
         </activity>
         <activity
-            android:name=".treasureHunt.SimpleScannerActivity"
-            android:label="@string/title_activity_selfie_details" >
-        </activity>
-        <activity
             android:name=".Splash"
             android:label="@string/title_activity_splash" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Facebook"

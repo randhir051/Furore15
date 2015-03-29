@@ -52,6 +52,7 @@ public class EventTypeFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 ((MainActivity) getActivity()).list.setData(position);
+
                 ((MainActivity) getActivity()).mPager.setCurrentItem(1, true);
             }
 
