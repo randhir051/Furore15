@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +28,7 @@ public class EventListFragment extends Fragment {
     private RecyclerView eventListRecyclerView;
     public EventListAdapter adapter;
     public LinearLayoutManager layoutManager;
-
+    DBEventDetails get;
     List<Event> data = new ArrayList<>();
     View layout;
 
@@ -42,6 +43,7 @@ public class EventListFragment extends Fragment {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_event_list, container, false);
         eventListRecyclerView = (RecyclerView) layout.findViewById(R.id.event_list_recycler);
+        get = new DBEventDetails(getActivity());
         adapter = new EventListAdapter(getActivity(), data);
         eventListRecyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -61,34 +63,12 @@ public class EventListFragment extends Fragment {
 
     }
 
-    public void setData(int position) {
+    public void setData(String category) {
         data.clear();
-        switch (position){
-            case 0:
-                data.add(new Event("Fireless Cooking",2));
-                data.add(new Event("Hogathon",2));
-                data.add(new Event("Cooking",2));
-                break;
-            case 1:
-                data.add(new Event("Face Painting",2));
-                data.add(new Event("Mehendi",2));
-                data.add(new Event("Nail Art",2));
-                data.add(new Event("Best of waste",2));
-                data.add(new Event("Spot Painting",2));
-                data.add(new Event("Collage",2));
-                break;
-            case 2:
-                data.add(new Event("Shuddh Desi Dance",2));
-                data.add(new Event("Break a sweat on the floor",2));
-                data.add(new Event("3 ka tadka",2));
-                data.add(new Event("Tapangucci aadu machi",2));
-                data.add(new Event("Themed performance",2));
-                data.add(new Event("Non theme dance",2));
-                break;
-            case 3:
-                data.add(new Event("Counter Strike",2));
-                data.add(new Event("Road Rash",2));
-        }
+        get.open();
+        get.getEvents(category, data);
+        get.close();
+        //data.add(0,new Event("hi!!",R.drawable.dance));
         adapter.notifyDataSetChanged();
     }
 

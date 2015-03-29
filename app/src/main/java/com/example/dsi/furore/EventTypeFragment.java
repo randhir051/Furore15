@@ -30,10 +30,6 @@ public class EventTypeFragment extends Fragment {
 
 
     public EventTypeFragment() {
-        data.add(new EventType("Food\n6 events",R.drawable.images));
-        data.add(new EventType("Art\n5 events",R.drawable.art));
-        data.add(new EventType("Dance\n3 events",R.drawable.dance));
-        data.add(new EventType("Gaming\n8 events",R.drawable.game));
         // Required empty public constructor
     }
 
@@ -44,6 +40,10 @@ public class EventTypeFragment extends Fragment {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_event_type, container, false);
         eventTypeRecyclerView = (RecyclerView) layout.findViewById(R.id.event_type_recycler);
+        DBEventDetails get = new DBEventDetails(getActivity());
+        get.open();
+        data = get.getCategories();
+        get.close();
         adapter = new EventTypeAdapter(getActivity(), data);
         eventTypeRecyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -51,8 +51,10 @@ public class EventTypeFragment extends Fragment {
         eventTypeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), eventTypeRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                ((MainActivity) getActivity()).list.setData(position);
+                ((MainActivity) getActivity()).list.setData(data.get(position).name);
 
+                //((MainActivity) getActivity()).list.adapter.notifyDataSetChanged();
+                
                 ((MainActivity) getActivity()).mPager.setCurrentItem(1, true);
             }
 

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBEventDetails {
 
@@ -98,35 +99,82 @@ public class DBEventDetails {
         return ourDatabase.insert(DATABASE_TABLE, null, cv);
     }
 
-    public ArrayList<Event> getEvents() {
-
-        ArrayList<Event> result = new ArrayList<>();
-        String id, name, cordinator, category, rules, timing, fee, cash;
+    public void getSingleEvent(String eventId){
+        String id, name, cordinator, rules, timing, fee, cash;
         Cursor mCursor = ourDatabase.rawQuery("SELECT * FROM "
-                + DBEventDetails.DATABASE_TABLE, null);
+                + DBEventDetails.DATABASE_TABLE+" WHERE "+KEY_ID+" = \""+eventId+"\"", null);
 
         if (mCursor.moveToFirst()) {
 
             do {
+
                 id = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_ID));
+
                 name = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_NAME));
-                cordinator = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_CO_ORDINATOR));
-                category = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
-                rules = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
+//                cordinator = mCursor.getString(mCursor
+//                        .getColumnIndex(DBEventDetails.KEY_CO_ORDINATOR));
+//
+//                rules = mCursor.getString(mCursor
+//                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
                 timing = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
-                fee = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
-                cash = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
+//                fee = mCursor.getString(mCursor
+//                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
+//                cash = mCursor.getString(mCursor
+//                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
 
 
-                result.add(0, new Event(id, name, timing, category, rules));
+            } while (mCursor.moveToNext());
+        }
+
+        mCursor.close();
+    }
+    public void getEvents(String category, List<Event> data) {
+
+        String id, name, timing;
+        Cursor mCursor = ourDatabase.rawQuery("SELECT * FROM "
+                + DBEventDetails.DATABASE_TABLE+" WHERE "+KEY_EVENT_CATEGORY+" = \""+category+"\"", null);
+        data.clear();
+
+        if (mCursor.moveToFirst()) {
+
+            do {
+
+                id = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_ID));
+
+                name = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_EVENT_NAME));
+                timing = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
+
+                data.add(0, new Event(id,name,timing));
+
+            } while (mCursor.moveToNext());
+        }
+
+        mCursor.close();
+
+    }
+
+    public ArrayList<EventType> getCategories() {
+
+        ArrayList<EventType> result = new ArrayList<>();
+        result.clear();
+        String category;
+        Cursor mCursor = ourDatabase.rawQuery("SELECT "+KEY_EVENT_CATEGORY+" FROM "
+                + DBEventDetails.DATABASE_TABLE+" GROUP BY "+KEY_EVENT_CATEGORY, null);
+
+        if (mCursor.moveToFirst()) {
+
+            do {
+
+                category = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
+
+                result.add(0, new EventType(category, R.drawable.game));
 
             } while (mCursor.moveToNext());
         }

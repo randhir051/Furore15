@@ -5,15 +5,17 @@ package com.example.dsi.furore;
  */
 public class Event {
     int image;
-    String name, timing, category, description;
+    String id, name, timing;
 
-    public Event(String name, int image) {
-        this.name = name;
-        this.image = image;
-    }
+//    public Event(String name, int image) {
+//        this.name = name;
+//        this.image = image;
+//    }
 
-    public Event(String id, String name, String timing, String category, String description) {
+    public Event(String id, String name, String timing) {
         this.name = name;
-        this.image = image;
+        this.id = id;
+        this.timing = timing;
+        this.image = R.drawable.dance;
     }
 }

@@ -195,15 +195,19 @@ public class MainActivity extends ActionBarActivity {
     private void setData(JSONObject result) {
 
        String id, name, cordinator, category, rules, timing, fee, cash;
+
+
         DBEventDetails put = new DBEventDetails(this);
         put.open();
         try {
-            for(int i=0;i<13;i++){
+            JSONObject forSize = result.getJSONObject("0");
+            int size = forSize.getInt("size");
+            for(int i=1;i<=size;i++){
                 JSONObject c = result.getJSONObject(i+"");
                 id = c.getString("id");
                 name = c.getString("event_name");
                 cordinator = c.getString("co_ordinator_name");
-                category = c.getString("id");
+                category = c.getString("cat");
                 rules = c.getString("rules") + "\nContact: " + c.getString("contact");
                 timing = c.getString("time");
                 fee = c.getString("fee");
