@@ -9,5 +9,9 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="red_dark">#FFff1111</color>
+
+    <color name="gradient_start">#00BCD4</color>
+    <color name="gradient_end">#0288D1</color>
 
 </resources>

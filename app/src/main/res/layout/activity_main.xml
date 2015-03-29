@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:fitsSystemWindows="true"
-            android:background="@android:color/holo_red_dark"
+            android:background="@drawable/toolbar_gradient"
             android:layout_height="match_parent">
 
             <include

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@android:color/holo_red_light"
+    android:background="@drawable/toolbar_gradient"
     app:theme="@style/customStyleBar"
     app:popupTheme = "@style/customStylePopup" >
 
