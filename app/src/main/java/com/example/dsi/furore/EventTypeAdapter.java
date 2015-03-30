@@ -5,7 +5,6 @@ package com.example.dsi.furore;
  */
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +42,15 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
         switch (current.name){
             case "wer":
                 holder.image.setImageResource(R.drawable.art);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_art);
                 break;
             case "xcv":
                 holder.image.setImageResource(R.drawable.dance123);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
                 break;
             default:
                 holder.image.setImageResource((R.drawable.dance123));
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
         }
         holder.name.setText(current.name);
         holder.number.setText(current.numEvents+" Events");

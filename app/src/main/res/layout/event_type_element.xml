@@ -35,7 +35,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:background="@drawable/category_gradient"
+                android:background="@drawable/category_gradient_art"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <TextView
