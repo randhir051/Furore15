@@ -88,6 +88,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
         };
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 //        mDrawerLayout.post(new Runnable() {
 //            @Override

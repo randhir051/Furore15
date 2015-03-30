@@ -7,9 +7,11 @@ package com.example.dsi.furore;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -99,37 +101,33 @@ public class DBEventDetails {
         return ourDatabase.insert(DATABASE_TABLE, null, cv);
     }
 
-    public void getSingleEvent(String eventId){
-        String id, name, cordinator, rules, timing, fee, cash;
+    public String[] getSingleEvent(String eventId){
+        //String name, cordinator, rules, timing, fee, cash;
+        String[] result=new String[6];
         Cursor mCursor = ourDatabase.rawQuery("SELECT * FROM "
                 + DBEventDetails.DATABASE_TABLE+" WHERE "+KEY_ID+" = \""+eventId+"\"", null);
 
         if (mCursor.moveToFirst()) {
-
-            do {
-
-                id = mCursor.getString(mCursor
-                        .getColumnIndex(DBEventDetails.KEY_ID));
-
-                name = mCursor.getString(mCursor
+                result[0] = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_NAME));
-//                cordinator = mCursor.getString(mCursor
-//                        .getColumnIndex(DBEventDetails.KEY_CO_ORDINATOR));
-//
-//                rules = mCursor.getString(mCursor
-//                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
-                timing = mCursor.getString(mCursor
+                result[1] = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_CO_ORDINATOR));
+
+            result[2] = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
+            result[3] = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
-//                fee = mCursor.getString(mCursor
-//                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
-//                cash = mCursor.getString(mCursor
-//                        .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
+            result[4] = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_FEE));
+            result[5] = mCursor.getString(mCursor
+                        .getColumnIndex(DBEventDetails.KEY_CASH));
 
-
-            } while (mCursor.moveToNext());
+            mCursor.close();
+            return result;
+        }else{
+            return null;
         }
 
-        mCursor.close();
     }
     public void getEvents(String category, List<Event> data) {
 
@@ -173,8 +171,8 @@ public class DBEventDetails {
 
                 category = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
-
-                result.add(0, new EventType(category, R.drawable.game));
+                int numRows = (int)DatabaseUtils.longForQuery(ourDatabase, "SELECT COUNT(*) FROM "+DATABASE_TABLE+" WHERE "+KEY_EVENT_CATEGORY+" = \""+category+"\"", null);
+                result.add(0, new EventType(category,numRows,R.drawable.game));
 
             } while (mCursor.moveToNext());
         }

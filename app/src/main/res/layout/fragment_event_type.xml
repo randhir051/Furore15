@@ -4,6 +4,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/event_type_recycler"
+        android:background="@color/icons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>

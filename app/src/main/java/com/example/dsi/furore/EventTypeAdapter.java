@@ -5,11 +5,13 @@ package com.example.dsi.furore;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.event_list_element,parent, false);
+        View view = inflater.inflate(R.layout.event_type_element,parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -38,8 +40,18 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         EventType current = data.get(position);
-        holder.image.setImageResource(current.image);
+        switch (current.name){
+            case "wer":
+                holder.image.setImageResource(R.drawable.art);
+                break;
+            case "xcv":
+                holder.image.setImageResource(R.drawable.dance123);
+                break;
+            default:
+                holder.image.setImageResource((R.drawable.dance123));
+        }
         holder.name.setText(current.name);
+        holder.number.setText(current.numEvents+" Events");
     }
 
     @Override
@@ -50,11 +62,14 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
-        TextView name;
+        TextView name, number;
+        LinearLayout layout;
         public MyViewHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.joined_group_image);
-            name = (TextView) itemView.findViewById(R.id.joined_group_name);
+            layout = (LinearLayout) itemView.findViewById(R.id.category_text_layout);
+            image = (ImageView) itemView.findViewById(R.id.category_image);
+            name = (TextView) itemView.findViewById(R.id.category);
+            number = (TextView) itemView.findViewById(R.id.number_of_events);
 
         }
     }

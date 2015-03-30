@@ -51,6 +51,7 @@ public class EventListFragment extends Fragment {
         eventListRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), eventListRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                ((MainActivity) getActivity()).details.setData(data.get(position).id);
                 ((MainActivity) getActivity()).mPager.setCurrentItem(3);
             }
 
