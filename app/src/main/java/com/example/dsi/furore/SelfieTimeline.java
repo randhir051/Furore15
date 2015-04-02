@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
@@ -35,7 +36,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -50,8 +50,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SelfieTimeline extends ActionBarActivity {
 
@@ -70,9 +74,10 @@ public class SelfieTimeline extends ActionBarActivity {
     ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
 
 
-    int drawables[] = {R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
-            R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game,
-            R.drawable.art, R.drawable.dance, R.drawable.game, R.drawable.art, R.drawable.dance, R.drawable.game};
+    int drawables[] = {R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
+            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
+            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
+            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,17 +320,22 @@ public class SelfieTimeline extends ActionBarActivity {
     private void clickPicture() {
         Intent picIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (picIntent.resolveActivity(getPackageManager()) != null) {
+            Log.d("raj", "image captured");
             startActivityForResult(picIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("raj", "req code = " + requestCode + "res code = " + resultCode + "RESULT_OK=" + RESULT_OK);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             //add code for displaying picture and uploading it
-            dialog(imageBitmap);
+            Log.d("raj", "image sending");
+            File file = saveBitmap(imageBitmap);
+            String path = file.getPath();
+            dialog(path);
         }
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
@@ -339,25 +349,37 @@ public class SelfieTimeline extends ActionBarActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Bitmap bm = BitmapFactory.decodeFile(picturePath);
+//            Bitmap bm = BitmapFactory.decodeFile(picturePath);
 //add function to display and send the data
-            dialog(bm);
+            dialog(picturePath);
         }
     }
 
-    void dialog(Bitmap bitmap) {
+    void dialog(final String path) {
+        Log.d("raj", "dialog called");
         ImageView iv = new ImageView(this);
-        iv.setImageBitmap(bitmap);
+        iv.setMinimumWidth(300);
+        iv.setMinimumHeight(300);
+        iv.setImageBitmap(BitmapFactory.decodeFile(path));
         new AlertDialog.Builder(this)
                 .setView(iv)
                 .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //function to upload
+                        Log.d("raj", "upload called");
+                        Log.d("raj", "" + path);
+                        Intent in = new Intent(SelfieTimeline.this, uploadImage.class);
+                        //change fb id
+                        in.putExtra("fb_id", "Darshan007");
+                        in.putExtra("path", path);
+                        //add description intent too
+                        startService(in);
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
             }
         }).setCancelable(false).show();
@@ -372,7 +394,6 @@ public class SelfieTimeline extends ActionBarActivity {
             HttpClient httpClient = new DefaultHttpClient();
             try {
                 HttpPost post = new HttpPost("http://bitsmate.in/furore/selfie_timeline.php?page_no=" + number);
-//                HttpPost httpPost = new HttpPost("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
                 HttpResponse response = httpClient.execute(post);
                 HttpEntity entity = response.getEntity();
                 String data = EntityUtils.toString(entity);
@@ -415,6 +436,29 @@ public class SelfieTimeline extends ActionBarActivity {
     private float getRandomHeight(int position) {
         return lista.get(position % 4);
 
+    }
+
+    private File saveBitmap(Bitmap bm) {
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/Furore15";
+        File dir = new File(file_path);
+        if (!dir.exists())
+            dir.mkdirs();
+        Date date = new Date();
+        File file = new File(dir, date.getTime() + ".png");
+        Log.d("date", "" + date.getTime());
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
 }

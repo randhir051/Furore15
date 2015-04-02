@@ -16,6 +16,6 @@ public class Event {
         this.name = name;
         this.id = id;
         this.timing = timing;
-        this.image = R.drawable.dance;
+        this.image = R.drawable.game;
     }
 }

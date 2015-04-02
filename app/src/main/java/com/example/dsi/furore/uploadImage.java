@@ -2,8 +2,6 @@ package com.example.dsi.furore;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -20,10 +18,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 
 
 public class uploadImage extends IntentService {
@@ -34,7 +29,7 @@ public class uploadImage extends IntentService {
      * @param name Used to name the worker thread, important only for debugging.
      */
 
-    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id";
+    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "";
 
     public uploadImage(String name) {
         super(name);
@@ -49,17 +44,17 @@ public class uploadImage extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         Log.d("raj", "uploading started");
-
-        Bitmap bm = (Bitmap) intent.getParcelableExtra("bitmap");
+        String path = intent.getStringExtra("path");
         String id = intent.getStringExtra("fb_id");
+        String description = "";
 
-        callUpload(bm, id);
+        callUpload(path, id, description);
 
     }
 
-    private void callUpload(Bitmap bm, String id) {
+    private void callUpload(String path, String id, String desc) {
 
-        File file = saveBitmap(bm);
+        File file = new File(path);
 
 
         HttpClient httpClient = new DefaultHttpClient();
@@ -83,6 +78,7 @@ public class uploadImage extends IntentService {
 */
             entity.addPart(IMAGE_KEY, new FileBody(file));
             entity.addPart(FB_KEY, new StringBody(id));
+            entity.addPart(DESC_KEY, new StringBody(desc));
 
             httpPost.setEntity(entity);
 
@@ -95,29 +91,6 @@ public class uploadImage extends IntentService {
         }
 
 
-    }
-
-    private File saveBitmap(Bitmap bm) {
-        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/Furore15";
-        File dir = new File(file_path);
-        if (!dir.exists())
-            dir.mkdirs();
-        Date date = new Date();
-        File file = new File(dir, date.getTime() + ".png");
-        Log.d("date", "" + date.getTime());
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-            fOut.flush();
-            fOut.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
     }
 
 
