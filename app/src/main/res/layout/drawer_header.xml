@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/header_image"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +31,7 @@
             android:textColor="@android:color/white"
             android:text="@string/name_placeholder"
             android:textSize="14sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/email"
@@ -46,8 +45,7 @@
             />
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_action_person"
@@ -57,13 +55,12 @@
         android:layout_marginBottom="5dp"
         app:border_width="2dp"
         app:border_color="@color/accent"
-        android:id="@+id/circleView"
-        />
+        android:id="@+id/circleView" />
 
     <View
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_height="2dp"
-        android:background="@color/accent"/>
+        android:background="@color/accent" />
 
 </RelativeLayout>

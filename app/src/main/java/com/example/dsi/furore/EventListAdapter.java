@@ -5,6 +5,7 @@ package com.example.dsi.furore;
  */
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by Randhir on 1/29/2015.
@@ -31,7 +30,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.event_list_element,parent, false);
+        View view = inflater.inflate(R.layout.event_list_element, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -48,10 +47,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView name;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.joined_group_image);

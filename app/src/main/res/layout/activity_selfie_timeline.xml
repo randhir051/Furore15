@@ -18,8 +18,8 @@
         app:column_count_portrait="2"
         app:column_count_landscape="3"
         app:grid_paddingLeft="2dp"
-        app:grid_paddingRight="2dp"
-        />
+        app:grid_paddingRight="2dp" />
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />

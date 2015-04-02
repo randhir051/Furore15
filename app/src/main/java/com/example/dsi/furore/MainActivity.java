@@ -14,18 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -87,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
 
         //back = (ImageView) findViewById(R.id.back_button_image);
 
-        prefs = getSharedPreferences(Utility.PREFS,0);
+        prefs = getSharedPreferences(Utility.PREFS, 0);
         setSupportActionBar(toolbar);
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -104,11 +96,10 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position!=0){
-               //    back.setVisibility(View.VISIBLE);
-                }
-                else {
-                //    back.setVisibility(View.INVISIBLE);
+                if (position != 0) {
+                    //    back.setVisibility(View.VISIBLE);
+                } else {
+                    //    back.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -126,9 +117,9 @@ public class MainActivity extends ActionBarActivity {
 //        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        if(prefs.getBoolean("isFirstLogin",true)){
+        if (prefs.getBoolean("isFirstLogin", true)) {
             new GetData().execute();
-            prefs.edit().putBoolean("isFirstLogin",false).apply();
+            prefs.edit().putBoolean("isFirstLogin", false).apply();
         }
     }
 
@@ -183,9 +174,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(JSONObject result) {
             if (result != null) {
-               setData(result);
-            }
-            else{
+                setData(result);
+            } else {
                 Toast.makeText(getApplicationContext(), "Sorry, unable to process request", Toast.LENGTH_LONG).show();
             }
         }
@@ -194,7 +184,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setData(JSONObject result) {
 
-       String id, name, cordinator, category, rules, timing, fee, cash;
+        String id, name, cordinator, category, rules, timing, fee, cash;
 
 
         DBEventDetails put = new DBEventDetails(this);
@@ -202,8 +192,8 @@ public class MainActivity extends ActionBarActivity {
         try {
             JSONObject forSize = result.getJSONObject("0");
             int size = forSize.getInt("size");
-            for(int i=1;i<=size;i++){
-                JSONObject c = result.getJSONObject(i+"");
+            for (int i = 1; i <= size; i++) {
+                JSONObject c = result.getJSONObject(i + "");
                 id = c.getString("id");
                 name = c.getString("event_name");
                 cordinator = c.getString("co_ordinator_name");
@@ -212,9 +202,9 @@ public class MainActivity extends ActionBarActivity {
                 timing = c.getString("time");
                 fee = c.getString("fee");
                 cash = c.getString("cash");
-                put.createEntry(id,name,cordinator,category,rules,timing,fee,cash);
+                put.createEntry(id, name, cordinator, category, rules, timing, fee, cash);
             }
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
         put.close();

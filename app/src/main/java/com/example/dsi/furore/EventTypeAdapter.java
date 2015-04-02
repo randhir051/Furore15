@@ -31,7 +31,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.event_type_element,parent, false);
+        View view = inflater.inflate(R.layout.event_type_element, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
@@ -39,7 +39,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         EventType current = data.get(position);
-        switch (current.name){
+        switch (current.name) {
             case "wer":
                 holder.image.setImageResource(R.drawable.art);
                 holder.layout.setBackgroundResource(R.drawable.category_gradient_art);
@@ -53,7 +53,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
         }
         holder.name.setText(current.name);
-        holder.number.setText(current.numEvents+" Events");
+        holder.number.setText(current.numEvents + " Events");
     }
 
     @Override
@@ -61,11 +61,12 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView name, number;
         LinearLayout layout;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             layout = (LinearLayout) itemView.findViewById(R.id.category_text_layout);

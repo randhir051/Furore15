@@ -29,7 +29,7 @@ public class uploadImage extends IntentService {
      * @param name Used to name the worker thread, important only for debugging.
      */
 
-    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "";
+    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "s_desc";
 
     public uploadImage(String name) {
         super(name);
@@ -47,7 +47,7 @@ public class uploadImage extends IntentService {
         String path = intent.getStringExtra("path");
         String id = intent.getStringExtra("fb_id");
         String description = "";
-
+//start download
         callUpload(path, id, description);
 
     }
@@ -93,5 +93,10 @@ public class uploadImage extends IntentService {
 
     }
 
-
+    @Override
+    public void onDestroy() {
+        //destroyed
+        //stop download
+        super.onDestroy();
+    }
 }

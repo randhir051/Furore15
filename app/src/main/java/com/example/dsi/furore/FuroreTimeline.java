@@ -1,11 +1,9 @@
 package com.example.dsi.furore;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.example.dsi.furore.R;
 
 public class FuroreTimeline extends ActionBarActivity {
 

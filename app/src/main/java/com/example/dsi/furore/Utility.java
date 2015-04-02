@@ -5,6 +5,6 @@ package com.example.dsi.furore;
  */
 public class Utility {
 
-    static final String RETRIEVE_EVENTS="http://bitsmate.in/furore/get_event.php";
-    static final String PREFS="MYPREFS";
+    static final String RETRIEVE_EVENTS = "http://bitsmate.in/furore/get_event.php";
+    static final String PREFS = "MYPREFS";
 }

@@ -41,7 +41,7 @@ public class SelfieDetails extends ActionBarActivity {
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                    .displayer(new FadeInBitmapDisplayer(300)).build();
+                    .displayer(new FadeInBitmapDisplayer(700)).build();
         }
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
         imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"

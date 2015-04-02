@@ -9,7 +9,7 @@
     card_view:cardUseCompatPadding="true"
     card_view:cardPreventCornerOverlap="false"
     card_view:cardBackgroundColor="@color/icons"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="6dp"
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">

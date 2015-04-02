@@ -36,7 +36,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -57,6 +57,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+
 public class SelfieTimeline extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -76,8 +78,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
     int drawables[] = {R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
             R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
-            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
-            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game};
+            R.drawable.art, R.drawable.game};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class SelfieTimeline extends ActionBarActivity {
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View footer = inflater.inflate(R.layout.footer, null);
+        View footer = inflater.inflate(R.layout.selfie_footer, null);
         gridView.addFooterView(footer, "potato", true);
        /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,11 +113,17 @@ public class SelfieTimeline extends ActionBarActivity {
                 SelfieDetails.launch(SelfieTimeline.this, view.findViewById(R.id.imageView), "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
             }
         });*/
-        gridView.setAdapter(new GridViewAdapter());
+//        gridView.setAdapter(new GridViewAdapter());
+        final TextView loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
+        final CircularProgressBar cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                add load more function
+                loadmore.setVisibility(View.GONE);
+                cpb.setVisibility(View.VISIBLE);
+//                number++;
+//                new imageUrlLoader().execute();
             }
         });
     }
@@ -128,7 +135,7 @@ public class SelfieTimeline extends ActionBarActivity {
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                .displayer(new SimpleBitmapDisplayer()).build();
+                .displayer(new RoundedBitmapDisplayer(6)).build();
 
         config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
@@ -175,7 +182,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            return drawables.length;
+            return image_urls.size();
         }
 
         @Override
@@ -201,13 +208,16 @@ public class SelfieTimeline extends ActionBarActivity {
             }
             mHolder.cv.setPreventCornerOverlap(false);
             mHolder.textView.setText("this is random text");
-            mHolder.iv.setImageResource(drawables[position]);
-
+//            mHolder.iv.setImageResource(drawables[position]);
             //load using auil
             imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
                     , mHolder.iv, defaultOptions);
+
+//            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
+
 //            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
 //            mHolder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
 
@@ -267,14 +277,14 @@ public class SelfieTimeline extends ActionBarActivity {
 
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
 // change the camera icon
-        Drawable cameraDrawable = getResources().getDrawable(R.drawable.camera);
+        Drawable cameraDrawable = getResources().getDrawable(R.drawable.aperture);
         ImageView cameraIcon = new ImageView(this);
 
         SubActionButton cameraButton = itemBuilder.setContentView(cameraIcon).build();
         cameraButton.setBackgroundDrawable(cameraDrawable);
 
 
-        Drawable attachDrawable = getResources().getDrawable(R.drawable.camera);
+        Drawable attachDrawable = getResources().getDrawable(R.drawable.image);
         ImageView attachIcon = new ImageView(this);
         SubActionButton attachButton = itemBuilder.setContentView(attachIcon).build();
         attachButton.setBackgroundDrawable(attachDrawable);
@@ -408,7 +418,7 @@ public class SelfieTimeline extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            gridView.setAdapter(new GridViewAdapter());
             Log.d("raj", "" + image_urls);
         }
 
@@ -460,5 +470,6 @@ public class SelfieTimeline extends ActionBarActivity {
         }
         return file;
     }
+
 
 }

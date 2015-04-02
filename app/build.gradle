@@ -45,6 +45,8 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.facebook.android:facebook-android-sdk:3.23.1'
+    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile('org.apache.httpcomponents:httpmime:4.3.5') {
         exclude module: 'org.apache.httpcomponents:httpclient'
     }

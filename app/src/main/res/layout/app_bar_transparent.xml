@@ -5,8 +5,8 @@
     android:layout_height="56dp"
     android:background="@android:color/transparent"
     app:theme="@style/customStyleBar2"
-    app:popupTheme = "@style/customStylePopup" >
+    app:popupTheme="@style/customStylePopup">
 
-    </android.support.v7.widget.Toolbar>
+</android.support.v7.widget.Toolbar>
 
     <!--android:layout_height="?android:attr/actionBarSize"-->

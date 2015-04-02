@@ -13,5 +13,11 @@
 
     <color name="gradient_start">#00BCD4</color>
     <color name="gradient_end">#0288D1</color>
+    <array name="pb_colors">
+        <item>@color/red_dark</item>
+        <item>#7b1fa2</item>
+        <item>#e64a19</item>
+        <item>@color/accent</item>
+    </array>
 
 </resources>

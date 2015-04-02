@@ -1,6 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.example.dsi.furore.EventDetails">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dsi.furore.EventDetails">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,20 +21,22 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/event_name"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Organised by: "/>
+                    android:text="Organised by: " />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/event_coordinator"
                     android:layout_height="wrap_content" />
-                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
