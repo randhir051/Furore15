@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -38,6 +37,7 @@ public class uploadImage extends IntentService {
 
     NotificationManager notificationManager;
     Notification notification;
+
     public uploadImage(String name) {
         super(name);
     }
@@ -54,18 +54,19 @@ public class uploadImage extends IntentService {
         String path = intent.getStringExtra("path");
         String id = intent.getStringExtra("fb_id");
         String description = "";
-//start download
-
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notification = new Notification(R.drawable.main_logo,"Uploading..",System.currentTimeMillis());
-        notification.contentView = new RemoteViews(getApplicationContext().getPackageName(),R.layout.upload_progress);
-        notification.contentView.setTextViewText(R.id.textView,"Uploading your image...");
-        notification.contentView.setProgressBar(R.id.progressBar,100,0,true);
-        notification.defaults =  Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(555,notification);
-        Log.d("rohan","start");
+        callNotificationProgressBar();
         callUpload(path, id, description);
 
+    }
+
+    private void callNotificationProgressBar() {
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notification = new Notification(R.drawable.main_logo, "Uploading..", System.currentTimeMillis());
+        notification.contentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.upload_progress);
+        notification.contentView.setTextViewText(R.id.textView, "Uploading your image...");
+        notification.contentView.setProgressBar(R.id.progressBar, 100, 0, true);
+        notification.defaults = Notification.FLAG_NO_CLEAR;
+        notificationManager.notify(555, notification);
     }
 
     private void callUpload(String path, String id, String desc) {
@@ -107,17 +108,11 @@ public class uploadImage extends IntentService {
         }
 
 
-
     }
 
     @Override
     public void onDestroy() {
-        //destroyed
-        //stop download
         notificationManager.cancel(555);
-        Log.d("rohan","stop");
-
-
         super.onDestroy();
     }
 }
