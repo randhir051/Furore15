@@ -117,9 +117,17 @@ public class MainActivity extends ActionBarActivity {
 //        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        if (prefs.getBoolean("isFirstLogin", true)) {
-            new GetData().execute();
-            prefs.edit().putBoolean("isFirstLogin", false).apply();
+        if(Utility.hasConnection(this)){
+            if (prefs.getBoolean("isFirstDataLoaded", true)) {
+                new GetData().execute();
+            }
+            else {
+                new GetVersion().execute();
+                Log.d("getting version","boop");
+            }
+        }
+        else {
+            Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -155,11 +163,6 @@ public class MainActivity extends ActionBarActivity {
         protected JSONObject doInBackground(String... args) {
             try {
 
-//                List<NameValuePair> params = new ArrayList<NameValuePair>();
-//                params.clear();
-//                params.add(new BasicNameValuePair("location", get.getString("location","Vellore")));
-//                params.add(new BasicNameValuePair("user_id", get.getString("user_id","")));
-
                 json = jsonParserGet.makeHttpRequest(
                         Utility.RETRIEVE_EVENTS, "GET", null);
                 Log.d("Retrieve events attempt",
@@ -175,6 +178,12 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(JSONObject result) {
             if (result != null) {
                 setData(result);
+                try {
+                    int ver = result.getJSONObject("1").getInt("ver_no");
+                    prefs.edit().putInt("version",ver).apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else {
                 Toast.makeText(getApplicationContext(), "Sorry, unable to process request", Toast.LENGTH_LONG).show();
             }
@@ -184,7 +193,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setData(JSONObject result) {
 
-        String id, name, cordinator, category, rules, timing, fee, cash;
+        String id, name, cordinator, category, rules, timing=" ", fee, cash1;
 
 
         DBEventDetails put = new DBEventDetails(this);
@@ -192,24 +201,63 @@ public class MainActivity extends ActionBarActivity {
         try {
             JSONObject forSize = result.getJSONObject("0");
             int size = forSize.getInt("size");
-            for (int i = 1; i <= size; i++) {
+            for (int i = 2; i <= size+1; i++) {
                 JSONObject c = result.getJSONObject(i + "");
                 id = c.getString("id");
                 name = c.getString("event_name");
                 cordinator = c.getString("co_ordinator_name");
                 category = c.getString("cat");
+                category=category.replaceAll("\\s+","");
                 rules = c.getString("rules") + "\nContact: " + c.getString("contact");
-                timing = c.getString("time");
+                //timing = c.getString("time");
                 fee = c.getString("fee");
-                cash = c.getString("cash");
-                put.createEntry(id, name, cordinator, category, rules, timing, fee, cash);
+                cash1 = c.getString("cash1");
+                put.createEntry(id, name, cordinator, category, rules, timing, fee, cash1);
             }
+            prefs.edit().putBoolean("isFirstDataLoaded", false).apply();
+            type.setData();
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
         put.close();
     }
 
+    class GetVersion extends AsyncTask<String, String, JSONObject> {
+
+        JSONObject json;
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+
+                json = jsonParserGet.makeHttpRequest(
+                        Utility.GET_VERSION, "GET", null);
+                Log.d("Rtrive version attempt",
+                        json.toString());
+                return json;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            if (result != null) {
+                try {
+                    int ver = result.getInt("version");
+                    if(ver>prefs.getInt("version",ver)){
+                        new GetData().execute();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Sorry, unable to process request", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
 
 //    private void setData(JSONObject result) {
 //        String id, name, cordinator, category, rules, timing, fee, cash;

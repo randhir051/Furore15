@@ -51,21 +51,25 @@ public class EventTypeFragment extends Fragment {
         eventTypeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), eventTypeRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                ((MainActivity) getActivity()).list.setData(data.get(position).name);
-
+                ((MainActivity) getActivity()).list.setData(adapter.data.get(position).name);
                 //((MainActivity) getActivity()).list.adapter.notifyDataSetChanged();
-
                 ((MainActivity) getActivity()).mPager.setCurrentItem(1, true);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity(), "Long click", Toast.LENGTH_SHORT).show();
             }
         }));
         return layout;
     }
 
+    public void setData(){
+        DBEventDetails get = new DBEventDetails(getActivity());
+        get.open();
+        adapter.data = get.getCategories();
+        get.close();
+        adapter.notifyDataSetChanged();
+    }
     public static interface ClickListener {
         public void onClick(View view, int position);
 

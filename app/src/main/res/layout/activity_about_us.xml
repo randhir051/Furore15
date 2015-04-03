@@ -1,0 +1,295 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/toolbar_gradient"
+    tools:context="com.example.dsi.furore.AboutUs">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:background="@android:color/background_light"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:background="@android:color/holo_orange_light"
+            android:padding="5dp"
+            android:text="Developers"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/background_light"
+            android:orientation="vertical">
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginBottom="5dp"
+            android:text="Android app"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/randhir"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/randhir"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Randhir Singh"/>
+                    <TextView
+                        android:id="@+id/randhirmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/randhirmail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/darshan"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/darshan"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Darshan"/>
+                    <TextView
+                        android:id="@+id/darshanmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/darshanmail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/rohan"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/rohan"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Rohan Kumar"/>
+                    <TextView
+                        android:id="@+id/rohanmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/rohanmail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/diksha"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/abhishek"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Diksha Kushwaha"/>
+                    <TextView
+                        android:id="@+id/dikshamail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/dikshamail"/>
+
+                    </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:text="Website"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/abhishek"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/abhishek"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Abhishek Kori"/>
+                    <TextView
+                        android:id="@+id/abhishekmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/abhishekmail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/arjit"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/abhishek"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Arjit Choudhary"/>
+                    <TextView
+                        android:id="@+id/arjitmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/arjitmail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/antony"
+                    android:layout_width="@dimen/about_us_circle_view_height"
+                    android:layout_height="@dimen/about_us_circle_view_height"
+                    android:src="@drawable/abhishek"
+                    app:border_width="2dp"
+                    app:border_color="@color/accent" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Rohan Antony"/>
+                    <TextView
+                        android:id="@+id/antonymail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:linksClickable="true"
+                        android:textStyle="italic"
+                        android:text="@string/antonymail"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
