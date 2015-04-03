@@ -1,8 +1,13 @@
 package com.example.dsi.furore;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,6 +36,8 @@ public class uploadImage extends IntentService {
 
     public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "s_desc";
 
+    NotificationManager notificationManager;
+    Notification notification;
     public uploadImage(String name) {
         super(name);
     }
@@ -48,6 +55,15 @@ public class uploadImage extends IntentService {
         String id = intent.getStringExtra("fb_id");
         String description = "";
 //start download
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notification = new Notification(R.drawable.main_logo,"Uploading..",System.currentTimeMillis());
+        notification.contentView = new RemoteViews(getApplicationContext().getPackageName(),R.layout.upload_progress);
+        notification.contentView.setTextViewText(R.id.textView,"Uploading your image...");
+        notification.contentView.setProgressBar(R.id.progressBar,100,0,true);
+        notification.defaults =  Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(555,notification);
+        Log.d("rohan","start");
         callUpload(path, id, description);
 
     }
@@ -91,12 +107,17 @@ public class uploadImage extends IntentService {
         }
 
 
+
     }
 
     @Override
     public void onDestroy() {
         //destroyed
         //stop download
+        notificationManager.cancel(555);
+        Log.d("rohan","stop");
+
+
         super.onDestroy();
     }
 }
