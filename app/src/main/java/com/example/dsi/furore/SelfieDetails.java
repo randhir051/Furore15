@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 public class SelfieDetails extends ActionBarActivity {
 
@@ -46,7 +46,7 @@ public class SelfieDetails extends ActionBarActivity {
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                    .displayer(new FadeInBitmapDisplayer(700)).build();
+                    .displayer(new SimpleBitmapDisplayer()).build();
         }
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
         imageLoader.displayImage(image_url

@@ -82,6 +82,7 @@ public class uploadPreview extends ActionBarActivity {
 //                    callToast("Your selfie will be uploaded");
                     SuperToast superToast = new SuperToast(uploadPreview.this);
                     superToast.setDuration(SuperToast.Duration.LONG);
+                    superToast.setBackground(SuperToast.Background.BLUE);
                     superToast.setText("Your selfie will be uploaded soon");
                     superToast.setAnimations(SuperToast.Animations.FLYIN);
                     superToast.show();
