@@ -43,9 +43,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/randhir"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/randhir"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/randhir"
@@ -68,7 +68,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
-                        android:clickable="true"
                         android:textStyle="italic"
                         android:text="@string/randhirmail"/>
 
@@ -77,10 +76,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/darshan"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/darshan"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/darshan"
@@ -103,7 +102,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
-                        android:clickable="true"
                         android:textStyle="italic"
                         android:text="@string/darshanmail"/>
 
@@ -112,10 +110,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/rohan"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/rohan"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/rohan"
@@ -138,7 +136,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
-                        android:clickable="true"
                         android:textStyle="italic"
                         android:text="@string/rohanmail"/>
 
@@ -190,9 +187,9 @@
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:id="@+id/abhishek"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/abhishek"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/abhishek"
@@ -215,7 +212,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
-                        android:clickable="true"
                         android:textStyle="italic"
                         android:text="@string/abhishekmail"/>
 
@@ -224,10 +220,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/arjit"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/arjit"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/abhishek"
@@ -250,7 +246,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
-                        android:clickable="true"
                         android:textStyle="italic"
                         android:text="@string/arjitmail"/>
 
@@ -259,10 +254,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/antony"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/antony"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
                     android:src="@drawable/abhishek"
@@ -286,7 +281,6 @@
                         android:layout_height="wrap_content"
                         android:linksClickable="true"
                         android:textStyle="italic"
-                        android:clickable="true"
                         android:text="@string/antonymail"/>
 
                 </LinearLayout>

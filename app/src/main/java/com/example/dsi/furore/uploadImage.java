@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import org.apache.http.HttpEntity;
@@ -98,7 +97,6 @@ public class uploadImage extends IntentService {
             entity.addPart(IMAGE_KEY, new FileBody(file));
             entity.addPart(FB_KEY, new StringBody(id));
             entity.addPart(DESC_KEY, new StringBody(desc));
-
             httpPost.setEntity(entity);
 
             HttpResponse response = httpClient.execute(httpPost, localContext);
@@ -116,10 +114,10 @@ public class uploadImage extends IntentService {
     public void onDestroy() {
         notificationManager.cancel(555);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notification = new Notification(R.drawable.main_logo, "Upload complete..", System.currentTimeMillis());
+        notification = new Notification(R.drawable.main_logo, "Upload complete!", System.currentTimeMillis());
         notification.contentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.upload_progress);
-        notification.contentView.setTextViewText(R.id.textView, "Upload complete...");
-        notification.contentView.setViewVisibility(R.id.progressBar, View.GONE);
+        notification.contentView.setTextViewText(R.id.textView, "Upload complete!");
+        notification.contentView.setProgressBar(R.id.progressBar, 100, 100, false);
 //        notification.contentView.setImageViewResource(R.id.imageRandom,R.drawable.something);
         notification.defaults = Notification.FLAG_NO_CLEAR;
         notificationManager.notify(55, notification);
