@@ -78,6 +78,15 @@
                 custom:pb_colorNormal="#039be5"
                 custom:pb_colorPressed="#f44336" />
 
+            <LinearLayout
+                android:id="@+id/card_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#15000000"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/previewIV"
+                android:orientation="vertical" />
+
         </RelativeLayout>
 
     </ScrollView>

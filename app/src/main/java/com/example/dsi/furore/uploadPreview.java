@@ -3,6 +3,7 @@ package com.example.dsi.furore;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
+import com.github.johnpersano.supertoasts.SuperCardToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -64,7 +66,11 @@ public class uploadPreview extends ActionBarActivity {
 
                 String description = desc.getText().toString();
                 if (description.length() > 80) {
-                    Toast.makeText(uploadPreview.this, "Description is more than 80 characters!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(uploadPreview.this, "Description is more than 80 characters!", Toast.LENGTH_SHORT).show();
+                    callToast("Description is more than 80 characters!");
+
+                } else if (description.length() <= 0) {
+                    callToast("please add a description!");
                 } else {
                     Intent in = new Intent(uploadPreview.this, uploadImage.class);
                     //change fb id
@@ -72,7 +78,13 @@ public class uploadPreview extends ActionBarActivity {
                     in.putExtra("path", path);
                     in.putExtra("desc", description);
                     startService(in);
-                    Toast.makeText(uploadPreview.this, "Your selfie will be uploaded", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(uploadPreview.this, "Your selfie will be uploaded", Toast.LENGTH_SHORT).show();
+//                    callToast("Your selfie will be uploaded");
+                    SuperToast superToast = new SuperToast(uploadPreview.this);
+                    superToast.setDuration(SuperToast.Duration.LONG);
+                    superToast.setText("Your selfie will be uploaded soon");
+                    superToast.setAnimations(SuperToast.Animations.FLYIN);
+                    superToast.show();
                     uploadPreview.this.finish();
                 }
             }
@@ -92,6 +104,17 @@ public class uploadPreview extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void callToast(String msg) {
+        SuperCardToast superCardToast = new SuperCardToast(uploadPreview.this);
+        superCardToast.setText(msg);
+        superCardToast.setDuration(SuperToast.Duration.LONG);
+        superCardToast.setBackground(SuperToast.Background.BLUE);
+        superCardToast.setTextColor(Color.WHITE);
+        superCardToast.setSwipeToDismiss(true);
+        superCardToast.setAnimations(SuperToast.Animations.FLYIN);
+        superCardToast.show();
     }
 
 

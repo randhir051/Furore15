@@ -33,7 +33,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -63,15 +62,17 @@ public class SelfieTimeline extends ActionBarActivity {
     static final int RESULT_LOAD_IMAGE = 2;
     int lastPosition = 0;
     private Toolbar toolbar;
-    public static int number = 0;
+    public int number = 0;
     ArrayList<Float> lista = new ArrayList<>();
     public static ImageLoader imageLoader = ImageLoader.getInstance();
-
+    Boolean done = false;
     StaggeredGridView gridView;
-
+    CircularProgressBar cpb, main_cpb;
+    TextView loadmore;
+    View footer;
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
-    ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>();
+    ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>();
 
 
     int drawables[] = {R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
@@ -88,8 +89,9 @@ public class SelfieTimeline extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         configUIL();
-
-//        new imageUrlLoader().execute();
+        main_cpb = (CircularProgressBar) findViewById(R.id.progress_circle);
+        main_cpb.setVisibility(View.VISIBLE);
+        new imageUrlLoader().execute();
 
         //for randomising the selfie image height
         lista.add((float) 0.9);
@@ -102,7 +104,7 @@ public class SelfieTimeline extends ActionBarActivity {
         gridView = (StaggeredGridView) findViewById(R.id.grid_view);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View footer = inflater.inflate(R.layout.selfie_footer, null);
+        footer = inflater.inflate(R.layout.selfie_footer, null);
         gridView.addFooterView(footer, "potato", true);
        /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,16 +114,16 @@ public class SelfieTimeline extends ActionBarActivity {
             }
         });*/
 //        gridView.setAdapter(new GridViewAdapter());
-        final TextView loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
-        final CircularProgressBar cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
+        loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
+        cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                add load more function
                 loadmore.setVisibility(View.GONE);
                 cpb.setVisibility(View.VISIBLE);
-//                number++;
-//                new imageUrlLoader().execute();
+                number = number + 10;
+                new imageUrlLoader().execute();
             }
         });
     }
@@ -194,7 +196,7 @@ public class SelfieTimeline extends ActionBarActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             Holder mHolder = null;
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -205,10 +207,10 @@ public class SelfieTimeline extends ActionBarActivity {
                 mHolder = (Holder) convertView.getTag();
             }
             mHolder.cv.setPreventCornerOverlap(false);
-            mHolder.textView.setText("this is random text");
+            mHolder.textView.setText(descs.get(position));
 //            mHolder.iv.setImageResource(drawables[position]);
             //load using auil
-            imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
+            imageLoader.displayImage(image_urls.get(position)
                     , mHolder.iv, defaultOptions);
 
 //            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
@@ -252,7 +254,7 @@ public class SelfieTimeline extends ActionBarActivity {
                 public void onClick(View v) {
                     //String url = (String) view.getTag();
                     SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
-                            , "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
+                            , image_urls.get(position), descs.get(position));
                 }
             });
 
@@ -421,11 +423,20 @@ public class SelfieTimeline extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            gridView.setAdapter(new GridViewAdapter());
+            GridViewAdapter mGridViewAdapter = null;
+            main_cpb.setVisibility(View.GONE);
+            if (!done) {
+                mGridViewAdapter = new GridViewAdapter();
+                gridView.setAdapter(mGridViewAdapter);
+            } else {
+                mGridViewAdapter.notifyDataSetChanged();
+            }
+            loadmore.setVisibility(View.VISIBLE);
+            cpb.setVisibility(View.GONE);
             Log.d("raj", "" + image_urls);
         }
 
-        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id";
+        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id", DESC = "s_desc";
 
         private void parsedata(String data) {
 //            Log.d("raj", data);
@@ -435,10 +446,14 @@ public class SelfieTimeline extends ActionBarActivity {
                 for (int i = 0; i < object.length(); i++) {
                     JSONObject subObject = object.getJSONObject("" + i);
 //                    Log.d("raj", "" + subObject);
-                    String img_url = subObject.getString(IMG_URL);
+                    String img_url = "http://bitsmate.in/furore/uploads/" + subObject.getString(IMG_URL);
                     String id = subObject.getString(ID);
                     String fb_id = subObject.getString(FB_ID);
+                    String desc = subObject.getString(DESC);
                     image_urls.add(img_url);
+                    fb_ids.add(fb_id);
+                    ids.add(id);
+                    descs.add(desc);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

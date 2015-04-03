@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,7 +21,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 public class SelfieDetails extends ActionBarActivity {
 
-    public static final String EXTRA_IMAGE = "SelfieDetail:image";
+    public static final String EXTRA_IMAGE = "SelfieDetail:image", DESCRIPTON = "SelfieDetail:description";
     public static ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
 
@@ -33,7 +34,11 @@ public class SelfieDetails extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent in = getIntent();
+        String image_url = in.getStringExtra(EXTRA_IMAGE);
+        String desc = in.getStringExtra(DESCRIPTON);
         ImageView image = (ImageView) findViewById(R.id.image);
+        TextView desc_tv = (TextView) findViewById(R.id.desc_tv);
         {
             options = new DisplayImageOptions.Builder()
                     .cacheOnDisc(true).cacheInMemory(true)
@@ -44,8 +49,9 @@ public class SelfieDetails extends ActionBarActivity {
                     .displayer(new FadeInBitmapDisplayer(700)).build();
         }
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
-        imageLoader.displayImage("http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg"
+        imageLoader.displayImage(image_url
                 , image, options);
+        desc_tv.setText(desc);
     }
 
 
@@ -74,12 +80,13 @@ public class SelfieDetails extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void launch(SelfieTimeline activity, View transitionView, String url) {
+    public static void launch(SelfieTimeline activity, View transitionView, String url, String description) {
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
         Intent intent = new Intent(activity, SelfieDetails.class);
         intent.putExtra(EXTRA_IMAGE, url);
+        intent.putExtra(DESCRIPTON, description);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 }
