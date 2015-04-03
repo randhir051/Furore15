@@ -28,17 +28,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     SharedPreferences getPrefs;
     ActionBarDrawerToggle mDrawerToggle;
-    String NAME = "My name";
-    String EMAIL = "my email sddress";
+    String NAME,PROFILE;
     String ACTIONS[] = {
-            "com.example.dsi.furore.SelfieTimeline",
-            "com.exampl, R.drawable.ic_actione.dsi.furore.SelfieTimeline",
-            "com.example.dsi.furore.SelfieTimeline",
-            "com.example.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.Facebook",
+            "com.example.dsi.furore.SelfieTimeline",
+            "com.example.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.AboutUs"
     };
-    int PROFILE = R.drawable.ic_launcher;
 
     public NavigationDrawerFragment() {
         // Required empty public constructor
@@ -55,12 +51,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-//        getPrefs = getActivity().getApplication().getSharedPreferences(Utility.SHARED_PREFS,0);
-//        NAME = getPrefs.getString("name"," ");
-//        EMAIL = getPrefs.getString("email"," ");
+        getPrefs = getActivity().getApplication().getSharedPreferences(Utility.PREFS,0);
+        NAME = getPrefs.getString("name","Sign in from facebook");
+        PROFILE = getPrefs.getString("user_image","no image");
         recyclerView = (RecyclerView) layout.findViewById(R.id.nav_drawer_recycler_view);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new NavigationDrawerAdapter(NAME, EMAIL, PROFILE);
+        mAdapter = new NavigationDrawerAdapter(NAME, PROFILE, getActivity());
         mAdapter.setClickListener(this);
 
         recyclerView.setAdapter(mAdapter);

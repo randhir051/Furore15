@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class Facebook extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final SharedPreferences prefs = getSharedPreferences(Utility.PREFS,0);
 
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
@@ -40,15 +42,18 @@ public class Facebook extends ActionBarActivity {
             public void onUserInfoFetched(GraphUser user) {
                 if (user != null) {
 //                    This will get you the user name and id and the url will get you the profile picture and you can use intent to pass the name :p
-//                    user.getName();
-//                    user.getId();
-//                    String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
+
+                    Log.d("here","the usename and image");
+                    user.getId();
+                    String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
+                    prefs.edit().putString("name",user.getName()).putString("user_image",url).apply();
                 }
             }
         });
 
 
     }
+
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
         @Override

@@ -1,5 +1,6 @@
 package com.example.dsi.furore;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,29 +8,37 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+
 
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-
-    private String mNavTitles[] = {"Events", "Furore Timeline", "Lemme take a selfie", "Facebook", "About Us"};
-    private int mIcons[] = {R.drawable.ic_action,
-            R.drawable.ic_action_time, R.drawable.ic_action_camera, R.drawable.ic_action,
+    Context context;
+    private String mNavTitles[] = {"Schedule", "Lemme take a selfie", "About Us"};
+    private int mIcons[] = {
+            R.drawable.ic_action_time, R.drawable.ic_action_camera,
             R.drawable.ic_action_about};
 
 
     private String name;
-    private int profile;
-    private String email;
+    private String profile;
 
     private ClickListener clickListener;
 
 
-    NavigationDrawerAdapter(String Name, String Email, int Profile) {
+    NavigationDrawerAdapter(String Name, String Profile, Context con) {
         name = Name;
-        email = Email;
         profile = Profile;
+        context = con;
     }
 
     public void setClickListener(ClickListener clickListener) {
@@ -42,7 +51,6 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         ImageView imageView;
         ImageView profile;
         TextView Name;
-        TextView email;
 
 
         public ViewHolder(View itemView, int ViewType) {
@@ -54,9 +62,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                 Holderid = 1;
             } else {
                 Name = (TextView) itemView.findViewById(R.id.name);
-                email = (TextView) itemView.findViewById(R.id.email);
-                //TODO
-                //profile = (ImageView) itemView.findViewById(R.id.circleView);
+                profile = (ImageView) itemView.findViewById(R.id.circleView);
                 Holderid = 0;
             }
 
@@ -96,10 +102,24 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             holder.textView.setText(mNavTitles[position - 1]);
             holder.imageView.setImageResource(mIcons[position - 1]);
         } else {
-            //TODO
-            //holder.profile.setImageResource(profile);
+            if (!profile.equalsIgnoreCase("no image")){
+                DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                        .cacheOnDisc(true).cacheInMemory(true)
+                        .imageScaleType(ImageScaleType.EXACTLY)
+//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+                        .displayer(new SimpleBitmapDisplayer()).build();
+
+                ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                       context )
+                        .defaultDisplayImageOptions(defaultOptions)
+                        .memoryCache(new WeakMemoryCache())
+                        .discCacheSize(100 * 1024 * 1024).build();
+                ImageLoader.getInstance().init(config);
+                ImageLoader.getInstance().displayImage(profile, holder.profile,defaultOptions);
+            }
             holder.Name.setText(name);
-            holder.email.setText(email);
         }
     }
 
