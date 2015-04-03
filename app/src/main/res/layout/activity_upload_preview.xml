@@ -23,10 +23,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:border_width="1.5dp"
+                android:layout_margin="3dp"
+                app:border_color="@color/accent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:layout_alignTop="@+id/dp"
+                android:layout_alignBottom="@+id/dp"
+                android:layout_toRightOf="@+id/dp"
+                android:textAlignment="center"
                 android:id="@+id/pro_name"
                 android:textColor="#039be5"
                 android:padding="4dp"

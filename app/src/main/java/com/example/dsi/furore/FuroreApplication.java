@@ -18,6 +18,10 @@ import java.io.File;
  */
 public class FuroreApplication extends Application {
 
+    public static final String USER_NAME = "name";
+    public static final String USER_IMAGE = "user_image";
+    public static final String USER_ID = "fb_id";
+
     public static DisplayImageOptions defaultOptions;
     public static ImageLoaderConfiguration config;
 

@@ -31,7 +31,7 @@ public class Facebook extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final SharedPreferences prefs = getSharedPreferences(Utility.PREFS,0);
+        final SharedPreferences prefs = getSharedPreferences(Utility.PREFS, 0);
 
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
@@ -43,10 +43,10 @@ public class Facebook extends ActionBarActivity {
                 if (user != null) {
 //                    This will get you the user name and id and the url will get you the profile picture and you can use intent to pass the name :p
 
-                    Log.d("here","the usename and image");
+                    Log.d("here", "the usename and image");
                     user.getId();
                     String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
-                    prefs.edit().putString("name",user.getName()).putString("user_image",url).apply();
+                    prefs.edit().putString("fb_id", user.getId()).putString("name", user.getName()).putString("user_image", url).apply();
                 }
             }
         });

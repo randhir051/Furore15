@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -13,16 +14,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class uploadPreview extends ActionBarActivity {
 
     Toolbar toolbar;
     TextView name;
     ImageView preview;
+    CircleImageView dp;
     MaterialEditText desc;
     FlatButton upload;
-    String path;
+    String path, id, user_name, user_img;
+    SharedPreferences preferences;
+    DisplayImageOptions options;
+    public static ImageLoader imageLoader = ImageLoader.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +52,12 @@ public class uploadPreview extends ActionBarActivity {
         desc = (MaterialEditText) findViewById(R.id.description_et);
         upload = (FlatButton) findViewById(R.id.upload_btn);
         preview.setImageBitmap(BitmapFactory.decodeFile(path));
-//        name.setText(Facebook.NAME);
 
+        preferences = getSharedPreferences(Utility.PREFS, MODE_APPEND);
+        id = preferences.getString(FuroreApplication.USER_ID, "-1");
+        user_name = preferences.getString(FuroreApplication.USER_NAME, "");
+        user_img = preferences.getString(FuroreApplication.USER_IMAGE, "");
+        name.setText(user_name);
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +68,7 @@ public class uploadPreview extends ActionBarActivity {
                 } else {
                     Intent in = new Intent(uploadPreview.this, uploadImage.class);
                     //change fb id
-                    in.putExtra("fb_id", "Darshan007");
+                    in.putExtra("fb_id", id);
                     in.putExtra("path", path);
                     in.putExtra("desc", description);
                     startService(in);
@@ -61,6 +77,21 @@ public class uploadPreview extends ActionBarActivity {
                 }
             }
         });
+        {
+            options = new DisplayImageOptions.Builder()
+                    .cacheOnDisc(true).cacheInMemory(true)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+                    .displayer(new FadeInBitmapDisplayer(700)).build();
+        }
+        dp = (CircleImageView) findViewById(R.id.dp);
+        try {
+            imageLoader.displayImage(user_img, dp, options);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

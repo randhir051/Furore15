@@ -126,7 +126,7 @@ public class SelfieTimeline extends ActionBarActivity {
         });
     }
 
-    private void configUIL() {
+    public void configUIL() {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.NONE)
