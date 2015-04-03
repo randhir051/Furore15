@@ -2,17 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#000000"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.dsi.furore.Facebook">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/header_image"
+        android:scaleType="centerCrop"
+        android:alpha="0.2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="50dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/material_blue_grey_800"
+            android:textStyle="bold"
+            android:text="Sign in from facebook"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/material_blue_grey_800"
+            android:textStyle="bold"
+            android:text=" and Participate in"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/material_blue_grey_800"
+            android:textStyle="bold"
+            android:text="Selfie contest"/>
+
+        </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_above="@+id/authButton"
+        android:textColor="@color/icons"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:text="RULES"/>
     <com.facebook.widget.LoginButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:id="@+id/authButton" />
 

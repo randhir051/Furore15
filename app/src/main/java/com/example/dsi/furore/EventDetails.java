@@ -39,7 +39,9 @@ public class EventDetails extends Fragment {
         ((TextView) layout.findViewById(R.id.event_coordinator)).setText(data[1]);
         ((TextView) layout.findViewById(R.id.event_rules)).setText(data[2]+" ");
         ((TextView) layout.findViewById(R.id.fee)).setText("₹"+data[4]);
-       // String[] cash = data[5].split("#@#");
+        String[] cash = data[5].split("-");
+        ((TextView) layout.findViewById(R.id.cash1)).setText("₹"+cash[0]);
+        ((TextView) layout.findViewById(R.id.cash2)).setText("₹"+cash[1]);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.dsi.furore;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -23,6 +25,7 @@ import org.json.JSONObject;
 public class MainActivity extends ActionBarActivity {
 
     public ViewPager mPager;
+    ProgressDialog pDialog;
     //ImageView back;
     EventTypeFragment type = new EventTypeFragment();
     EventDetails details = new EventDetails();
@@ -76,7 +79,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
-
+        Intent intent = new Intent(MainActivity.this,Splash.class);
+        startActivity(intent);
         //back = (ImageView) findViewById(R.id.back_button_image);
 
         prefs = getSharedPreferences(Utility.PREFS, 0);
@@ -158,6 +162,14 @@ public class MainActivity extends ActionBarActivity {
     class GetData extends AsyncTask<String, String, JSONObject> {
 
         JSONObject json;
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Getting events");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
 
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -176,6 +188,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(JSONObject result) {
+            pDialog.dismiss();
             if (result != null) {
                 setData(result);
                 try {
@@ -193,7 +206,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setData(JSONObject result) {
 
-        String id, name, cordinator, category, rules, timing=" ", fee, cash1;
+        String id, name, cordinator, category, rules, timing=" ", fee, cash;
 
 
         DBEventDetails put = new DBEventDetails(this);
@@ -211,8 +224,8 @@ public class MainActivity extends ActionBarActivity {
                 rules = c.getString("rules") ;
                 //timing = c.getString("time");
                 fee = c.getString("fee");
-                cash1 = c.getString("cash1")+"@#@"+c.getString("cash2");
-                put.createEntry(id, name, cordinator, category, rules, timing, fee, cash1);
+                cash = c.getString("cash1")+"-"+c.getString("cash2");
+                put.createEntry(id, name, cordinator, category, rules, timing, fee, cash);
             }
             prefs.edit().putBoolean("isFirstDataLoaded", false).apply();
             type.setData();
