@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     EventListFragment list = new EventListFragment();
     JSONparser jsonParserGet = new JSONparser();
     SharedPreferences prefs;
-
+    NavigationDrawerFragment drawerFragment;
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
         prefs = getSharedPreferences(Utility.PREFS, 0);
         setSupportActionBar(toolbar);
 
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.DrawerLayout), toolbar);
 
         mPager = (NonSwipeableViewPager) findViewById(R.id.hello);
@@ -133,6 +133,12 @@ public class MainActivity extends ActionBarActivity {
         else {
             Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerFragment.dataChanged();
     }
 
     @Override

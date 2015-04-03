@@ -46,6 +46,16 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     }
 
+    public void dataChanged(){
+        String name, profile;
+        name = getPrefs.getString("name","Sign in from facebook");
+        profile = getPrefs.getString("user_image","no image");
+        if(!NAME.equals(name)|!PROFILE.equals(profile)){
+            mAdapter.name = name;
+            mAdapter.profile = profile;
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

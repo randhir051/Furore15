@@ -29,8 +29,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             R.drawable.ic_action_about};
 
 
-    private String name;
-    private String profile;
+    public String name, profile;
 
     private ClickListener clickListener;
 

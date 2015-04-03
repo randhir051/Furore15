@@ -34,6 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -132,7 +133,7 @@ public class SelfieTimeline extends ActionBarActivity {
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-                .displayer(new RoundedBitmapDisplayer(6)).build();
+                .displayer(new SimpleBitmapDisplayer()).build();
 
         config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
