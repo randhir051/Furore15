@@ -23,6 +23,96 @@
                 android:id="@+id/event_name"
                 android:textStyle="bold" />
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/holo_orange_light"
+                android:layout_marginTop="5dp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="1st prize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/cash1"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="2nd prize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/cash2"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:text="Registration fee: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/fee"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:text="Rules: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/event_rules"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -30,6 +120,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="Organised by: " />
 
                 <TextView
@@ -37,8 +128,6 @@
                     android:id="@+id/event_coordinator"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
-
         </LinearLayout>
 
 

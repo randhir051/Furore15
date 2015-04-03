@@ -205,13 +205,13 @@ public class MainActivity extends ActionBarActivity {
                 JSONObject c = result.getJSONObject(i + "");
                 id = c.getString("id");
                 name = c.getString("event_name");
-                cordinator = c.getString("co_ordinator_name");
+                cordinator = c.getString("co_ordinator_name")+ "\nContact: " + c.getString("contact");
                 category = c.getString("cat");
                 category=category.replaceAll("\\s+","");
-                rules = c.getString("rules") + "\nContact: " + c.getString("contact");
+                rules = c.getString("rules") ;
                 //timing = c.getString("time");
                 fee = c.getString("fee");
-                cash1 = c.getString("cash1");
+                cash1 = c.getString("cash1")+"@#@"+c.getString("cash2");
                 put.createEntry(id, name, cordinator, category, rules, timing, fee, cash1);
             }
             prefs.edit().putBoolean("isFirstDataLoaded", false).apply();

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
-            android:background="@android:color/holo_orange_light"
+            android:background="#75B46E"
             android:padding="5dp"
             android:text="Developers"/>
         <LinearLayout

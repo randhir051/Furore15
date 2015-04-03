@@ -111,7 +111,7 @@ public class DBEventDetails {
                     .getColumnIndex(DBEventDetails.KEY_CO_ORDINATOR));
 
             result[2] = mCursor.getString(mCursor
-                    .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
+                    .getColumnIndex(DBEventDetails.KEY_RULES));
             result[3] = mCursor.getString(mCursor
                     .getColumnIndex(DBEventDetails.KEY_EVENT_TIMINGS));
             result[4] = mCursor.getString(mCursor
