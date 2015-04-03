@@ -32,8 +32,10 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -131,7 +133,7 @@ public class SelfieTimeline extends ActionBarActivity {
     public void configUIL() {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
-                .imageScaleType(ImageScaleType.NONE)
+                .imageScaleType(ImageScaleType.EXACTLY)
 //                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
 //                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
 //                .showImageOnFail(R.drawable.ic_error) // resource or drawable
@@ -171,12 +173,14 @@ public class SelfieTimeline extends ActionBarActivity {
             ImageView ivLike;
             TextView textView;
             CardView cv;
+            CircularProgressBar cpb_mini;
 
             Holder(View v) {
                 iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
                 textView = (TextView) v.findViewById(R.id.imageText);
                 cv = (CardView) v.findViewById(R.id.card_view);
                 ivLike = (ImageView) v.findViewById(R.id.ivLike);
+                cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
             }
         }
 
@@ -210,8 +214,29 @@ public class SelfieTimeline extends ActionBarActivity {
             mHolder.textView.setText(descs.get(position));
 //            mHolder.iv.setImageResource(drawables[position]);
             //load using auil
+            final Holder finalMHolder1 = mHolder;
             imageLoader.displayImage(image_urls.get(position)
-                    , mHolder.iv, defaultOptions);
+                    , mHolder.iv, defaultOptions, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    finalMHolder1.cpb_mini.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    finalMHolder1.cpb_mini.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+
+                }
+            });
 
 //            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
 

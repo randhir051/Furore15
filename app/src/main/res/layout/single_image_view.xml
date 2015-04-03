@@ -18,6 +18,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <fr.castorflex.android.circularprogressbar.CircularProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="30dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/progress_circle_mini"
+            android:visibility="gone"
+            android:layout_height="30dp"
+            android:indeterminate="true"
+            app:cpb_color="#FFee44"
+            app:cpb_colors="@array/pb_colors"
+            app:cpb_rotation_speed="1.5"
+            app:cpb_sweep_speed="1.5"
+            app:cpb_stroke_width="3dp"
+            app:cpb_min_sweep_angle="10"
+            app:cpb_max_sweep_angle="300" />
+
         <com.etsy.android.grid.util.DynamicHeightImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
