@@ -66,6 +66,9 @@
         <activity
             android:name=".AboutUs"
             android:label="@string/title_activity_about_us" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.dsi.furore.MainActivity" />
         </activity>
     </application>
 

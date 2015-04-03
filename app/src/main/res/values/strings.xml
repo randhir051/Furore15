@@ -16,8 +16,8 @@
     <string name="facebook_app_id">1609052322640922</string>
     <string name="title_activity_furore_timeline">FuroreTimeline</string>
     <string name="title_activity_about_us">AboutUs</string>
-    <string name="dikshamail"><a>deeksha.kushwaha@gmail.com</a></string>
-    <string name="randhirmail"><a>randhirsingh051@gmail.com</a></string>
+    <string name="dikshamail"><u>deeksha.kushwaha@gmail.com</u></string>
+    <string name="randhirmail"><u>randhirsingh051@gmail.com</u></string>
     <string name="darshanmail"><u>diksha.kushwaha@gmail.com</u></string>
     <string name="rohanmail"><u>diksha.kushwaha@gmail.com</u></string>
     <string name="abhishekmail"><u>diksha.kushwaha@gmail.com</u></string>
