@@ -23,5 +23,6 @@
     <string name="abhishekmail"><u>diksha.kushwaha@gmail.com</u></string>
     <string name="arjitmail"><u>diksha.kushwaha@gmail.com</u></string>
     <string name="antonymail"><u>diksha.kushwaha@gmail.com</u></string>
+    <string name="title_activity_upload_preview">uploadPreview</string>
 
 </resources>

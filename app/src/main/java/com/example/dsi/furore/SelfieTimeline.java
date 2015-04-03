@@ -1,12 +1,9 @@
 package com.example.dsi.furore;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -367,7 +364,12 @@ public class SelfieTimeline extends ActionBarActivity {
 
     void dialog(final String path) {
         Log.d("raj", "dialog called");
-        ImageView iv = new ImageView(this);
+
+        Intent in = new Intent(SelfieTimeline.this, uploadPreview.class);
+        in.putExtra("path", path);
+        startActivity(in);
+
+        /*ImageView iv = new ImageView(this);
         iv.setMinimumWidth(300);
         iv.setMinimumHeight(300);
         iv.setImageBitmap(BitmapFactory.decodeFile(path));
@@ -392,7 +394,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
                 dialog.dismiss();
             }
-        }).setCancelable(false).show();
+        }).setCancelable(false).show();*/
     }
 
     public class imageUrlLoader extends AsyncTask<Void, Void, Void> {

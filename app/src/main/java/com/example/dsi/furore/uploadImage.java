@@ -53,7 +53,7 @@ public class uploadImage extends IntentService {
         Log.d("raj", "uploading started");
         String path = intent.getStringExtra("path");
         String id = intent.getStringExtra("fb_id");
-        String description = "";
+        String description = intent.getStringExtra("desc");
         callNotificationProgressBar();
         callUpload(path, id, description);
 
