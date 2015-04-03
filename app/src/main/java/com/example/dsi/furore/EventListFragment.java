@@ -42,7 +42,6 @@ public class EventListFragment extends Fragment {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_event_list, container, false);
         eventListRecyclerView = (RecyclerView) layout.findViewById(R.id.event_list_recycler);
-        get = new DBEventDetails(getActivity());
         adapter = new EventListAdapter(getActivity(), data);
         eventListRecyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -65,6 +64,7 @@ public class EventListFragment extends Fragment {
 
     public void setData(String category) {
         data.clear();
+        get = new DBEventDetails(getActivity());
         get.open();
         get.getEvents(category, data);
         get.close();
