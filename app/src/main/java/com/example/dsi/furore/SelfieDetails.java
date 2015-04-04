@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -89,7 +90,7 @@ public class SelfieDetails extends ActionBarActivity {
         noLikes = (TextView) findViewById(R.id.noLikes);
         noLikes.setText(in.getStringExtra(LIKES));
 
-        new checkLike(in.getStringExtra(ID), in.getStringExtra(DP)).execute();
+        new checkLike(in.getStringExtra(ID)).execute();
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +100,7 @@ public class SelfieDetails extends ActionBarActivity {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             like.setImageResource(R.drawable.star_gold_);
-                            new insertLike(in.getStringExtra(DP), in.getStringExtra(ID)).execute();
+                            new insertLike(in.getStringExtra(ID)).execute();
                         }
 
                         @Override
@@ -155,9 +156,10 @@ public class SelfieDetails extends ActionBarActivity {
     public class insertLike extends AsyncTask<Void, Void, Void> {
 
         String fb_id, pic_id;
+        SharedPreferences preferences = getSharedPreferences(Utility.PREFS, MODE_APPEND);
 
-        public insertLike(String fb_id, String pic_id) {
-            this.fb_id = fb_id;
+        public insertLike(String pic_id) {
+            fb_id = preferences.getString(FuroreApplication.USER_ID, "-1");
             this.pic_id = pic_id;
         }
 
@@ -190,12 +192,12 @@ public class SelfieDetails extends ActionBarActivity {
     }
 
     public class checkLike extends AsyncTask<Void, Void, Void> {
-
+        SharedPreferences preferences = getSharedPreferences(Utility.PREFS, MODE_APPEND);
         String id, fb_id;
 
-        public checkLike(String id, String fb_id) {
+        public checkLike(String id) {
             this.id = id;
-            this.fb_id = fb_id;
+            this.fb_id = preferences.getString(FuroreApplication.USER_ID, "-1");
         }
 
         @Override
@@ -220,6 +222,7 @@ public class SelfieDetails extends ActionBarActivity {
                 try {
                     JSONObject object = new JSONObject(obj);
                     liked = Integer.parseInt(object.getString("status"));
+                    Log.d("raj", "" + liked);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

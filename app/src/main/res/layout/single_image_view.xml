@@ -57,7 +57,7 @@
             android:paddingLeft="4dp"
             android:layout_alignBottom="@+id/ivLike"
             android:layout_toRightOf="@+id/ivLike"
-            android:text="40"
+            android:textSize="18sp"
             android:layout_below="@+id/imageView" />
 
         <View

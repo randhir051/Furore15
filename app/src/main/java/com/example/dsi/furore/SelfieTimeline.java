@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -63,7 +64,8 @@ public class SelfieTimeline extends ActionBarActivity {
     private Toolbar toolbar;
     public int number = 0;
     ArrayList<Float> lista = new ArrayList<>();
-    public static ImageLoader imageLoader = ImageLoader.getInstance();
+    public static ImageLoader imageLoader;
+
     Boolean done = false;
     StaggeredGridView gridView;
     CircularProgressBar cpb, main_cpb;
@@ -73,11 +75,6 @@ public class SelfieTimeline extends ActionBarActivity {
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
     ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
-
-
-    int drawables[] = {R.drawable.art, R.drawable.images, R.drawable.art, R.drawable.images,
-            R.drawable.art, R.drawable.images, R.drawable.art, R.drawable.images,
-            R.drawable.art, R.drawable.images};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +103,7 @@ public class SelfieTimeline extends ActionBarActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footer = inflater.inflate(R.layout.selfie_footer, null);
         gridView.addFooterView(footer, "potato", true);
-       /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //String url = (String) view.getTag();
-                SelfieDetails.launch(SelfieTimeline.this, view.findViewById(R.id.imageView), "http://microblogging.wingnity.com/JSONParsingTutorial/jolie.jpg");
-            }
-        });*/
-//        gridView.setAdapter(new GridViewAdapter());
+
         loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
         cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
         footer.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +180,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
         @Override
         public Object getItem(int position) {
-            return drawables[position];
+            return image_urls.get(position);
         }
 
         @Override
@@ -358,9 +348,11 @@ public class SelfieTimeline extends ActionBarActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-//            Bitmap bm = BitmapFactory.decodeFile(picturePath);
+            Bitmap bm = BitmapFactory.decodeFile(picturePath);
 //add function to display and send the data
-            dialog(picturePath);
+            File file = saveBitmap(bm);
+            String path = file.getPath();
+            dialog(path);
         }
     }
 
@@ -452,12 +444,12 @@ public class SelfieTimeline extends ActionBarActivity {
         if (!dir.exists())
             dir.mkdirs();
         Date date = new Date();
-        File file = new File(dir, date.getTime() + ".png");
+        File file = new File(dir, date.getTime() + ".jpeg");
         Log.d("date", "" + date.getTime());
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
             fOut.flush();
             fOut.close();
         } catch (FileNotFoundException e) {
