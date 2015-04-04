@@ -266,7 +266,14 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     int ver = result.getInt("version");
                     if(ver>prefs.getInt("version",ver)){
+                        DBEventDetails clear = new DBEventDetails(getApplicationContext());
+                        clear.open();
+                        clear.ourDatabase.rawQuery("DROP TABLE IF EXISTS "+DBEventDetails.DATABASE_TABLE,null);
+                        clear.close();
+                        type.adapter.data.clear();
+                        type.adapter.notifyDataSetChanged();
                         new GetData().execute();
+                        pDialog.setMessage("A few things changed, this will take just a sec...");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
