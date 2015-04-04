@@ -118,7 +118,7 @@ public class SelfieDetails extends ActionBarActivity {
                         }
                     }).duration(500).playOn(v);
                 } else if (liked == 1) {
-                    uploadPreview.callToast("You have already liked this image", SelfieDetails.this);
+                    uploadPreview.callToast("You have already liked this image!!!!!", SelfieDetails.this);
                 }
 
             }

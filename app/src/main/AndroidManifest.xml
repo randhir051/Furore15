@@ -77,6 +77,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dsi.furore.SelfieTimeline" />
         </activity>
+        <activity
+            android:name=".DJNight"
+            android:label="@string/title_activity_upload_preview">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dsi.furore.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Sponsors"
+            android:label="@string/title_activity_upload_preview">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dsi.furore.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
