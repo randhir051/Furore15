@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,7 +27,7 @@ public class EventListFragment extends Fragment {
 
     private RecyclerView eventListRecyclerView;
     public EventListAdapter adapter;
-    public LinearLayoutManager layoutManager;
+    public StaggeredGridLayoutManager layoutManager;
     DBEventDetails get;
     List<Event> data = new ArrayList<>();
     View layout;
@@ -44,13 +45,14 @@ public class EventListFragment extends Fragment {
         eventListRecyclerView = (RecyclerView) layout.findViewById(R.id.event_list_recycler);
         adapter = new EventListAdapter(getActivity(), data);
         eventListRecyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         eventListRecyclerView.setLayoutManager(layoutManager);
         eventListRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), eventListRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 ((MainActivity) getActivity()).details.setData(data.get(position).id);
                 ((MainActivity) getActivity()).mPager.setCurrentItem(3);
+
             }
 
             @Override
