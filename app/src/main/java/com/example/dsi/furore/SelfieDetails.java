@@ -52,6 +52,7 @@ public class SelfieDetails extends ActionBarActivity {
     TextView dp_name, noLikes;
     ImageView like;
     Integer liked = -1;
+    Intent in;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class SelfieDetails extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final Intent in = getIntent();
+        in = getIntent();
         String image_url = in.getStringExtra(EXTRA_IMAGE);
         String desc = in.getStringExtra(DESCRIPTON);
         String dp_ = "https://graph.facebook.com/" + in.getStringExtra(DP) + "/picture?type=small";
@@ -99,8 +100,11 @@ public class SelfieDetails extends ActionBarActivity {
                     YoYo.with(Techniques.BounceIn).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
+                            int likes = Integer.parseInt(in.getStringExtra(LIKES));
                             like.setImageResource(R.drawable.star_gold_);
                             new insertLike(in.getStringExtra(ID)).execute();
+                            likes++;
+                            noLikes.setText("" + likes);
                         }
 
                         @Override
@@ -142,7 +146,9 @@ public class SelfieDetails extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_report) {
+
+            new report(in.getStringExtra(ID)).execute();
             return true;
         }
         if (id == R.id.home) {
@@ -258,6 +264,47 @@ public class SelfieDetails extends ActionBarActivity {
         intent.putExtra(LIKES, likes);
         intent.putExtra(ID, id);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    public class report extends AsyncTask<Void, Void, Void> {
+
+        String pic_id;
+
+        public report(String pic_id) {
+            this.pic_id = pic_id;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            uploadPreview.callSuperToast("This image is reported successfully", getApplicationContext());
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://bitsmate.in/furore/report.php");
+            HttpContext localContext = new BasicHttpContext();
+
+
+            try {
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                entity.addPart("pic_id", new StringBody(pic_id));
+                httpPost.setEntity(entity);
+
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                HttpEntity entity1 = response.getEntity();
+                String responseString = EntityUtils.toString(entity1);
+                Log.d("raj", responseString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
     }
 
 }

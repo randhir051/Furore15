@@ -122,9 +122,9 @@ public class SelfieTimeline extends ActionBarActivity {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
-//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
-//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
-//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+                .showImageOnLoading(R.drawable.ic_launcher)
+                .showImageForEmptyUri(R.drawable.ic_launcher)
+                .showImageOnFail(R.drawable.ic_launcher)
                 .displayer(new SimpleBitmapDisplayer()).build();
 
         config = new ImageLoaderConfiguration.Builder(
@@ -278,10 +278,15 @@ public class SelfieTimeline extends ActionBarActivity {
         SubActionButton attachButton = itemBuilder.setContentView(attachIcon).build();
         attachButton.setBackgroundDrawable(attachDrawable);
 
+        Drawable profileDrawable = getResources().getDrawable(R.drawable.profile);
+        ImageView profileIcon = new ImageView(this);
+        SubActionButton profileButton = itemBuilder.setContentView(profileIcon).build();
+        profileButton.setBackgroundDrawable(profileDrawable);
 
         final FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(cameraButton)
                 .addSubActionView(attachButton)
+                .addSubActionView(profileButton)
                 .attachTo(actionButton)
 
                 .build();
@@ -306,6 +311,16 @@ public class SelfieTimeline extends ActionBarActivity {
                     actionMenu.close(true);
                 }
                 selectPicture();
+            }
+        });
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (actionMenu.isOpen()) {
+                    actionMenu.close(true);
+                }
+                //view profile
             }
         });
 
@@ -388,7 +403,6 @@ public class SelfieTimeline extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.d("raj", "image urls = " + image_urls);
             main_cpb.setVisibility(View.GONE);
             if (!done) {
                 mGridViewAdapter = new GridViewAdapter();
