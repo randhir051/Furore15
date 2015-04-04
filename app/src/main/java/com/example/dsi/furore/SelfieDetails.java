@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -8,37 +9,67 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SelfieDetails extends ActionBarActivity {
 
-    public static final String EXTRA_IMAGE = "SelfieDetail:image", DESCRIPTON = "SelfieDetail:description";
+    public static final String ID = "SelfieDetail:id", LIKES = "SelfieDetail:likes", EXTRA_IMAGE = "SelfieDetail:image", DESCRIPTON = "SelfieDetail:description", DP = "SelfieDetail:dp", NAME = "SelfieDetail:name";
     public static ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
+    CircleImageView dp;
+    TextView dp_name, noLikes;
+    ImageView like;
+    Integer liked = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("Check it out!");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent in = getIntent();
+        final Intent in = getIntent();
         String image_url = in.getStringExtra(EXTRA_IMAGE);
         String desc = in.getStringExtra(DESCRIPTON);
+        String dp_ = "https://graph.facebook.com/" + in.getStringExtra(DP) + "/picture?type=small";
+        String username = in.getStringExtra(NAME);
         ImageView image = (ImageView) findViewById(R.id.image);
         TextView desc_tv = (TextView) findViewById(R.id.desc_tv);
+        dp = (CircleImageView) findViewById(R.id.details_dp);
+        dp_name = (TextView) findViewById(R.id.details_name);
         {
             options = new DisplayImageOptions.Builder()
                     .cacheOnDisc(true).cacheInMemory(true)
@@ -52,6 +83,46 @@ public class SelfieDetails extends ActionBarActivity {
         imageLoader.displayImage(image_url
                 , image, options);
         desc_tv.setText(desc);
+        dp_name.setText(username);
+        imageLoader.displayImage(dp_, dp, options);
+        like = (ImageView) findViewById(R.id.ivLike1);
+        noLikes = (TextView) findViewById(R.id.noLikes);
+        noLikes.setText(in.getStringExtra(LIKES));
+
+        new checkLike(in.getStringExtra(ID), in.getStringExtra(DP)).execute();
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (liked == 0) {
+                    YoYo.with(Techniques.BounceIn).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            like.setImageResource(R.drawable.star_gold_);
+                            new insertLike(in.getStringExtra(DP), in.getStringExtra(ID)).execute();
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).duration(500).playOn(v);
+                } else if (liked == 1) {
+                    uploadPreview.callToast("You have already liked this image", SelfieDetails.this);
+                }
+
+            }
+        });
     }
 
 
@@ -80,13 +151,110 @@ public class SelfieDetails extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void launch(SelfieTimeline activity, View transitionView, String url, String description) {
+
+    public class insertLike extends AsyncTask<Void, Void, Void> {
+
+        String fb_id, pic_id;
+
+        public insertLike(String fb_id, String pic_id) {
+            this.fb_id = fb_id;
+            this.pic_id = pic_id;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://bitsmate.in/furore/insert_likes.php");
+            HttpContext localContext = new BasicHttpContext();
+
+
+            try {
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                entity.addPart("fb_id", new StringBody(fb_id));
+                entity.addPart("pic_id", new StringBody(pic_id));
+                httpPost.setEntity(entity);
+
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                HttpEntity entity1 = response.getEntity();
+                String responseString = EntityUtils.toString(entity1);
+                Log.d("raj", responseString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public class checkLike extends AsyncTask<Void, Void, Void> {
+
+        String id, fb_id;
+
+        public checkLike(String id, String fb_id) {
+            this.id = id;
+            this.fb_id = fb_id;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://bitsmate.in/furore/check_likes.php");
+            HttpContext localContext = new BasicHttpContext();
+
+
+            try {
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                entity.addPart("fb_id", new StringBody(fb_id));
+                entity.addPart("pic_id", new StringBody(id));
+                httpPost.setEntity(entity);
+
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                HttpEntity entity1 = response.getEntity();
+                String responseString = EntityUtils.toString(entity1);
+                String obj = responseString.substring(responseString.indexOf('{'), responseString.length());
+                try {
+                    JSONObject object = new JSONObject(obj);
+                    liked = Integer.parseInt(object.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (liked == 1) {
+                like.setImageResource(R.drawable.star_gold_);
+            }
+        }
+    }
+
+    public static void launch(SelfieTimeline activity,
+                              View transitionView, String url,
+                              String description, String dp,
+                              String user_name, String likes, String id) {
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
         Intent intent = new Intent(activity, SelfieDetails.class);
         intent.putExtra(EXTRA_IMAGE, url);
         intent.putExtra(DESCRIPTON, description);
+        intent.putExtra(DP, dp);
+        intent.putExtra(NAME, user_name);
+        intent.putExtra(LIKES, likes);
+        intent.putExtra(ID, id);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
+
 }

@@ -23,11 +23,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
-import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -72,9 +69,10 @@ public class SelfieTimeline extends ActionBarActivity {
     CircularProgressBar cpb, main_cpb;
     TextView loadmore;
     View footer;
+    GridViewAdapter mGridViewAdapter = null;
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
-    ArrayList<String> image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>();
+    ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
 
 
     int drawables[] = {R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
@@ -171,7 +169,7 @@ public class SelfieTimeline extends ActionBarActivity {
         class Holder {
             DynamicHeightImageView iv;
             ImageView ivLike;
-            TextView textView;
+            TextView textView, tvLikes;
             CardView cv;
             CircularProgressBar cpb_mini;
 
@@ -181,6 +179,7 @@ public class SelfieTimeline extends ActionBarActivity {
                 cv = (CardView) v.findViewById(R.id.card_view);
                 ivLike = (ImageView) v.findViewById(R.id.ivLike);
                 cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
+                tvLikes = (TextView) v.findViewById(R.id.tvLikes);
             }
         }
 
@@ -212,8 +211,7 @@ public class SelfieTimeline extends ActionBarActivity {
             }
             mHolder.cv.setPreventCornerOverlap(false);
             mHolder.textView.setText(descs.get(position));
-//            mHolder.iv.setImageResource(drawables[position]);
-            //load using auil
+            mHolder.tvLikes.setText(likes.get(position));
             final Holder finalMHolder1 = mHolder;
             imageLoader.displayImage(image_urls.get(position)
                     , mHolder.iv, defaultOptions, new ImageLoadingListener() {
@@ -237,7 +235,7 @@ public class SelfieTimeline extends ActionBarActivity {
 
                 }
             });
-
+            Log.d("raj", "image = " + image_urls.get(position) + " pos = " + position + " des = " + descs.get(position));
 //            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
 
 //            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
@@ -246,40 +244,16 @@ public class SelfieTimeline extends ActionBarActivity {
             mHolder.iv.setHeightRatio(getRandomHeight(position));
             setAnimation(convertView, position);
 
-            final Holder finalMHolder = mHolder;
-            mHolder.ivLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    YoYo.with(Techniques.BounceIn).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            finalMHolder.ivLike.setImageResource(R.drawable.star_gold_);
-                        }
+//            final Holder finalMHolder = mHolder;
 
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).duration(500).playOn(v);
-                }
-            });
 
             mHolder.iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //String url = (String) view.getTag();
                     SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
-                            , image_urls.get(position), descs.get(position));
+                            , image_urls.get(position), descs.get(position),
+                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
                 }
             });
 
@@ -397,32 +371,6 @@ public class SelfieTimeline extends ActionBarActivity {
         in.putExtra("path", path);
         startActivity(in);
 
-        /*ImageView iv = new ImageView(this);
-        iv.setMinimumWidth(300);
-        iv.setMinimumHeight(300);
-        iv.setImageBitmap(BitmapFactory.decodeFile(path));
-        new AlertDialog.Builder(this)
-                .setView(iv)
-                .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //function to upload
-                        Log.d("raj", "upload called");
-                        Log.d("raj", "" + path);
-                        Intent in = new Intent(SelfieTimeline.this, uploadImage.class);
-                        //change fb id
-                        in.putExtra("fb_id", "Darshan007");
-                        in.putExtra("path", path);
-                        //add description intent too
-                        startService(in);
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        }).setCancelable(false).show();*/
     }
 
     public class imageUrlLoader extends AsyncTask<Void, Void, Void> {
@@ -448,7 +396,7 @@ public class SelfieTimeline extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            GridViewAdapter mGridViewAdapter = null;
+            Log.d("raj", "image urls = " + image_urls);
             main_cpb.setVisibility(View.GONE);
             if (!done) {
                 mGridViewAdapter = new GridViewAdapter();
@@ -458,27 +406,33 @@ public class SelfieTimeline extends ActionBarActivity {
             }
             loadmore.setVisibility(View.VISIBLE);
             cpb.setVisibility(View.GONE);
-            Log.d("raj", "" + image_urls);
         }
 
-        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id", DESC = "s_desc";
+        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id", DESC = "s_desc", USER_NAME = "user_name", LIKES = "likes";
 
         private void parsedata(String data) {
+
+
 //            Log.d("raj", data);
             try {
                 JSONObject object = new JSONObject(data);
 //                Log.d("raj", "object = " + object);
                 for (int i = 0; i < object.length(); i++) {
                     JSONObject subObject = object.getJSONObject("" + i);
-//                    Log.d("raj", "" + subObject);
+                    Log.d("raj", "" + subObject);
                     String img_url = "http://bitsmate.in/furore/uploads/" + subObject.getString(IMG_URL);
                     String id = subObject.getString(ID);
                     String fb_id = subObject.getString(FB_ID);
                     String desc = subObject.getString(DESC);
+                    String username = subObject.getString(USER_NAME);
+                    String like = subObject.getString(LIKES);
                     image_urls.add(img_url);
                     fb_ids.add(fb_id);
                     ids.add(id);
                     descs.add(desc);
+                    likes.add(like);
+                    names.add(username);
+                    img_url_id.add(subObject.getString(IMG_URL));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

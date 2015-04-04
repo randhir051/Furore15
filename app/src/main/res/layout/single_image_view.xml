@@ -47,7 +47,7 @@
             android:layout_height="25dp"
             android:padding="4dp"
             android:id="@+id/ivLike"
-            android:src="@drawable/star_silver_"
+            android:src="@drawable/star_gold_"
             android:layout_below="@+id/imageView" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvLikes"
             android:paddingLeft="4dp"
-            android:layout_alignBaseline="@+id/ivLike"
+            android:layout_alignBottom="@+id/ivLike"
             android:layout_toRightOf="@+id/ivLike"
             android:text="40"
             android:layout_below="@+id/imageView" />
