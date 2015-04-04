@@ -4,20 +4,52 @@
     android:layout_height="match_parent"
     tools:context="com.example.dsi.furore.Splash">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/header_image"/>
+    <!-- <ImageView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:scaleType="centerCrop"
+         android:src="@drawable/header_image"/>
 
-    <TextView
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="50dp"
+         android:textStyle="bold"
+         android:textColor="@color/icons"
+         android:textSize="50sp"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:text="FURORE"/>-->
+
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textStyle="bold"
-        android:textColor="@color/icons"
-        android:textSize="50sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="FURORE"/>
+        android:layout_margin="7dp"
+        android:src="@drawable/app_screen_outline"
+        android:id="@+id/mainImage"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:id="@+id/subImage"
+        android:visibility="gone"
+        android:src="@drawable/app_screen_inside"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:src="@drawable/app_screen_outburst"
+        android:layout_marginTop="130dp"
+        android:visibility="gone"
+        android:layout_below="@+id/subImage"
+        android:layout_alignParentRight="true"
+        android:id="@+id/words"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

@@ -80,10 +80,10 @@ public class uploadPreview extends ActionBarActivity {
                     in.putExtra("path", path);
                     in.putExtra("desc", description);
                     startService(in);
-//                    Toast.makeText(uploadPreview.this, "Your selfie will be uploaded", Toast.LENGTH_SHORT).show();
-//                    callToast("Your selfie will be uploaded");
                     callSuperToast("Your selfie will be uploaded soon!!!", uploadPreview.this);
                     uploadPreview.this.finish();
+//                    postImage(uploadPreview.this, path);
+
                 }
             }
         });
@@ -146,4 +146,6 @@ public class uploadPreview extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

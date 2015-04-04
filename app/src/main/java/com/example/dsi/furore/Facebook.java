@@ -70,10 +70,11 @@ public class Facebook extends ActionBarActivity {
     };
 
     // Call this method to post an image on the user's fb wall AND CHANGE THE BITMAP
-    public void postImage() {
+    public void postImage(String path) {
         if (checkPermissions()) {
-            Bitmap img = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.header_image);
+//            Bitmap img = BitmapFactory.decodeResource(getResources(),
+//                    R.drawable.header_image);
+            Bitmap img = BitmapFactory.decodeFile(path);
             Request uploadRequest = Request.newUploadPhotoRequest(
                     Session.getActiveSession(), img, new Request.Callback() {
                         @Override
@@ -93,7 +94,7 @@ public class Facebook extends ActionBarActivity {
     public void postStatusMessage() {
         if (checkPermissions()) {
             //Whatever is there in this string message will be updated as status
-            String message = "";
+            String message = "Hey there, posting status from furore app :D";
             Request request = Request.newStatusUpdateRequest(
                     Session.getActiveSession(), message,
                     new Request.Callback() {

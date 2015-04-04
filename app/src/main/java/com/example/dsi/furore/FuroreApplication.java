@@ -23,6 +23,7 @@ public class FuroreApplication extends Application {
     public static final String USER_ID = "fb_id";
     public static final String LOG_IN = "log_in";
 
+
     public static DisplayImageOptions defaultOptions;
     public static ImageLoaderConfiguration config;
 
@@ -49,4 +50,6 @@ public class FuroreApplication extends Application {
         ImageLoader.getInstance().init(config);
         // END - UNIVERSAL IMAGE LOADER SETUP
     }
+
+
 }
