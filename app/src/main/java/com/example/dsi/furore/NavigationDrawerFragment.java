@@ -28,7 +28,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     SharedPreferences getPrefs;
     ActionBarDrawerToggle mDrawerToggle;
-    String NAME,PROFILE;
+    String NAME, PROFILE;
     String ACTIONS[] = {
             "com.example.dsi.furore.Facebook",
             "com.example.dsi.furore.FuroreSchedule",
@@ -48,11 +48,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     }
 
-    public void dataChanged(){
+    public void dataChanged() {
         String name, profile;
-        name = getPrefs.getString("name","Sign in from facebook");
-        profile = getPrefs.getString("user_image","no image");
-        if(!NAME.equals(name)|!PROFILE.equals(profile)){
+        name = getPrefs.getString("name", "Sign in from facebook");
+        profile = getPrefs.getString("user_image", "no image");
+        if (!NAME.equals(name) | !PROFILE.equals(profile)) {
             mAdapter.name = name;
             mAdapter.profile = profile;
             mAdapter.notifyDataSetChanged();
@@ -63,9 +63,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        getPrefs = getActivity().getApplication().getSharedPreferences(Utility.PREFS,0);
-        NAME = getPrefs.getString("name","Sign in from facebook");
-        PROFILE = getPrefs.getString("user_image","no image");
+        getPrefs = getActivity().getApplication().getSharedPreferences(Utility.PREFS, 0);
+        NAME = getPrefs.getString("name", "Sign in from facebook");
+        PROFILE = getPrefs.getString("user_image", "no image");
         recyclerView = (RecyclerView) layout.findViewById(R.id.nav_drawer_recycler_view);
         recyclerView.setHasFixedSize(true);
         mAdapter = new NavigationDrawerAdapter(NAME, PROFILE, getActivity());
@@ -117,7 +117,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (pos != 1) {
+                if (pos != 1 && pos != 2) {
                     String selectedAction = ACTIONS[pos];
 
                     try {
@@ -126,6 +126,16 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                         //getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
+                    }
+                }
+                if (pos == 2) {
+                    boolean signed_in = getPrefs.getBoolean(FuroreApplication.LOG_IN, false);
+                    if (signed_in) {
+                        Intent intent = new Intent(getActivity(), SelfieTimeline.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getActivity(), Facebook.class);
+                        startActivity(intent);
                     }
                 }
             }
