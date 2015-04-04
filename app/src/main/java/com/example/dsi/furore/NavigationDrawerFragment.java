@@ -136,6 +136,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                         Intent intent = new Intent(getActivity(), SelfieTimeline.class);
                         startActivity(intent);
                     } else {
+                        uploadPreview.callSuperToast("Sign In using facebook!", getActivity());
                         Intent intent = new Intent(getActivity(), Facebook.class);
                         startActivity(intent);
                     }

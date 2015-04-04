@@ -1,6 +1,7 @@
 package com.example.dsi.furore;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -81,12 +82,7 @@ public class uploadPreview extends ActionBarActivity {
                     startService(in);
 //                    Toast.makeText(uploadPreview.this, "Your selfie will be uploaded", Toast.LENGTH_SHORT).show();
 //                    callToast("Your selfie will be uploaded");
-                    SuperToast superToast = new SuperToast(uploadPreview.this);
-                    superToast.setDuration(SuperToast.Duration.LONG);
-                    superToast.setBackground(SuperToast.Background.BLUE);
-                    superToast.setText("Your selfie will be uploaded soon");
-                    superToast.setAnimations(SuperToast.Animations.FLYIN);
-                    superToast.show();
+                    callSuperToast("Your selfie will be uploaded soon!!!", uploadPreview.this);
                     uploadPreview.this.finish();
                 }
             }
@@ -106,6 +102,15 @@ public class uploadPreview extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void callSuperToast(String msg, Context act) {
+        SuperToast superToast = new SuperToast(act);
+        superToast.setDuration(SuperToast.Duration.LONG);
+        superToast.setBackground(SuperToast.Background.BLUE);
+        superToast.setText(msg);
+        superToast.setAnimations(SuperToast.Animations.FLYIN);
+        superToast.show();
     }
 
     public static void callToast(String msg, Activity act) {
