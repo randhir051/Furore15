@@ -21,6 +21,7 @@ public class FuroreApplication extends Application {
     public static final String USER_NAME = "name";
     public static final String USER_IMAGE = "user_image";
     public static final String USER_ID = "fb_id";
+    public static final String LOG_IN = "log_in";
 
     public static DisplayImageOptions defaultOptions;
     public static ImageLoaderConfiguration config;
@@ -28,7 +29,6 @@ public class FuroreApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // UNIVERSAL IMAGE LOADER SETUP
         File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
         BitmapFactory.Options decodingOptions = new BitmapFactory.Options();
         defaultOptions = new DisplayImageOptions.Builder()

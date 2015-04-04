@@ -46,7 +46,9 @@ public class Facebook extends ActionBarActivity {
                     Log.d("here", "the usename and image");
                     user.getId();
                     String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
-                    prefs.edit().putString("fb_id", user.getId()).putString("name", user.getName()).putString("user_image", url).apply();
+                    prefs.edit().putBoolean("log_in", true).putString("fb_id", user.getId()).putString("name", user.getName()).putString("user_image", url).apply();
+                } else if (user == null) {
+                    prefs.edit().putBoolean("log_in", false).apply();
                 }
             }
         });

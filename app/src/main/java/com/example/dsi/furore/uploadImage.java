@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -33,7 +34,7 @@ public class uploadImage extends IntentService {
      * @param name Used to name the worker thread, important only for debugging.
      */
 
-    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "s_desc";
+    public static final String IMAGE_KEY = "selfie_img", FB_KEY = "fb_id", DESC_KEY = "s_desc", USER_NAME = "user_name";
 
     NotificationManager notificationManager;
     Notification notification;
@@ -54,8 +55,10 @@ public class uploadImage extends IntentService {
         String path = intent.getStringExtra("path");
         String id = intent.getStringExtra("fb_id");
         String description = intent.getStringExtra("desc");
+        SharedPreferences preferences = getSharedPreferences(Utility.PREFS, MODE_APPEND);
+        String name = preferences.getString(FuroreApplication.USER_NAME, "");
         callNotificationProgressBar();
-        callUpload(path, id, description);
+        callUpload(path, id, description, name);
 
     }
 
@@ -70,7 +73,7 @@ public class uploadImage extends IntentService {
         notificationManager.notify(555, notification);
     }
 
-    private void callUpload(String path, String id, String desc) {
+    private void callUpload(String path, String id, String desc, String name) {
 
         File file = new File(path);
 
@@ -97,6 +100,7 @@ public class uploadImage extends IntentService {
             entity.addPart(IMAGE_KEY, new FileBody(file));
             entity.addPart(FB_KEY, new StringBody(id));
             entity.addPart(DESC_KEY, new StringBody(desc));
+            entity.addPart(USER_NAME, new StringBody(name));
             httpPost.setEntity(entity);
 
             HttpResponse response = httpClient.execute(httpPost, localContext);

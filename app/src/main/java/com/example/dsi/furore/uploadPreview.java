@@ -1,5 +1,6 @@
 package com.example.dsi.furore;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -67,10 +68,10 @@ public class uploadPreview extends ActionBarActivity {
                 String description = desc.getText().toString();
                 if (description.length() > 80) {
 //                    Toast.makeText(uploadPreview.this, "Description is more than 80 characters!", Toast.LENGTH_SHORT).show();
-                    callToast("Description is more than 80 characters!");
+                    callToast("Description is more than 80 characters!", uploadPreview.this);
 
                 } else if (description.length() <= 0) {
-                    callToast("please add a description!");
+                    callToast("please add a description!", uploadPreview.this);
                 } else {
                     Intent in = new Intent(uploadPreview.this, uploadImage.class);
                     //change fb id
@@ -107,8 +108,8 @@ public class uploadPreview extends ActionBarActivity {
         }
     }
 
-    private void callToast(String msg) {
-        SuperCardToast superCardToast = new SuperCardToast(uploadPreview.this);
+    public static void callToast(String msg, Activity act) {
+        SuperCardToast superCardToast = new SuperCardToast(act);
         superCardToast.setText(msg);
         superCardToast.setDuration(SuperToast.Duration.LONG);
         superCardToast.setBackground(SuperToast.Background.BLUE);
