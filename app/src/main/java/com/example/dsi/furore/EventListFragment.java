@@ -55,7 +55,6 @@ public class EventListFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity(), "Long click", Toast.LENGTH_SHORT).show();
             }
         }));
         return layout;

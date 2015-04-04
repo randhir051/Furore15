@@ -26,7 +26,6 @@ public class MainActivity extends ActionBarActivity {
 
     public ViewPager mPager;
     ProgressDialog pDialog;
-    //ImageView back;
     EventTypeFragment type = new EventTypeFragment();
     EventDetails details = new EventDetails();
     EventListFragment list = new EventListFragment();
@@ -81,7 +80,6 @@ public class MainActivity extends ActionBarActivity {
         toolbar.setTitle("Furore");
         Intent intent = new Intent(MainActivity.this,Splash.class);
         startActivity(intent);
-        //back = (ImageView) findViewById(R.id.back_button_image);
 
         prefs = getSharedPreferences(Utility.PREFS, 0);
         setSupportActionBar(toolbar);
@@ -100,11 +98,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position != 0) {
-                    //    back.setVisibility(View.VISIBLE);
-                } else {
-                    //    back.setVisibility(View.INVISIBLE);
-                }
+
             }
 
             @Override

@@ -170,7 +170,7 @@ public class DBEventDetails {
                 category = mCursor.getString(mCursor
                         .getColumnIndex(DBEventDetails.KEY_EVENT_CATEGORY));
                 int numRows = (int) DatabaseUtils.longForQuery(ourDatabase, "SELECT COUNT(*) FROM " + DATABASE_TABLE + " WHERE " + KEY_EVENT_CATEGORY + " = \"" + category + "\"", null);
-                result.add(0, new EventType(category, numRows, R.drawable.game));
+                result.add(0, new EventType(category, numRows, R.drawable.images));
 
             } while (mCursor.moveToNext());
         }

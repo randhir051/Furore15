@@ -71,7 +71,7 @@ public class Facebook extends ActionBarActivity {
     public void postImage() {
         if (checkPermissions()) {
             Bitmap img = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.furore_sample);
+                    R.drawable.header_image);
             Request uploadRequest = Request.newUploadPhotoRequest(
                     Session.getActiveSession(), img, new Request.Callback() {
                         @Override

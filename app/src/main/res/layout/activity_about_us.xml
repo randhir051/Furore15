@@ -147,7 +147,7 @@
                     android:id="@+id/diksha"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
-                    android:src="@drawable/abhishek"
+                    android:src="@drawable/diksha"
                     app:border_width="2dp"
                     app:border_color="@color/accent" />
                 <LinearLayout
