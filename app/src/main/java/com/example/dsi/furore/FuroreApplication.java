@@ -29,7 +29,6 @@ public class FuroreApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // UNIVERSAL IMAGE LOADER SETUP
         File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
         BitmapFactory.Options decodingOptions = new BitmapFactory.Options();
         defaultOptions = new DisplayImageOptions.Builder()
