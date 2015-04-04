@@ -40,12 +40,44 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         EventType current = data.get(position);
         switch (current.name) {
-            case "wer":
-                holder.image.setImageResource(R.drawable.art);
+            case "Theatre":
+                holder.image.setImageResource(R.drawable.theater);
                 holder.layout.setBackgroundResource(R.drawable.category_gradient_art);
                 break;
-            case "xcv":
-                holder.image.setImageResource(R.drawable.dance123);
+            case "Technical":
+                holder.image.setImageResource(R.drawable.technical);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Sports":
+                holder.image.setImageResource(R.drawable.sports);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Music":
+                holder.image.setImageResource(R.drawable.music);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Literary":
+                holder.image.setImageResource(R.drawable.literary);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Kannada":
+                holder.image.setImageResource(R.drawable.kannda);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Fashion":
+                holder.image.setImageResource(R.drawable.fashion);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Elements":
+                holder.image.setImageResource(R.drawable.elements);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Dance":
+                holder.image.setImageResource(R.drawable.dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                break;
+            case "Art":
+                holder.image.setImageResource(R.drawable.art);
                 holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
                 break;
             default:

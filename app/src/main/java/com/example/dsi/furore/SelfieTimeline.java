@@ -75,9 +75,9 @@ public class SelfieTimeline extends ActionBarActivity {
     ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
 
 
-    int drawables[] = {R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
-            R.drawable.art, R.drawable.game, R.drawable.art, R.drawable.game,
-            R.drawable.art, R.drawable.game};
+    int drawables[] = {R.drawable.art, R.drawable.images, R.drawable.art, R.drawable.images,
+            R.drawable.art, R.drawable.images, R.drawable.art, R.drawable.images,
+            R.drawable.art, R.drawable.images};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

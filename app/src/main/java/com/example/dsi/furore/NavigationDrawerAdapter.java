@@ -1,6 +1,10 @@
 package com.example.dsi.furore;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +27,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     Context context;
-    private String mNavTitles[] = {"Schedule", "Lemme take a selfie","DJ Night","Sponsors", "Developers", "Facebook Page","Twitter"};
+    private String mNavTitles[] = {"Schedule", "Lemme take a selfie","DJ Night","Sponsors", "Developers", "Social"};
     private int mIcons[] = {
             R.drawable.ic_action_time, R.drawable.ic_action_camera,
-            R.drawable.ic_action_headphones,R.drawable.ic_action_add_group,R.drawable.ic_action_about,R.drawable.ic_facebook,R.drawable.ic_twitter};
+            R.drawable.ic_action_headphones,R.drawable.ic_action_add_group,R.drawable.ic_action_about,R.drawable.ic_action_about};
 
 
     public String name, profile;
