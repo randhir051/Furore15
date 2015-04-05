@@ -42,6 +42,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class SelfieDetails extends ActionBarActivity {
 
@@ -53,6 +54,7 @@ public class SelfieDetails extends ActionBarActivity {
     ImageView like;
     Integer liked = -1;
     Intent in;
+    SmoothProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +72,16 @@ public class SelfieDetails extends ActionBarActivity {
         String username = in.getStringExtra(NAME);
         ImageView image = (ImageView) findViewById(R.id.image);
         TextView desc_tv = (TextView) findViewById(R.id.desc_tv);
+        pb = (SmoothProgressBar) findViewById(R.id.pb);
         dp = (CircleImageView) findViewById(R.id.details_dp);
         dp_name = (TextView) findViewById(R.id.details_name);
         {
             options = new DisplayImageOptions.Builder()
                     .cacheOnDisc(true).cacheInMemory(true)
                     .imageScaleType(ImageScaleType.EXACTLY)
-                    .showImageOnLoading(R.mipmap.ic_launcher) // resource or drawable
-                    .showImageForEmptyUri(R.mipmap.ic_launcher) // resource or drawable
-                    .showImageOnFail(R.mipmap.ic_launcher) // resource or drawable
+                    .showImageOnLoading(R.drawable.furore_logo) // resource or drawable
+                    .showImageForEmptyUri(R.drawable.furore_logo) // resource or drawable
+                    .showImageOnFail(R.drawable.furore_logo) // resource or drawable
                     .displayer(new SimpleBitmapDisplayer()).build();
         }
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
@@ -201,6 +204,7 @@ public class SelfieDetails extends ActionBarActivity {
         SharedPreferences preferences = getSharedPreferences(Utility.PREFS, MODE_APPEND);
         String id, fb_id;
 
+
         public checkLike(String id) {
             this.id = id;
             this.fb_id = preferences.getString(FuroreApplication.USER_ID, "-1");
@@ -246,6 +250,7 @@ public class SelfieDetails extends ActionBarActivity {
             if (liked == 1) {
                 like.setImageResource(R.drawable.star_gold_);
             }
+            pb.setVisibility(View.GONE);
         }
     }
 

@@ -4,7 +4,6 @@ package com.example.dsi.furore;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.GestureDetector;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class EventListFragment extends Fragment {
         eventListRecyclerView = (RecyclerView) layout.findViewById(R.id.event_list_recycler);
         adapter = new EventListAdapter(getActivity(), data);
         eventListRecyclerView.setAdapter(adapter);
-        layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         eventListRecyclerView.setLayoutManager(layoutManager);
         eventListRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), eventListRecyclerView, new ClickListener() {
             @Override

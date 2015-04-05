@@ -65,7 +65,6 @@ public class SelfieTimeline extends ActionBarActivity {
     public int number = 0;
     ArrayList<Float> lista = new ArrayList<>();
     public static ImageLoader imageLoader;
-
     Boolean done = false;
     StaggeredGridView gridView;
     CircularProgressBar cpb, main_cpb;
@@ -122,9 +121,9 @@ public class SelfieTimeline extends ActionBarActivity {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
-                .showImageOnLoading(R.mipmap.ic_launcher)
-                .showImageForEmptyUri(R.mipmap.ic_launcher)
-                .showImageOnFail(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.drawable.furore_logo)
+                .showImageForEmptyUri(R.drawable.furore_logo)
+                .showImageOnFail(R.drawable.furore_logo)
                 .displayer(new SimpleBitmapDisplayer()).build();
 
         config = new ImageLoaderConfiguration.Builder(
@@ -407,6 +406,7 @@ public class SelfieTimeline extends ActionBarActivity {
             if (!done) {
                 mGridViewAdapter = new GridViewAdapter();
                 gridView.setAdapter(mGridViewAdapter);
+
             } else {
                 mGridViewAdapter.notifyDataSetChanged();
             }

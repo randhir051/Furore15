@@ -19,5 +19,11 @@
         <item>#e64a19</item>
         <item>@color/accent</item>
     </array>
+    <array name="pb_colors2">
+        <item>#8bc34a</item>
+        <item>@color/accent</item>
+        <item>#ffc107</item>
+        <item>#ff5722</item>
+    </array>
 
 </resources>
