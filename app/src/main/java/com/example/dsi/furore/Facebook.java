@@ -72,7 +72,7 @@ public class Facebook extends ActionBarActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean connected;
+               /* Boolean connected;
                 Context context = Facebook.this;
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwrok = cm.getActiveNetworkInfo();
@@ -80,7 +80,7 @@ public class Facebook extends ActionBarActivity {
                 if (connected == true) {
                 } else {
                     uploadPreview.callSuperToast("Please Connect Your Device To Internet", Facebook.this);
-                }
+                }*/
             }
         });
         rules.setOnClickListener(new View.OnClickListener() {
