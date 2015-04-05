@@ -27,6 +27,24 @@
             android:layout_centerInParent="true"
             android:orientation="vertical" />
 
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentTop="true"
+            app:spb_sections_count="4"
+            app:spb_colors="@array/pb_colors2"
+            app:spb_speed="1.0"
+            android:id="@+id/pb"
+            app:spb_stroke_width="3dp"
+            app:spb_stroke_separator_length="4dp"
+            app:spb_reversed="true"
+            app:spb_mirror_mode="true"
+            app:spb_progressiveStart_activated="true"
+            app:spb_progressiveStart_speed="1.0"
+            app:spb_progressiveStop_speed="1.0" />
+
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
             android:layout_gravity="center"

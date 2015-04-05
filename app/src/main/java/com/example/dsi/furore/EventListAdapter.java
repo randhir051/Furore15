@@ -5,13 +5,11 @@ package com.example.dsi.furore;
  */
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.etsy.android.grid.util.DynamicHeightImageView;
@@ -27,7 +25,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
 
     private LayoutInflater inflater;
     List<Event> data = new ArrayList<>();
-Context c;
+    Context c;
+
     public EventListAdapter(Context context, List<Event> data) {
         c = context;
         inflater = LayoutInflater.from(context);
@@ -44,14 +43,14 @@ Context c;
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Event current = data.get(position);
-        int resId=0;
+        int resId = 0;
         try {
             Field idField = R.drawable.class.getDeclaredField("event" + current.id);
             resId = idField.getInt(idField);
             holder.image.setImageResource(resId);
             holder.image.setHeightRatio(getRandomHeight(position));
         } catch (Exception e) {
-           Log.d("No resource ID found:",""+ resId + " / " + e);
+            Log.d("No resource ID found:", "" + resId + " / " + e);
         }
         holder.name.setText(current.name);
     }
@@ -76,7 +75,7 @@ Context c;
 
 
     private double getRandomHeight(int position) {
-        double x[]={0.8,1.1,1,0.9};
+        double x[] = {0.8, 1.1, 1, 0.9};
         return x[position % 4];
 
     }

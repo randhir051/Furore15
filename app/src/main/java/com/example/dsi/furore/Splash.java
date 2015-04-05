@@ -22,7 +22,7 @@ public class Splash extends ActionBarActivity {
         inside = (ImageView) findViewById(R.id.subImage);
         words = (ImageView) findViewById(R.id.words);
 
-        YoYo.with(Techniques.FadeIn).duration(1000).withListener(new Animator.AnimatorListener() {
+        YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 outline.setVisibility(View.VISIBLE);
@@ -74,7 +74,7 @@ public class Splash extends ActionBarActivity {
                                                             @Override
                                                             public void run() {
                                                                 try {
-                                                                    Thread.sleep(2000);
+                                                                    Thread.sleep(1000);
                                                                     Intent in = new Intent(Splash.this, MainActivity.class);
                                                                     startActivity(in);
                                                                     finish();
