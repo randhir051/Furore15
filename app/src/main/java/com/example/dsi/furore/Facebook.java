@@ -1,6 +1,5 @@
 package com.example.dsi.furore;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -25,19 +24,16 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.github.johnpersano.supertoasts.SuperCardToast;
-import com.github.johnpersano.supertoasts.SuperToast;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Facebook extends ActionBarActivity {
 
-    private LoginButton loginBtn;
-    Button rules;
-    private UiLifecycleHelper uiHelper;
-    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
-
+    public LoginButton loginBtn;
+    public Button rules, post;
+    public UiLifecycleHelper uiHelper;
+    public static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,32 @@ public class Facebook extends ActionBarActivity {
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
+        post = (Button) findViewById(R.id.post);
         loginBtn = (LoginButton) findViewById(R.id.authButton);
+        rules = (Button) findViewById(R.id.rules);
+
+        Intent intent = getIntent();
+        int a = intent.getIntExtra("check", 0);
+        if (a == 1) {
+            LinearLayout ll = (LinearLayout) findViewById(R.id.lin);
+            ll.setVisibility(View.INVISIBLE);
+            rules.setVisibility(View.INVISIBLE);
+            loginBtn.setVisibility(View.INVISIBLE);
+            post.setVisibility(View.VISIBLE);
+            post.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    postImage();
+                    postStatusMessage();
+                }
+            });
+
+        }
+        if (a == 0) {
+            post.setVisibility(View.INVISIBLE);
+        }
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,15 +83,13 @@ public class Facebook extends ActionBarActivity {
                 }
             }
         });
-
-        rules = (Button) findViewById(R.id.rules);
         rules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Facebook.this).setTitle("Rules").setMessage("-Rule1\n-Rule2\n-Rule3").setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        postStatusMessage();
                     }
                 }).show();
             }
@@ -86,6 +105,7 @@ public class Facebook extends ActionBarActivity {
                     user.getId();
                     String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
                     prefs.edit().putBoolean("log_in", true).putString("fb_id", user.getId()).putString("name", user.getName()).putString("user_image", url).apply();
+
                 } else if (user == null) {
                     prefs.edit().putBoolean("log_in", false).apply();
                 }
@@ -96,11 +116,12 @@ public class Facebook extends ActionBarActivity {
     }
 
 
-    private Session.StatusCallback statusCallback = new Session.StatusCallback() {
+    public Session.StatusCallback statusCallback = new Session.StatusCallback() {
         @Override
         public void call(Session session, SessionState state,
                          Exception exception) {
             if (state.isOpened()) {
+
                 Log.d("FacebookSampleActivity", "Facebook session opened");
             } else if (state.isClosed()) {
                 Log.d("FacebookSampleActivity", "Facebook session closed");
@@ -109,18 +130,19 @@ public class Facebook extends ActionBarActivity {
     };
 
     // Call this method to post an image on the user's fb wall AND CHANGE THE BITMAP
-    public void postImage(String path) {
+    public void postImage() {
         if (checkPermissions()) {
-//            Bitmap img = BitmapFactory.decodeResource(getResources(),
-//                    R.drawable.header_image);
-            Bitmap img = BitmapFactory.decodeFile(path);
+            Bitmap img = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.black);
             Request uploadRequest = Request.newUploadPhotoRequest(
                     Session.getActiveSession(), img, new Request.Callback() {
                         @Override
                         public void onCompleted(Response response) {
-                            Toast.makeText(Facebook.this,
-                                    "Photo uploaded successfully",
-                                    Toast.LENGTH_LONG).show();
+//                            Toast.makeText(Facebook.this,
+//                                    "Photo uploaded successfully",
+//                                    Toast.LENGTH_LONG).show();
+                            uploadPreview.callSuperToast("Photo uploaded successfully",Facebook.this);
+
                         }
                     });
             uploadRequest.executeAsync();
@@ -129,20 +151,22 @@ public class Facebook extends ActionBarActivity {
         }
     }
 
-    // CAll this method to post a status on the user's fb wall AND CHANGE THE MESSAGE
+
     public void postStatusMessage() {
         if (checkPermissions()) {
-            //Whatever is there in this string message will be updated as status
-            String message = "Hey there, posting status from furore app :D";
+            String message = "Furore!";
             Request request = Request.newStatusUpdateRequest(
                     Session.getActiveSession(), message,
                     new Request.Callback() {
                         @Override
                         public void onCompleted(Response response) {
                             if (response.getError() == null)
-                                Toast.makeText(Facebook.this,
-                                        "Status updated successfully",
-                                        Toast.LENGTH_LONG).show();
+//                                Toast.makeText(Facebook.this,
+//                                        "Status updated successfully",
+//                                        Toast.LENGTH_LONG).show();
+                            uploadPreview.callSuperToast("Status updated successfully",Facebook.this);
+                            Intent intent = new Intent(Facebook.this,AboutUs.class);
+                            startActivity(intent);
                         }
                     });
             request.executeAsync();
@@ -150,7 +174,6 @@ public class Facebook extends ActionBarActivity {
             requestPermissions();
         }
     }
-
 
     public boolean checkPermissions() {
         Session s = Session.getActiveSession();
@@ -197,6 +220,7 @@ public class Facebook extends ActionBarActivity {
         super.onSaveInstanceState(savedState);
         uiHelper.onSaveInstanceState(savedState);
     }
+
 
 // This AsyncTask is to get the profile picture as a bitmap.. call the AsyncTask if you need the bitmap of the user's dp
 /*

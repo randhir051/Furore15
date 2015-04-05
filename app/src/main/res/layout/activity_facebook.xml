@@ -9,12 +9,13 @@
         android:layout_height="match_parent"
         android:src="@drawable/header_image"
         android:scaleType="centerCrop"
-        android:alpha="0.2"/>
+        android:alpha="0.2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_margin="50dp"
+        android:id="@+id/lin"
         android:layout_height="wrap_content">
 
         <TextView
@@ -24,7 +25,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/material_blue_grey_800"
             android:textStyle="bold"
-            android:text="Sign in from facebook"/>
+            android:text="Sign in from facebook" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_marginTop="2dp"
@@ -33,7 +35,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/material_blue_grey_800"
             android:textStyle="bold"
-            android:text=" and Participate in"/>
+            android:text=" and Participate in" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_marginTop="2dp"
@@ -42,10 +45,21 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/material_blue_grey_800"
             android:textStyle="bold"
-            android:text="Selfie contest"/>
+            android:text="Selfie contest" />
 
-        </LinearLayout>
+    </LinearLayout>
 
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:id="@+id/post"
+    android:background="@android:color/holo_blue_dark"
+    android:textColor="@color/icons"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textStyle="bold"
+    android:text="Confirm Post"
+    />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +71,8 @@
         android:textColor="@color/icons"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
-        android:text="RULES"/>
+        android:text="RULES" />
+
     <com.facebook.widget.LoginButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
