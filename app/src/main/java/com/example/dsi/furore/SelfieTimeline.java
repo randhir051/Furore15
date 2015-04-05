@@ -13,6 +13,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,11 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -64,13 +64,13 @@ public class SelfieTimeline extends ActionBarActivity {
     private Toolbar toolbar;
     public int number = 0;
     ArrayList<Float> lista = new ArrayList<>();
-    public static ImageLoader imageLoader;
+    public static ImageLoader imageLoader = ImageLoader.getInstance();
     Boolean done = false;
-    StaggeredGridView gridView;
+    RecyclerView gridView;
     CircularProgressBar cpb, main_cpb;
     TextView loadmore;
     View footer;
-    GridViewAdapter mGridViewAdapter = null;
+    MyAdapter myAdapter;
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
     ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
@@ -97,11 +97,13 @@ public class SelfieTimeline extends ActionBarActivity {
 
         initFloatingMenu();
 
-        gridView = (StaggeredGridView) findViewById(R.id.grid_view);
+        gridView = (RecyclerView) findViewById(R.id.grid_view);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        gridView.setLayoutManager(staggeredGridLayoutManager);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footer = inflater.inflate(R.layout.selfie_footer, null);
-        gridView.addFooterView(footer, "potato", true);
+//        gridView.addFooterView(footer, "potato", true);
 
         loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
         cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
@@ -133,121 +135,6 @@ public class SelfieTimeline extends ActionBarActivity {
                 .discCacheSize(100 * 1024 * 1024).build();
 
         ImageLoader.getInstance().init(config);
-
-    }
-
-    public class GridViewAdapter extends BaseAdapter {
-
-        public GridViewAdapter() {
-            imageLoader = ImageLoader.getInstance();
-        }
-
-        private void setAnimation(View viewToAnimate, int position) {
-            // If the bound view wasn't previously displayed on screen, it's animated
-            if (position > lastPosition) {
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
-                viewToAnimate.startAnimation(animation);
-                lastPosition = position;
-            } else {
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
-                viewToAnimate.startAnimation(animation);
-                lastPosition = position;
-            }
-        }
-
-        class Holder {
-            DynamicHeightImageView iv;
-            ImageView ivLike;
-            TextView textView, tvLikes;
-            CardView cv;
-            CircularProgressBar cpb_mini;
-
-            Holder(View v) {
-                iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
-                textView = (TextView) v.findViewById(R.id.imageText);
-                cv = (CardView) v.findViewById(R.id.card_view);
-                ivLike = (ImageView) v.findViewById(R.id.ivLike);
-                cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
-                tvLikes = (TextView) v.findViewById(R.id.tvLikes);
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return image_urls.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return image_urls.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            Holder mHolder = null;
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.single_image_view, parent, false);
-                mHolder = new Holder(convertView);
-                convertView.setTag(mHolder);
-            } else {
-                mHolder = (Holder) convertView.getTag();
-            }
-            mHolder.cv.setPreventCornerOverlap(false);
-            mHolder.textView.setText(descs.get(position));
-            mHolder.tvLikes.setText(likes.get(position));
-            final Holder finalMHolder1 = mHolder;
-            imageLoader.displayImage(image_urls.get(position)
-                    , mHolder.iv, defaultOptions, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    finalMHolder1.cpb_mini.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    finalMHolder1.cpb_mini.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-
-                }
-            });
-            Log.d("raj", "image = " + image_urls.get(position) + " pos = " + position + " des = " + descs.get(position));
-//            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
-
-//            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
-//            mHolder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            mHolder.iv.setHeightRatio(getRandomHeight(position));
-            setAnimation(convertView, position);
-
-//            final Holder finalMHolder = mHolder;
-
-
-            mHolder.iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //String url = (String) view.getTag();
-                    SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
-                            , image_urls.get(position), descs.get(position),
-                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
-                }
-            });
-
-            return convertView;
-        }
 
     }
 
@@ -404,11 +291,13 @@ public class SelfieTimeline extends ActionBarActivity {
             super.onPostExecute(aVoid);
             main_cpb.setVisibility(View.GONE);
             if (!done) {
-                mGridViewAdapter = new GridViewAdapter();
-                gridView.setAdapter(mGridViewAdapter);
-
+//                mGridViewAdapter = new GridViewAdapter();
+//                gridView.setAdapter(mGridViewAdapter);
+                myAdapter = new MyAdapter();
+                gridView.setAdapter(myAdapter);
             } else {
-                mGridViewAdapter.notifyDataSetChanged();
+//                mGridViewAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetChanged();
             }
             loadmore.setVisibility(View.VISIBLE);
             cpb.setVisibility(View.GONE);
@@ -474,5 +363,210 @@ public class SelfieTimeline extends ActionBarActivity {
         return file;
     }
 
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
+
+        @Override
+        public Holder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View v = getLayoutInflater().inflate(R.layout.single_image_view, viewGroup, false);
+            Holder holder = new Holder(v);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(Holder mHolder, final int position) {
+            mHolder.cv.setPreventCornerOverlap(false);
+            mHolder.textView.setText(descs.get(position));
+            mHolder.tvLikes.setText(likes.get(position));
+            mHolder.iv.setImageResource(R.drawable.furore_logo);
+            final Holder finalMHolder1 = mHolder;
+            imageLoader.displayImage(image_urls.get(position)
+                    , mHolder.iv, defaultOptions, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    finalMHolder1.cpb_mini.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    finalMHolder1.cpb_mini.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+
+                }
+            });
+
+            mHolder.iv.setHeightRatio(getRandomHeight(position));
+            setAnimation(mHolder.itemView, position);
+
+            mHolder.iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //String url = (String) view.getTag();
+                    SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
+                            , image_urls.get(position), descs.get(position),
+                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
+                }
+            });
+        }
+
+        private void setAnimation(View viewToAnimate, int position) {
+            // If the bound view wasn't previously displayed on screen, it's animated
+            if (position > lastPosition) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
+                viewToAnimate.startAnimation(animation);
+                lastPosition = position;
+            } else {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
+                viewToAnimate.startAnimation(animation);
+                lastPosition = position;
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return image_urls.size();
+        }
+
+        class Holder extends RecyclerView.ViewHolder {
+
+            DynamicHeightImageView iv;
+            ImageView ivLike;
+            TextView textView, tvLikes;
+            CardView cv;
+            CircularProgressBar cpb_mini;
+
+            public Holder(View v) {
+                super(v);
+                iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
+                textView = (TextView) v.findViewById(R.id.imageText);
+                cv = (CardView) v.findViewById(R.id.card_view);
+                ivLike = (ImageView) v.findViewById(R.id.ivLike);
+                cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
+                tvLikes = (TextView) v.findViewById(R.id.tvLikes);
+            }
+        }
+    }
+
+//    public class GridViewAdapter extends BaseAdapter {
+//
+//        public GridViewAdapter() {
+//            imageLoader = ImageLoader.getInstance();
+//        }
+//
+//        private void setAnimation(View viewToAnimate, int position) {
+//            // If the bound view wasn't previously displayed on screen, it's animated
+//            if (position > lastPosition) {
+//                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
+//                viewToAnimate.startAnimation(animation);
+//                lastPosition = position;
+//            } else {
+//                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
+//                viewToAnimate.startAnimation(animation);
+//                lastPosition = position;
+//            }
+//        }
+//
+//        class Holder {
+//            DynamicHeightImageView iv;
+//            ImageView ivLike;
+//            TextView textView, tvLikes;
+//            CardView cv;
+//            CircularProgressBar cpb_mini;
+//
+//            Holder(View v) {
+//                iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
+//                textView = (TextView) v.findViewById(R.id.imageText);
+//                cv = (CardView) v.findViewById(R.id.card_view);
+//                ivLike = (ImageView) v.findViewById(R.id.ivLike);
+//                cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
+//                tvLikes = (TextView) v.findViewById(R.id.tvLikes);
+//            }
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return image_urls.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return image_urls.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(final int position, View convertView, ViewGroup parent) {
+//            Holder mHolder = null;
+//            if (convertView == null) {
+//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                convertView = inflater.inflate(R.layout.single_image_view, parent, false);
+//                mHolder = new Holder(convertView);
+//                convertView.setTag(mHolder);
+//            } else {
+//                mHolder = (Holder) convertView.getTag();
+//            }
+//            mHolder.cv.setPreventCornerOverlap(false);
+//            mHolder.textView.setText(descs.get(position));
+//            mHolder.tvLikes.setText(likes.get(position));
+//            final Holder finalMHolder1 = mHolder;
+//            imageLoader.displayImage(image_urls.get(position)
+//                    , mHolder.iv, defaultOptions, new ImageLoadingListener() {
+//                @Override
+//                public void onLoadingStarted(String imageUri, View view) {
+//                    finalMHolder1.cpb_mini.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                    finalMHolder1.cpb_mini.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onLoadingCancelled(String imageUri, View view) {
+//
+//                }
+//            });
+//            Log.d("raj", "image = " + image_urls.get(position) + " pos = " + position + " des = " + descs.get(position));
+////            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
+//
+////            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
+////            mHolder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//            mHolder.iv.setHeightRatio(getRandomHeight(position));
+//            setAnimation(convertView, position);
+//
+////            final Holder finalMHolder = mHolder;
+//
+//
+//            mHolder.iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //String url = (String) view.getTag();
+//                    SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
+//                            , image_urls.get(position), descs.get(position),
+//                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
+//                }
+//            });
+//
+//            return convertView;
+//        }
+//
+//    }
 
 }
