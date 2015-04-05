@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -96,10 +99,10 @@ public class SelfieTimeline extends ActionBarActivity {
         lista.add((float) 1.1);
 
         initFloatingMenu();
-
         gridView = (RecyclerView) findViewById(R.id.grid_view);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         gridView.setLayoutManager(staggeredGridLayoutManager);
+
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footer = inflater.inflate(R.layout.selfie_footer, null);
@@ -297,7 +300,7 @@ public class SelfieTimeline extends ActionBarActivity {
                 gridView.setAdapter(myAdapter);
             } else {
 //                mGridViewAdapter.notifyDataSetChanged();
-                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyItemRangeInserted(number - 9, number);
             }
             loadmore.setVisibility(View.VISIBLE);
             cpb.setVisibility(View.GONE);
@@ -568,5 +571,32 @@ public class SelfieTimeline extends ActionBarActivity {
 //        }
 //
 //    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_selfie_timeline, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.more) {
+            number = number + 10;
+            new imageUrlLoader().execute();
+        }
+        if (id == R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
