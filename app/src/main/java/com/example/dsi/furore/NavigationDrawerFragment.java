@@ -109,7 +109,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
     }
-
     @Override
     public void itemClicked(View view, int position) {
 
@@ -119,7 +118,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (pos != 1 && pos != 2) {
+                if (pos != 1 && pos != 2 && pos != 0) {
                     String selectedAction = ACTIONS[pos];
 
                     try {
@@ -130,15 +129,28 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                         e.printStackTrace();
                     }
                 }
+                if (pos == 0) {
+                    if (Utility.hasConnection(getActivity())) {
+                        Intent intent = new Intent(getActivity(), Facebook.class);
+                        startActivity(intent);
+                    } else {
+                        uploadPreview.callSuperToast("Please check your internet connection", getActivity());
+                    }
+                }
                 if (pos == 2) {
                     boolean signed_in = getPrefs.getBoolean(FuroreApplication.LOG_IN, false);
                     if (signed_in) {
                         Intent intent = new Intent(getActivity(), SelfieTimeline.class);
                         startActivity(intent);
                     } else {
-                        uploadPreview.callSuperToast("Sign In using facebook!", getActivity());
-                        Intent intent = new Intent(getActivity(), Facebook.class);
-                        startActivity(intent);
+                        if (Utility.hasConnection(getActivity())) {
+                            uploadPreview.callSuperToast("Sign In using facebook!", getActivity());
+                            Intent intent = new Intent(getActivity(), Facebook.class);
+                            startActivity(intent);
+                        } else {
+                            uploadPreview.callSuperToast("Please check your internet connection", getActivity());
+                        }
+
                     }
                 }
             }
@@ -146,5 +158,4 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
     }
-
 }
