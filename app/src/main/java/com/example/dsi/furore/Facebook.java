@@ -1,12 +1,21 @@
 package com.example.dsi.furore;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -16,6 +25,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.github.johnpersano.supertoasts.SuperCardToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +34,7 @@ import java.util.List;
 public class Facebook extends ActionBarActivity {
 
     private LoginButton loginBtn;
-
+    Button rules;
     private UiLifecycleHelper uiHelper;
     private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
@@ -37,6 +48,34 @@ public class Facebook extends ActionBarActivity {
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
         loginBtn = (LoginButton) findViewById(R.id.authButton);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean connected;
+                Context context = Facebook.this;
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwrok = cm.getActiveNetworkInfo();
+                connected = activeNetwrok != null && activeNetwrok.isConnectedOrConnecting();
+                if (connected == true) {
+                } else {
+                    uploadPreview.callSuperToast("Please Connect Your Device To Internet", Facebook.this);
+                }
+            }
+        });
+
+        rules = (Button) findViewById(R.id.rules);
+        rules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(Facebook.this).setTitle("Rules").setMessage("-Rule1\n-Rule2\n-Rule3").setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+            }
+        });
+
         loginBtn.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
@@ -111,6 +150,7 @@ public class Facebook extends ActionBarActivity {
             requestPermissions();
         }
     }
+
 
     public boolean checkPermissions() {
         Session s = Session.getActiveSession();
