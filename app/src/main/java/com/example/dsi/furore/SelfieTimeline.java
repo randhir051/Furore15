@@ -62,7 +62,7 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
 public class SelfieTimeline extends ActionBarActivity {
 
-
+    boolean liked;
     public static final String FILE_NAME = "com.furore15.darshan";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_LOAD_IMAGE = 2;
@@ -79,7 +79,7 @@ public class SelfieTimeline extends ActionBarActivity {
     MyAdapter myAdapter;
     static DisplayImageOptions defaultOptions;
     ImageLoaderConfiguration config;
-    ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
+    public ArrayList<String> img_url_id = new ArrayList<>(), image_urls = new ArrayList<>(), ids = new ArrayList<>(), fb_ids = new ArrayList<>(), descs = new ArrayList<>(), likes = new ArrayList<>(), names = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,6 +305,19 @@ public class SelfieTimeline extends ActionBarActivity {
             String path = file.getPath();
             dialog(path);
         }
+        if (resultCode == RESULT_OK && requestCode == 1234) {
+            liked = data.getBooleanExtra("like", false);
+            if (liked) {
+                int pos = data.getIntExtra("position", -1);
+                if (pos != -1) {
+                    int l = Integer.parseInt(likes.get(pos));
+                    l++;
+                    likes.set(pos, "" + l);
+                    myAdapter.notifyItemChanged(pos);
+                }
+            }
+
+        }
     }
 
     void dialog(final String path) {
@@ -465,7 +478,7 @@ public class SelfieTimeline extends ActionBarActivity {
                     //String url = (String) view.getTag();
                     SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
                             , image_urls.get(position), descs.get(position),
-                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
+                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position), position);
                 }
             });
         }
@@ -536,5 +549,6 @@ public class SelfieTimeline extends ActionBarActivity {
     }
 
     public static int items_count;
+
 
 }

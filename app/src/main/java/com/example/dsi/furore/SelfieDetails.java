@@ -46,6 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SelfieDetails extends ActionBarActivity {
 
+    public static int pos;
     public static final String ID = "SelfieDetail:id", LIKES = "SelfieDetail:likes", EXTRA_IMAGE = "SelfieDetail:image", DESCRIPTON = "SelfieDetail:description", DP = "SelfieDetail:dp", NAME = "SelfieDetail:name";
     public static ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
@@ -99,6 +100,7 @@ public class SelfieDetails extends ActionBarActivity {
 
         new checkLike(in.getStringExtra(ID)).execute();
 
+
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +117,6 @@ public class SelfieDetails extends ActionBarActivity {
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-
                         }
 
                         @Override
@@ -173,6 +174,12 @@ public class SelfieDetails extends ActionBarActivity {
         public insertLike(String pic_id) {
             fb_id = preferences.getString(FuroreApplication.USER_ID, "-1");
             this.pic_id = pic_id;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            likedNow = true;
         }
 
         @Override
@@ -281,7 +288,7 @@ public class SelfieDetails extends ActionBarActivity {
     public static void launch(SelfieTimeline activity,
                               View transitionView, String url,
                               String description, String dp,
-                              String user_name, String likes, String id) {
+                              String user_name, String likes, String id, int position) {
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, transitionView, EXTRA_IMAGE);
@@ -292,7 +299,8 @@ public class SelfieDetails extends ActionBarActivity {
         intent.putExtra(NAME, user_name);
         intent.putExtra(LIKES, likes);
         intent.putExtra(ID, id);
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
+        pos = position;
+        ActivityCompat.startActivityForResult(activity, intent, 1234, options.toBundle());
     }
 
     public class report extends AsyncTask<Void, Void, Void> {
@@ -335,5 +343,16 @@ public class SelfieDetails extends ActionBarActivity {
             return null;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("like", likedNow);
+        returnIntent.putExtra("position", pos);
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
+
+    public static boolean likedNow = false;
 
 }
