@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,12 +27,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.etsy.android.grid.util.DynamicHeightImageView;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,6 +62,8 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
 public class SelfieTimeline extends ActionBarActivity {
 
+
+    public static final String FILE_NAME = "com.furore15.darshan";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_LOAD_IMAGE = 2;
     int lastPosition = 0;
@@ -95,7 +93,14 @@ public class SelfieTimeline extends ActionBarActivity {
         configUIL();
         main_cpb = (CircularProgressBar) findViewById(R.id.progress_circle);
         main_cpb.setVisibility(View.VISIBLE);
-        new imageUrlLoader().execute();
+//  loading data from net or internal storage
+        if (Utility.hasConnection(SelfieTimeline.this)) {
+            new imageUrlLoader().execute();
+        } else {
+            String data = readData();
+            parsedata(data);
+            main_cpb.setVisibility(View.GONE);
+        }
 
         //for randomising the selfie image height
         lista.add((float) 0.9);
@@ -111,8 +116,20 @@ public class SelfieTimeline extends ActionBarActivity {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footer = inflater.inflate(R.layout.selfie_footer, null);
-//        gridView.addFooterView(footer, "potato", true);
 
+        myAdapter = new MyAdapter();
+        gridView.setAdapter(myAdapter);
+        gridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         loadmore = (TextView) footer.findViewById(R.id.load_more_tv);
         cpb = (CircularProgressBar) footer.findViewById(R.id.pb_circle);
         footer.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +142,26 @@ public class SelfieTimeline extends ActionBarActivity {
                 new imageUrlLoader().execute();
             }
         });
+    }
+
+    private String readData() {
+        uploadPreview.callSuperToast("Check your internet connection!", getApplicationContext());
+        try {
+            FileInputStream fin = openFileInput(FILE_NAME);
+            int c;
+            String temp = "";
+            while ((c = fin.read()) != -1) {
+                temp = temp + Character.toString((char) c);
+            }
+//string temp contains all the data of the file.
+            fin.close();
+            return temp;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void configUIL() {
@@ -216,8 +253,8 @@ public class SelfieTimeline extends ActionBarActivity {
                 }
                 //view profile
 
-                Intent intent = new Intent(SelfieTimeline.this,Facebook.class);
-                intent.putExtra("check",1);
+                Intent intent = new Intent(SelfieTimeline.this, Facebook.class);
+                intent.putExtra("check", 1);
                 startActivity(intent);
             }
         });
@@ -292,6 +329,7 @@ public class SelfieTimeline extends ActionBarActivity {
                 HttpEntity entity = response.getEntity();
                 String data = EntityUtils.toString(entity);
                 parsedata(data);
+                store(data);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -303,48 +341,20 @@ public class SelfieTimeline extends ActionBarActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             main_cpb.setVisibility(View.GONE);
-            if (!done) {
-//                mGridViewAdapter = new GridViewAdapter();
-//                gridView.setAdapter(mGridViewAdapter);
-                myAdapter = new MyAdapter();
-                gridView.setAdapter(myAdapter);
-            } else {
-//                mGridViewAdapter.notifyDataSetChanged();
-                myAdapter.notifyItemRangeInserted(number - 9, number);
-            }
-            loadmore.setVisibility(View.VISIBLE);
-            cpb.setVisibility(View.GONE);
+//            myAdapter.notifyItemRangeInserted(number - 10, number - 10 + items_count);
+            myAdapter.notifyDataSetChanged();
         }
 
-        public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id", DESC = "s_desc", USER_NAME = "user_name", LIKES = "likes";
 
-        private void parsedata(String data) {
+    }
 
-
-//            Log.d("raj", data);
-            try {
-                JSONObject object = new JSONObject(data);
-//                Log.d("raj", "object = " + object);
-                for (int i = 0; i < object.length(); i++) {
-                    JSONObject subObject = object.getJSONObject("" + i);
-                    Log.d("raj", "" + subObject);
-                    String img_url = "http://bitsmate.in/furore/uploads/" + subObject.getString(IMG_URL);
-                    String id = subObject.getString(ID);
-                    String fb_id = subObject.getString(FB_ID);
-                    String desc = subObject.getString(DESC);
-                    String username = subObject.getString(USER_NAME);
-                    String like = subObject.getString(LIKES);
-                    image_urls.add(img_url);
-                    fb_ids.add(fb_id);
-                    ids.add(id);
-                    descs.add(desc);
-                    likes.add(like);
-                    names.add(username);
-                    img_url_id.add(subObject.getString(IMG_URL));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    private void store(String data) {
+        try {
+            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            fos.write(data.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -360,12 +370,12 @@ public class SelfieTimeline extends ActionBarActivity {
         if (!dir.exists())
             dir.mkdirs();
         Date date = new Date();
-        File file = new File(dir, date.getTime() + ".jpeg");
+        File file = new File(dir, date.getTime() + ".png");
         Log.d("date", "" + date.getTime());
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            bm.compress(Bitmap.CompressFormat.PNG, 75, fOut);
             fOut.flush();
             fOut.close();
         } catch (FileNotFoundException e) {
@@ -374,6 +384,37 @@ public class SelfieTimeline extends ActionBarActivity {
             e.printStackTrace();
         }
         return file;
+    }
+
+    public static final String IMG_URL = "img_url", ID = "id", FB_ID = "fb_id", DESC = "s_desc", USER_NAME = "user_name", LIKES = "likes";
+
+    private void parsedata(String data) {
+
+
+//            Log.d("raj", data);
+        try {
+            JSONObject object = new JSONObject(data);
+            items_count = object.length();
+            for (int i = 0; i < object.length(); i++) {
+                JSONObject subObject = object.getJSONObject("" + i);
+                Log.d("raj", "" + subObject);
+                String img_url = "http://bitsmate.in/furore/uploads/" + subObject.getString(IMG_URL);
+                String id = subObject.getString(ID);
+                String fb_id = subObject.getString(FB_ID);
+                String desc = subObject.getString(DESC);
+                String username = subObject.getString(USER_NAME);
+                String like = subObject.getString(LIKES);
+                image_urls.add(img_url);
+                fb_ids.add(fb_id);
+                ids.add(id);
+                descs.add(desc);
+                likes.add(like);
+                names.add(username);
+                img_url_id.add(subObject.getString(IMG_URL));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
@@ -467,120 +508,6 @@ public class SelfieTimeline extends ActionBarActivity {
         }
     }
 
-//    public class GridViewAdapter extends BaseAdapter {
-//
-//        public GridViewAdapter() {
-//            imageLoader = ImageLoader.getInstance();
-//        }
-//
-//        private void setAnimation(View viewToAnimate, int position) {
-//            // If the bound view wasn't previously displayed on screen, it's animated
-//            if (position > lastPosition) {
-//                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
-//                viewToAnimate.startAnimation(animation);
-//                lastPosition = position;
-//            } else {
-//                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_top);
-//                viewToAnimate.startAnimation(animation);
-//                lastPosition = position;
-//            }
-//        }
-//
-//        class Holder {
-//            DynamicHeightImageView iv;
-//            ImageView ivLike;
-//            TextView textView, tvLikes;
-//            CardView cv;
-//            CircularProgressBar cpb_mini;
-//
-//            Holder(View v) {
-//                iv = (DynamicHeightImageView) v.findViewById(R.id.imageView);
-//                textView = (TextView) v.findViewById(R.id.imageText);
-//                cv = (CardView) v.findViewById(R.id.card_view);
-//                ivLike = (ImageView) v.findViewById(R.id.ivLike);
-//                cpb_mini = (CircularProgressBar) v.findViewById(R.id.progress_circle_mini);
-//                tvLikes = (TextView) v.findViewById(R.id.tvLikes);
-//            }
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return image_urls.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return image_urls.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(final int position, View convertView, ViewGroup parent) {
-//            Holder mHolder = null;
-//            if (convertView == null) {
-//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                convertView = inflater.inflate(R.layout.single_image_view, parent, false);
-//                mHolder = new Holder(convertView);
-//                convertView.setTag(mHolder);
-//            } else {
-//                mHolder = (Holder) convertView.getTag();
-//            }
-//            mHolder.cv.setPreventCornerOverlap(false);
-//            mHolder.textView.setText(descs.get(position));
-//            mHolder.tvLikes.setText(likes.get(position));
-//            final Holder finalMHolder1 = mHolder;
-//            imageLoader.displayImage(image_urls.get(position)
-//                    , mHolder.iv, defaultOptions, new ImageLoadingListener() {
-//                @Override
-//                public void onLoadingStarted(String imageUri, View view) {
-//                    finalMHolder1.cpb_mini.setVisibility(View.VISIBLE);
-//                }
-//
-//                @Override
-//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//
-//                }
-//
-//                @Override
-//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                    finalMHolder1.cpb_mini.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onLoadingCancelled(String imageUri, View view) {
-//
-//                }
-//            });
-//            Log.d("raj", "image = " + image_urls.get(position) + " pos = " + position + " des = " + descs.get(position));
-////            imageLoader.displayImage(image_urls.get(position), mHolder.iv, defaultOptions);
-//
-////            mHolder.iv.setBackgroundResource(R.drawable.round_corner);
-////            mHolder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//
-//            mHolder.iv.setHeightRatio(getRandomHeight(position));
-//            setAnimation(convertView, position);
-//
-////            final Holder finalMHolder = mHolder;
-//
-//
-//            mHolder.iv.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //String url = (String) view.getTag();
-//                    SelfieDetails.launch(SelfieTimeline.this, v.findViewById(R.id.imageView)
-//                            , image_urls.get(position), descs.get(position),
-//                            fb_ids.get(position), names.get(position), likes.get(position), img_url_id.get(position));
-//                }
-//            });
-//
-//            return convertView;
-//        }
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -608,5 +535,6 @@ public class SelfieTimeline extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static int items_count;
 
 }

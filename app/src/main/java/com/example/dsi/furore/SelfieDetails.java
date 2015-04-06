@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +43,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class SelfieDetails extends ActionBarActivity {
 
@@ -54,7 +54,8 @@ public class SelfieDetails extends ActionBarActivity {
     ImageView like;
     Integer liked = -1;
     Intent in;
-    SmoothProgressBar pb;
+    //    CircularProgressBar pb;
+    CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +67,15 @@ public class SelfieDetails extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         in = getIntent();
+        cardView = (CardView) findViewById(R.id.card_view);
+        cardView.setVisibility(View.GONE);
         String image_url = in.getStringExtra(EXTRA_IMAGE);
         String desc = in.getStringExtra(DESCRIPTON);
         String dp_ = "https://graph.facebook.com/" + in.getStringExtra(DP) + "/picture?type=small";
         String username = in.getStringExtra(NAME);
         ImageView image = (ImageView) findViewById(R.id.image);
         TextView desc_tv = (TextView) findViewById(R.id.desc_tv);
-        pb = (SmoothProgressBar) findViewById(R.id.pb);
+//        pb = (CircularProgressBar) findViewById(R.id.pb);
         dp = (CircleImageView) findViewById(R.id.details_dp);
         dp_name = (TextView) findViewById(R.id.details_name);
         {
@@ -250,7 +253,28 @@ public class SelfieDetails extends ActionBarActivity {
             if (liked == 1) {
                 like.setImageResource(R.drawable.star_gold_);
             }
-            pb.setVisibility(View.GONE);
+//            pb.setVisibility(View.GONE);
+            YoYo.with(Techniques.SlideInRight).duration(300).withListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    cardView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).playOn(cardView);
         }
     }
 

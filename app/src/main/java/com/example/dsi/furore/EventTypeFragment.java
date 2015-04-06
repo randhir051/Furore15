@@ -45,6 +45,7 @@ public class EventTypeFragment extends Fragment {
         data = get.getCategories();
         get.close();
         adapter = new EventTypeAdapter(getActivity(), data);
+
         eventTypeRecyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
         eventTypeRecyclerView.setLayoutManager(layoutManager);

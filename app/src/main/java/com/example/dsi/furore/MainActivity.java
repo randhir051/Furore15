@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
     JSONparser jsonParserGet = new JSONparser();
     SharedPreferences prefs;
     NavigationDrawerFragment drawerFragment;
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
@@ -78,8 +78,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
-        Intent intent = new Intent(MainActivity.this,Splash.class);
-        startActivity(intent);
 
         prefs = getSharedPreferences(Utility.PREFS, 0);
         setSupportActionBar(toolbar);
@@ -116,17 +114,15 @@ public class MainActivity extends ActionBarActivity {
 //        });
 
         //drawerFragment.mDrawerToggle.setDrawerIndicatorEnabled(false);
-        if(Utility.hasConnection(this)){
+        if (Utility.hasConnection(this)) {
             if (prefs.getBoolean("isFirstDataLoaded", true)) {
                 new GetData().execute();
-            }
-            else {
+            } else {
                 new GetVersion().execute();
-                Log.d("getting version","boop");
+                Log.d("getting version", "boop");
             }
-        }
-        else {
-            Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please connect to internet", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,6 +159,7 @@ public class MainActivity extends ActionBarActivity {
     class GetData extends AsyncTask<String, String, JSONObject> {
 
         JSONObject json;
+
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MainActivity.this);
@@ -194,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
                 setData(result);
                 try {
                     int ver = result.getJSONObject("1").getInt("ver_no");
-                    prefs.edit().putInt("version",ver).apply();
+                    prefs.edit().putInt("version", ver).apply();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -207,7 +204,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setData(JSONObject result) {
 
-        String id, name, cordinator, category, rules, timing=" ", fee, cash;
+        String id, name, cordinator, category, rules, timing = " ", fee, cash;
 
 
         DBEventDetails put = new DBEventDetails(this);
@@ -215,17 +212,17 @@ public class MainActivity extends ActionBarActivity {
         try {
             JSONObject forSize = result.getJSONObject("0");
             int size = forSize.getInt("size");
-            for (int i = 2; i <= size+1; i++) {
+            for (int i = 2; i <= size + 1; i++) {
                 JSONObject c = result.getJSONObject(i + "");
                 id = c.getString("id");
                 name = c.getString("event_name");
-                cordinator = c.getString("co_ordinator_name")+ "\nContact: " + c.getString("contact");
+                cordinator = c.getString("co_ordinator_name") + "\nContact: " + c.getString("contact");
                 category = c.getString("cat");
-                category=category.replaceAll("\\s+","");
-                rules = c.getString("rules") ;
+                category = category.replaceAll("\\s+", "");
+                rules = c.getString("rules");
                 //timing = c.getString("time");
                 fee = c.getString("fee");
-                cash = c.getString("cash1")+"-"+c.getString("cash2");
+                cash = c.getString("cash1") + "-" + c.getString("cash2");
                 put.createEntry(id, name, cordinator, category, rules, timing, fee, cash);
             }
             prefs.edit().putBoolean("isFirstDataLoaded", false).apply();
@@ -260,10 +257,10 @@ public class MainActivity extends ActionBarActivity {
             if (result != null) {
                 try {
                     int ver = result.getInt("version");
-                    if(ver>prefs.getInt("version",ver)){
+                    if (ver > prefs.getInt("version", ver)) {
                         DBEventDetails clear = new DBEventDetails(getApplicationContext());
                         clear.open();
-                        clear.ourDatabase.rawQuery("DROP TABLE IF EXISTS "+DBEventDetails.DATABASE_TABLE,null);
+                        clear.ourDatabase.rawQuery("DROP TABLE IF EXISTS " + DBEventDetails.DATABASE_TABLE, null);
                         clear.close();
                         type.adapter.data.clear();
                         type.adapter.notifyDataSetChanged();

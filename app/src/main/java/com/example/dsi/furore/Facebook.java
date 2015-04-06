@@ -1,21 +1,17 @@
 package com.example.dsi.furore;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -141,7 +137,7 @@ public class Facebook extends ActionBarActivity {
 //                            Toast.makeText(Facebook.this,
 //                                    "Photo uploaded successfully",
 //                                    Toast.LENGTH_LONG).show();
-                            uploadPreview.callSuperToast("Photo uploaded successfully",Facebook.this);
+                            uploadPreview.callSuperToast("Photo uploaded successfully", Facebook.this);
 
                         }
                     });
@@ -164,8 +160,8 @@ public class Facebook extends ActionBarActivity {
 //                                Toast.makeText(Facebook.this,
 //                                        "Status updated successfully",
 //                                        Toast.LENGTH_LONG).show();
-                            uploadPreview.callSuperToast("Status updated successfully",Facebook.this);
-                            Intent intent = new Intent(Facebook.this,AboutUs.class);
+                                uploadPreview.callSuperToast("Status updated successfully", Facebook.this);
+                            Intent intent = new Intent(Facebook.this, AboutUs.class);
                             startActivity(intent);
                         }
                     });
@@ -185,7 +181,8 @@ public class Facebook extends ActionBarActivity {
 
     public void requestPermissions() {
         Session s = Session.getActiveSession();
-        if (s != null)
+        Log.d("abcd",""+s);
+        if (s.isOpened())
             s.requestNewPublishPermissions(new Session.NewPermissionsRequest(
                     this, PERMISSIONS));
     }
