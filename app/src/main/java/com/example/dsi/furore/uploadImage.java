@@ -107,6 +107,7 @@ public class uploadImage extends IntentService {
             HttpEntity entity1 = response.getEntity();
             String responseString = EntityUtils.toString(entity1);
             Log.d("raj", responseString);
+            uploaded = (responseString.contains("uploaded"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,19 +115,31 @@ public class uploadImage extends IntentService {
 
     }
 
+    public static boolean uploaded = false;
+
     @Override
     public void onDestroy() {
-        notificationManager.cancel(555);
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notification = new Notification(R.drawable.main_logo, "Upload complete!", System.currentTimeMillis());
-        notification.contentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.upload_progress);
-        notification.contentView.setTextViewText(R.id.textView, "Upload complete!");
-        notification.contentView.setProgressBar(R.id.progressBar, 100, 100, false);
+        if (uploaded) {
+            notificationManager.cancel(555);
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notification = new Notification(R.drawable.main_logo, "Upload complete!", System.currentTimeMillis());
+            notification.contentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.upload_progress);
+            notification.contentView.setTextViewText(R.id.textView, "Upload complete!");
+            notification.contentView.setProgressBar(R.id.progressBar, 100, 100, false);
 //        notification.contentView.setImageViewResource(R.id.imageRandom,R.drawable.something);
-        notification.defaults = Notification.FLAG_NO_CLEAR;
-        notificationManager.notify(55, notification);
-
-
+            notification.defaults = Notification.FLAG_NO_CLEAR;
+            notificationManager.notify(55, notification);
+        } else {
+            notificationManager.cancel(555);
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notification = new Notification(R.drawable.main_logo, "Upload failed!", System.currentTimeMillis());
+            notification.contentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.upload_progress);
+            notification.contentView.setTextViewText(R.id.textView, "Upload failed!");
+            notification.contentView.setProgressBar(R.id.progressBar, 100, 100, false);
+//        notification.contentView.setImageViewResource(R.id.imageRandom,R.drawable.something);
+            notification.defaults = Notification.FLAG_NO_CLEAR;
+            notificationManager.notify(55, notification);
+        }
         super.onDestroy();
     }
 }

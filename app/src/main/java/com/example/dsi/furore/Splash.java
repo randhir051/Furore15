@@ -74,7 +74,7 @@ public class Splash extends ActionBarActivity {
                                                             @Override
                                                             public void run() {
                                                                 try {
-                                                                    Thread.sleep(1000);
+                                                                    Thread.sleep(500);
                                                                     Intent in = new Intent(Splash.this, MainActivity.class);
                                                                     startActivity(in);
                                                                     finish();

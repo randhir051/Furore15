@@ -46,6 +46,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SelfieDetails extends ActionBarActivity {
 
+
+    public boolean likedNow = false;
     public static int pos;
     public static final String ID = "SelfieDetail:id", LIKES = "SelfieDetail:likes", EXTRA_IMAGE = "SelfieDetail:image", DESCRIPTON = "SelfieDetail:description", DP = "SelfieDetail:dp", NAME = "SelfieDetail:name";
     public static ImageLoader imageLoader = ImageLoader.getInstance();
@@ -180,6 +182,7 @@ public class SelfieDetails extends ActionBarActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             likedNow = true;
+
         }
 
         @Override
@@ -348,11 +351,11 @@ public class SelfieDetails extends ActionBarActivity {
     public void onBackPressed() {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("like", likedNow);
+        Log.d("raj", "" + likedNow);
         returnIntent.putExtra("position", pos);
         setResult(RESULT_OK, returnIntent);
         finish();
     }
 
-    public static boolean likedNow = false;
 
 }

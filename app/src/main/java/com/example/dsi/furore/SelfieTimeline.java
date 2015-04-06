@@ -85,6 +85,7 @@ public class SelfieTimeline extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie_timeline);
+        liked = false;
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Selfie!!");
         setSupportActionBar(toolbar);
@@ -314,6 +315,7 @@ public class SelfieTimeline extends ActionBarActivity {
                     l++;
                     likes.set(pos, "" + l);
                     myAdapter.notifyItemChanged(pos);
+                    Log.d("raj", "" + liked);
                 }
             }
 
