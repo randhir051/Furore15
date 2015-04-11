@@ -75,11 +75,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(Utility.PREFS, 0);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
 
-        prefs = getSharedPreferences(Utility.PREFS, 0);
+
         setSupportActionBar(toolbar);
 
         drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -143,14 +145,14 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+//        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent in = new Intent(MainActivity.this, SelfieTimeline.class);
-            startActivity(in);
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            Intent in = new Intent(MainActivity.this, SelfieTimeline.class);
+//            startActivity(in);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

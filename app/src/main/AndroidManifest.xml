@@ -23,8 +23,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SelfieTimeline"
-            android:label="@string/title_activity_selfie_timeline"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_selfie_timeline">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dsi.furore.MainActivity" />

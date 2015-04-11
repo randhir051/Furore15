@@ -48,11 +48,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
             Field idField = R.drawable.class.getDeclaredField("event" + current.id);
             resId = idField.getInt(idField);
             holder.image.setImageResource(resId);
-            holder.image.setHeightRatio(getRandomHeight(position));
         } catch (Exception e) {
             Log.d("No resource ID found:", "" + resId + " / " + e);
         }
         holder.name.setText(current.name);
+        holder.image.setHeightRatio(getRandomHeight(position));
     }
 
     @Override

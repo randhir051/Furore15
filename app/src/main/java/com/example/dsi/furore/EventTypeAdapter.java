@@ -42,23 +42,23 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
         switch (current.name) {
             case "Theatre":
                 holder.image.setImageResource(R.drawable.theater);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_art);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
                 break;
             case "Technical":
                 holder.image.setImageResource(R.drawable.technical);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
                 break;
             case "Sports":
                 holder.image.setImageResource(R.drawable.sports);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_sports);
                 break;
             case "Music":
                 holder.image.setImageResource(R.drawable.music);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_music);
                 break;
             case "Literary":
                 holder.image.setImageResource(R.drawable.literary);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_theatre);
                 break;
             case "Kannada":
                 holder.image.setImageResource(R.drawable.kannda);
@@ -68,19 +68,19 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 holder.image.setImageResource(R.drawable.fashion);
                 holder.name.setText("Fashion Show");
                 holder.number.setText(" ");
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
                 return;
             case "Elements":
                 holder.image.setImageResource(R.drawable.elements);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_elements);
                 break;
             case "Dance":
                 holder.image.setImageResource(R.drawable.dance);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
                 break;
             case "Art":
                 holder.image.setImageResource(R.drawable.art);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_theatre);
                 break;
             default:
                 holder.image.setImageResource((R.drawable.dance123));
