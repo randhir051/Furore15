@@ -21,7 +21,7 @@
             android:layout_height="fill_parent"
             android:scaleType="centerCrop"
             android:background="@drawable/round_corner"
-            android:src="@drawable/technical" />
+            android:src="@drawable/technical1" />
 
         <View
             android:layout_width="match_parent"
