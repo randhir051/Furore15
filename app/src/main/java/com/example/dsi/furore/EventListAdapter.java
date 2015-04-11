@@ -17,6 +17,7 @@ import com.etsy.android.grid.util.DynamicHeightImageView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Randhir on 1/29/2015.
@@ -26,6 +27,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
     private LayoutInflater inflater;
     List<Event> data = new ArrayList<>();
     Context c;
+    Random rand = new Random();
 
     public EventListAdapter(Context context, List<Event> data) {
         c = context;
@@ -52,7 +54,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
             Log.d("No resource ID found:", "" + resId + " / " + e);
         }
         holder.name.setText(current.name);
-        holder.image.setHeightRatio(getRandomHeight(position));
+        holder.image.setHeightRatio(getRandomHeight());
     }
 
     @Override
@@ -74,9 +76,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
     }
 
 
-    private double getRandomHeight(int position) {
-        double x[] = {0.8, 1.1, 1, 0.9};
-        return x[position % 4];
-
+    private double getRandomHeight() {
+        int randomNum = rand.nextInt(40);
+        return 0.80+randomNum/100.0;
     }
 }
