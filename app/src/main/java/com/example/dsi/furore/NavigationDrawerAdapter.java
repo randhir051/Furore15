@@ -27,10 +27,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     Context context;
-    private String mNavTitles[] = {"Schedule", "Lemme take a selfie","DJ Night","Sponsors", "Developers", "Social"};
+    private String mNavTitles[] = {"Schedule", "Lemme take a selfie","DJ Night","Developers"};
     private int mIcons[] = {
             R.drawable.ic_action_time, R.drawable.ic_action_camera,
-            R.drawable.ic_action_headphones,R.drawable.ic_action_add_group,R.drawable.ic_action_about,R.drawable.ic_action_about};
+            R.drawable.ic_action_headphones,R.drawable.ic_action_about};
 
 
     public String name, profile;

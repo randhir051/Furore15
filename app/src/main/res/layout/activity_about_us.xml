@@ -237,7 +237,7 @@
                     android:id="@+id/arjit"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
-                    android:src="@drawable/abhishek"
+                    android:src="@drawable/arjit"
                     app:border_width="2dp"
                     app:border_color="@color/accent" />
                 <LinearLayout
@@ -271,7 +271,7 @@
                     android:id="@+id/antony"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
-                    android:src="@drawable/abhishek"
+                    android:src="@drawable/antony"
                     app:border_width="2dp"
                     app:border_color="@color/accent" />
                 <LinearLayout

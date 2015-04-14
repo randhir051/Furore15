@@ -34,9 +34,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             "com.example.dsi.furore.FuroreSchedule",
             "com.example.dsi.furore.SelfieTimeline",
             "com.example.dsi.furore.DJNight",
-            "com.example.dsi.furore.Sponsors",
-            "com.example.dsi.furore.AboutUs",
-            "com.example.dsi.furore.AboutUs",
             "com.example.dsi.furore.AboutUs"
     };
 

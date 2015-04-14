@@ -20,7 +20,7 @@ public class Splash extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = getSharedPreferences(Utility.PREFS, 0);
-        if (prefs.getBoolean("firstLogin", true)) {
+        if (!prefs.getBoolean("firstLogin", true)) {
             Intent intent = new Intent(Splash.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             prefs.edit().putBoolean("firstLogin", false).apply();
