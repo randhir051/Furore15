@@ -37,6 +37,10 @@ public class DBEventDetails {
     private final Context ourContext;
     public SQLiteDatabase ourDatabase;
 
+    public void clearData() {
+        ourDatabase.execSQL("delete from event_details");
+    }
+
 
     private static class DBHelper extends SQLiteOpenHelper {
 

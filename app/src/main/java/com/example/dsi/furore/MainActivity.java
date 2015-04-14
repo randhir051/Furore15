@@ -260,9 +260,9 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     int ver = result.getInt("version");
                     if (ver > prefs.getInt("version", ver)) {
-                        DBEventDetails clear = new DBEventDetails(getApplicationContext());
+                        DBEventDetails clear = new DBEventDetails(MainActivity.this);
                         clear.open();
-                        clear.ourDatabase.rawQuery("DROP TABLE IF EXISTS " + DBEventDetails.DATABASE_TABLE, null);
+                        clear.clearData();
                         clear.close();
                         type.adapter.data.clear();
                         type.adapter.notifyDataSetChanged();
