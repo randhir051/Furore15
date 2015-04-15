@@ -68,7 +68,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 holder.image.setImageResource(R.drawable.fashion1);
                 holder.name.setText("Fashion Show");
                 holder.number.setText(" ");
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_music);
                 return;
             case "Elements":
                 holder.image.setImageResource(R.drawable.elements1);
@@ -92,7 +92,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 break;
             default:
                 holder.image.setImageResource((R.drawable.main_logo));
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_dance);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_music);
         }
         holder.name.setText(current.name);
         holder.number.setText(current.numEvents + " Events");

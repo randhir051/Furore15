@@ -64,7 +64,11 @@
 
         <activity
             android:name=".FuroreSchedule"
-            android:label="@string/title_activity_furore_timeline" />
+            android:label="@string/title_activity_furore_timeline">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dsi.furore.MainActivity" />
+            </activity>
         <activity
             android:name=".AboutUs"
             android:label="@string/title_activity_about_us">
