@@ -88,8 +88,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
+            android:text="By logging in thorough facebook\nyou agree to the"
+            android:visibility="visible" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
             android:id="@+id/link_privacy"
-            android:text="This"
+            android:clickable="true"
+            android:textColorLink="@color/black"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="visible" />
     </LinearLayout>
