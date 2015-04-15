@@ -88,8 +88,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="@string/terms"
+            android:id="@+id/link_privacy"
+            android:text="This"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="visible" />
     </LinearLayout>

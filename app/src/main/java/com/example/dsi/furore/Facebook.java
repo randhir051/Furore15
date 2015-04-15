@@ -8,10 +8,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -36,6 +39,10 @@ public class Facebook extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         final SharedPreferences prefs = getSharedPreferences(Utility.PREFS, 0);
 
+        TextView linkTerms = (TextView) findViewById(R.id.link_privacy);
+        String linkText = "<a href='http://ieeevit.com/snup1/privacy.html'>Terms and Conditions and privacy policy</a>";
+        linkTerms.setText(Html.fromHtml(linkText));
+        linkTerms.setMovementMethod(LinkMovementMethod.getInstance());
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
@@ -93,7 +100,7 @@ public class Facebook extends ActionBarActivity {
 
         if(prefs.getBoolean("log_in",false)){
             loginBtn.setVisibility(View.INVISIBLE);
-            findViewById(R.id.terms).setVisibility(View.INVISIBLE);
+            //findViewById(R.id.terms).setVisibility(View.INVISIBLE);
         }
 
         loginBtn.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
