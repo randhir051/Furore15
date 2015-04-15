@@ -14,6 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_margin="50dp"
         android:id="@+id/lin"
         android:layout_height="wrap_content">
@@ -49,30 +51,47 @@
 
     </LinearLayout>
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:id="@+id/post"
-    android:background="@android:color/holo_blue_dark"
-    android:textColor="@color/icons"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:textStyle="bold"
-    android:text="Confirm Post"
-    />
+<!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:id="@+id/post"-->
+    <!--android:background="@android:color/holo_blue_dark"-->
+    <!--android:textColor="@color/icons"-->
+    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+    <!--android:textStyle="bold"-->
+    <!--android:text="Confirm Post"-->
+    <!--/>-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:background="@android:color/holo_orange_dark"
-        android:layout_above="@+id/authButton"
+        android:layout_below="@+id/lin"
         android:id="@+id/rules"
         android:textColor="@color/icons"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:text="RULES" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/authButton"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:id="@+id/terms">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="@string/terms"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="visible" />
+    </LinearLayout>
     <com.facebook.widget.LoginButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

@@ -27,7 +27,7 @@ import java.util.List;
 public class Facebook extends ActionBarActivity {
 
     public LoginButton loginBtn;
-    public Button rules, post;
+    public Button rules;
     public UiLifecycleHelper uiHelper;
     public static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
@@ -39,30 +39,30 @@ public class Facebook extends ActionBarActivity {
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
-        post = (Button) findViewById(R.id.post);
+        //post = (Button) findViewById(R.id.post);
         loginBtn = (LoginButton) findViewById(R.id.authButton);
         rules = (Button) findViewById(R.id.rules);
 
-        Intent intent = getIntent();
-        int a = intent.getIntExtra("check", 0);
-        if (a == 1) {
-            LinearLayout ll = (LinearLayout) findViewById(R.id.lin);
-            ll.setVisibility(View.INVISIBLE);
-            rules.setVisibility(View.INVISIBLE);
-            loginBtn.setVisibility(View.INVISIBLE);
-            post.setVisibility(View.VISIBLE);
-            post.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    postImage();
-                    postStatusMessage();
-                }
-            });
-
-        }
-        if (a == 0) {
-            post.setVisibility(View.INVISIBLE);
-        }
+//        Intent intent = getIntent();
+//        int a = intent.getIntExtra("check", 0);
+//        if (a == 1) {
+//            LinearLayout ll = (LinearLayout) findViewById(R.id.lin);
+//            ll.setVisibility(View.INVISIBLE);
+//            rules.setVisibility(View.INVISIBLE);
+//            loginBtn.setVisibility(View.INVISIBLE);
+//            post.setVisibility(View.VISIBLE);
+//            post.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                   // postImage();
+//                   // postStatusMessage();
+//                }
+//            });
+//
+//        }
+//        if (a == 0) {
+//            post.setVisibility(View.INVISIBLE);
+//        }
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +82,19 @@ public class Facebook extends ActionBarActivity {
         rules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(Facebook.this).setTitle("Rules").setMessage("-Rule1\n-Rule2\n-Rule3").setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(Facebook.this).setTitle("Rules").setMessage(R.string.rules).setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        postStatusMessage();
+                        //postStatusMessage();
                     }
                 }).show();
             }
         });
+
+        if(prefs.getBoolean("log_in",false)){
+            loginBtn.setVisibility(View.INVISIBLE);
+            findViewById(R.id.terms).setVisibility(View.INVISIBLE);
+        }
 
         loginBtn.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
@@ -101,6 +106,8 @@ public class Facebook extends ActionBarActivity {
                     user.getId();
                     String url = "https://graph.facebook.com/" + user.getId() + "/picture?type=large";
                     prefs.edit().putBoolean("log_in", true).putString("fb_id", user.getId()).putString("name", user.getName()).putString("user_image", url).apply();
+                    loginBtn.setVisibility(View.INVISIBLE);
+                    findViewById(R.id.terms).setVisibility(View.INVISIBLE);
 
                 } else if (user == null) {
                     prefs.edit().putBoolean("log_in", false).apply();

@@ -16,7 +16,7 @@ public class DJNight extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_djnight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("About Us");
+        toolbar.setTitle("DJ Night");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

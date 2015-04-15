@@ -7,6 +7,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/event_list_recycler"
         android:layout_width="match_parent"
+        android:clickable="true"
+        android:longClickable="true"
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />
 </FrameLayout>

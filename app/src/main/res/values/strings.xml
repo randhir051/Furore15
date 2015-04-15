@@ -26,6 +26,7 @@
     <string name="title_activity_upload_preview">uploadPreview</string>
     <string name="title_activity_djnight">DJNight</string>
     <string name="title_activity_sponsors">Sponsors</string>
-    <string name="terms">By clicking continue you agree to the <u>Terms And Conditions</u></string>
+    <string name="terms">By logging in through Facebook you agree to the <u>Terms and Conditions</u></string>
+    <string name="rules">Rule 1\nRule 2\nRule 3</string>
 
 </resources>

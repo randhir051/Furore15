@@ -46,11 +46,11 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 break;
             case "Technical":
                 holder.image.setImageResource(R.drawable.technical1);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_music);
                 break;
             case "Sports":
                 holder.image.setImageResource(R.drawable.sports1);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_music);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_sports);
                 break;
             case "Music":
                 holder.image.setImageResource(R.drawable.music1);
@@ -76,7 +76,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 break;
             case "Dance":
                 holder.image.setImageResource(R.drawable.dance1);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_theatre);
                 break;
             case "Photography":
                 holder.image.setImageResource(R.drawable.photo);
@@ -88,7 +88,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.MyVi
                 break;
             case "Art":
                 holder.image.setImageResource(R.drawable.art1);
-                holder.layout.setBackgroundResource(R.drawable.category_gradient_theatre);
+                holder.layout.setBackgroundResource(R.drawable.category_gradient_technical);
                 break;
             default:
                 holder.image.setImageResource((R.drawable.main_logo));

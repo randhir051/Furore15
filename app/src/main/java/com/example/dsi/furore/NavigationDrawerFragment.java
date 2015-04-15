@@ -115,17 +115,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (pos != 1 && pos != 2 && pos != 0) {
-                    String selectedAction = ACTIONS[pos];
 
-                    try {
-                        Intent intent = new Intent(getActivity(), Class.forName(selectedAction));
-                        startActivity(intent);
-                        //getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
                 if (pos == 0) {
                     if (Utility.hasConnection(getActivity())) {
                         Intent intent = new Intent(getActivity(), Facebook.class);
@@ -134,7 +124,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                         uploadPreview.callSuperToast("Please check your internet connection", getActivity());
                     }
                 }
-                if (pos == 2) {
+                else if (pos == 2) {
                     boolean signed_in = getPrefs.getBoolean(FuroreApplication.LOG_IN, false);
                     if (signed_in) {
                         Intent intent = new Intent(getActivity(), SelfieTimeline.class);
@@ -148,6 +138,17 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                             uploadPreview.callSuperToast("Please check your internet connection", getActivity());
                         }
 
+                    }
+                }
+                else {
+                    String selectedAction = ACTIONS[pos];
+
+                    try {
+                        Intent intent = new Intent(getActivity(), Class.forName(selectedAction));
+                        startActivity(intent);
+                        //getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
             }
