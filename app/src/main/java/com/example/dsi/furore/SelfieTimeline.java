@@ -87,7 +87,7 @@ public class SelfieTimeline extends ActionBarActivity {
         setContentView(R.layout.activity_selfie_timeline);
         liked = false;
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("Selfie!!");
+        toolbar.setTitle("Lemme take a selfie!!");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

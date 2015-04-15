@@ -82,7 +82,7 @@ public class Facebook extends ActionBarActivity {
         rules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(Facebook.this).setTitle("Rules").setMessage(R.string.rules).setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(Facebook.this).setTitle("The Selfie Contest").setMessage(R.string.rules).setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //postStatusMessage();

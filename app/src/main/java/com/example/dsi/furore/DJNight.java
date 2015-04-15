@@ -15,11 +15,11 @@ public class DJNight extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_djnight);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("DJ Night");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+//        toolbar.setTitle("DJ Night");
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -38,9 +38,9 @@ public class DJNight extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.home){
-            NavUtils.navigateUpFromSameTask(this);
-        }
+//        if (id == R.id.home){
+//            NavUtils.navigateUpFromSameTask(this);
+//        }
 
         return super.onOptionsItemSelected(item);
     }

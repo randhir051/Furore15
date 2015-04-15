@@ -26,7 +26,13 @@
     <string name="title_activity_upload_preview">uploadPreview</string>
     <string name="title_activity_djnight">DJNight</string>
     <string name="title_activity_sponsors">Sponsors</string>
+    <string name="dj_night_content1">Last night of the Furore will be the DJ night. The best part of the fest. The electronic music ll rock and tune your hearts.</string>
+    <string name="dj_night_content2">This time at Furore’15 its double the awesomeness , we have two shows  for you.</string>
+    <string name="dj_night_content3">First up ll be our very own Bengaluru boy Brodha V. He is a rapper, composer and producer. From the iconic crew Machas with attitude (MWA). He ll blow your mind with his awesome and catchy lyrics coupled with groovy music.</string>
+    <string name="dj_night_content4">Second we have hot two female DJs from electroverts who ll mix and mash some of the best tracks. They are going to entertain you and make you grove till you sweat it out.</string>
+    <string name="dj_night_content5">Hope to see you all there because its going to be one hell of a night you don’t want miss!\n\nRock on!!</string>
     <string name="terms">By logging in through Facebook you agree to the <u>Terms and Conditions</u></string>
-    <string name="rules">Rule 1\nRule 2\nRule 3</string>
+    <string name="rules">The winner ll get a free pass to DJ night and ll get a chance to take a selfie with the artist\n\nRULES\n\nYou should upload <u>your</u> selfie or <u>you should be there in the picture</u>\n\nThe picture you upload ll also be uploaded to official facebook page of Furore 15\n\nThe ranking is measured by likes got to your picture in the app as well as on the photos uplaoded on facebook page (Furore 15)\n\nThe winner ll be announced on our facebook page
+</string>
 
 </resources>
