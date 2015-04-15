@@ -93,11 +93,18 @@ public class SelfieDetails extends ActionBarActivity {
         ViewCompat.setTransitionName(image, EXTRA_IMAGE);
         imageLoader.displayImage(image_url
                 , image, options);
-        desc_tv.setText(desc);
-        dp_name.setText(username);
-        imageLoader.displayImage(dp_, dp, options);
+
         like = (ImageView) findViewById(R.id.ivLike1);
         noLikes = (TextView) findViewById(R.id.noLikes);
+        if (Utility.hasConnection(getApplicationContext())) {
+            desc_tv.setText(desc);
+        } else {
+            desc_tv.setText("Go Online to like this image");
+            like.setVisibility(View.GONE);
+            noLikes.setVisibility(View.GONE);
+        }
+        dp_name.setText(username);
+        imageLoader.displayImage(dp_, dp, options);
         noLikes.setText(in.getStringExtra(LIKES));
 
         new checkLike(in.getStringExtra(ID)).execute();
