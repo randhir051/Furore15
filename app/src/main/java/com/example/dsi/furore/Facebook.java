@@ -33,19 +33,19 @@ public class Facebook extends ActionBarActivity {
     public Button rules;
     public UiLifecycleHelper uiHelper;
     public static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
-
+    TextView linkTerms;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final SharedPreferences prefs = getSharedPreferences(Utility.PREFS, 0);
+        setContentView(R.layout.activity_facebook);
 
-        TextView linkTerms = (TextView) findViewById(R.id.link_privacy);
-        String linkText = "<a href='http://ieeevit.com/snup1/privacy.html'>Terms and Conditions and privacy policy</a>";
+        linkTerms = (TextView) findViewById(R.id.link_privacy);
+        String linkText = "<a href='http://furore15.com/privacy.html'>Terms and Conditions</a>";
         linkTerms.setText(Html.fromHtml(linkText));
         linkTerms.setMovementMethod(LinkMovementMethod.getInstance());
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facebook);
         //post = (Button) findViewById(R.id.post);
         loginBtn = (LoginButton) findViewById(R.id.authButton);
         rules = (Button) findViewById(R.id.rules);
@@ -100,7 +100,7 @@ public class Facebook extends ActionBarActivity {
 
         if(prefs.getBoolean("log_in",false)){
             loginBtn.setVisibility(View.INVISIBLE);
-            //findViewById(R.id.terms).setVisibility(View.INVISIBLE);
+            findViewById(R.id.terms).setVisibility(View.INVISIBLE);
         }
 
         loginBtn.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
