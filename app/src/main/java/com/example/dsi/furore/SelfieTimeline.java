@@ -210,15 +210,10 @@ public class SelfieTimeline extends ActionBarActivity {
         SubActionButton attachButton = itemBuilder.setContentView(attachIcon).build();
         attachButton.setBackgroundDrawable(attachDrawable);
 
-        Drawable profileDrawable = getResources().getDrawable(R.drawable.profile);
-        ImageView profileIcon = new ImageView(this);
-        SubActionButton profileButton = itemBuilder.setContentView(profileIcon).build();
-        profileButton.setBackgroundDrawable(profileDrawable);
 
         final FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(cameraButton)
                 .addSubActionView(attachButton)
-                .addSubActionView(profileButton)
                 .attachTo(actionButton)
 
                 .build();
@@ -246,19 +241,6 @@ public class SelfieTimeline extends ActionBarActivity {
             }
         });
 
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (actionMenu.isOpen()) {
-                    actionMenu.close(true);
-                }
-                //view profile
-
-                Intent intent = new Intent(SelfieTimeline.this, Facebook.class);
-                intent.putExtra("check", 1);
-                startActivity(intent);
-            }
-        });
 
     }
 

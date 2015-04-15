@@ -57,7 +57,8 @@ public class SelfieDetails extends ActionBarActivity {
     ImageView like;
     Integer liked = -1;
     Intent in;
-    //    CircularProgressBar pb;
+    Boolean showing = false, loadingDone = false;
+    MenuItem likeMenu;
     CardView cardView;
 
     @Override
@@ -66,6 +67,7 @@ public class SelfieDetails extends ActionBarActivity {
         setContentView(R.layout.activity_selfie_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,6 +111,60 @@ public class SelfieDetails extends ActionBarActivity {
 
         new checkLike(in.getStringExtra(ID)).execute();
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (loadingDone) {
+                    if (showing) {
+                        showing = false;
+                        YoYo.with(Techniques.SlideOutDown).duration(200).withListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                cardView.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        }).playOn(cardView);
+                    } else {
+                        showing = true;
+                        YoYo.with(Techniques.SlideInUp).duration(200).withListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                cardView.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        }).playOn(cardView);
+                    }
+                }
+            }
+        });
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +175,7 @@ public class SelfieDetails extends ActionBarActivity {
                         public void onAnimationStart(Animator animation) {
                             int likes = Integer.parseInt(in.getStringExtra(LIKES));
                             like.setImageResource(R.drawable.star_gold_);
+                            likeMenu.setIcon(R.drawable.star_gold_);
                             new insertLike(in.getStringExtra(ID)).execute();
                             likes++;
                             noLikes.setText("" + likes);
@@ -151,6 +208,29 @@ public class SelfieDetails extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_selfie_details, menu);
+        likeMenu = menu.findItem(R.id.action_like);
+        likeMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (loadingDone) {
+                    if (liked == 0) {
+
+                        int likes = Integer.parseInt(in.getStringExtra(LIKES));
+//                        like.setImageResource(R.drawable.star_gold_);
+
+                        likeMenu.setIcon(R.drawable.star_gold_);
+                        like.setImageResource(R.drawable.star_gold_);
+                        new insertLike(in.getStringExtra(ID)).execute();
+                        likes++;
+                        noLikes.setText("" + likes);
+
+                    } else if (liked == 1) {
+                        uploadPreview.callToast("You have already liked this image!!!!!", SelfieDetails.this);
+                    }
+                }
+                return false;
+            }
+        });
         return true;
     }
 
@@ -170,6 +250,7 @@ public class SelfieDetails extends ActionBarActivity {
         if (id == R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -267,8 +348,11 @@ public class SelfieDetails extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            showing = true;
+            loadingDone = true;
             if (liked == 1) {
                 like.setImageResource(R.drawable.star_gold_);
+                likeMenu.setIcon(R.drawable.star_gold_);
             }
 //            pb.setVisibility(View.GONE);
             YoYo.with(Techniques.SlideInRight).duration(300).withListener(new Animator.AnimatorListener() {
@@ -313,7 +397,7 @@ public class SelfieDetails extends ActionBarActivity {
         ActivityCompat.startActivityForResult(activity, intent, 1234, options.toBundle());
     }
 
-    public class report extends AsyncTask<Void, Void, Void> {
+    public class report extends AsyncTask<Void, Void, Boolean> {
 
         String pic_id;
 
@@ -322,13 +406,17 @@ public class SelfieDetails extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Boolean aVoid) {
             super.onPostExecute(aVoid);
-            uploadPreview.callSuperToast("This image is reported successfully", getApplicationContext());
+            if (aVoid) {
+                uploadPreview.callSuperToast("This image is reported successfully", getApplicationContext());
+            } else {
+                uploadPreview.callSuperToast("Please check your connection and try again !!", getApplicationContext());
+            }
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost("http://bitsmate.in/furore/report.php");
@@ -345,12 +433,13 @@ public class SelfieDetails extends ActionBarActivity {
                 HttpEntity entity1 = response.getEntity();
                 String responseString = EntityUtils.toString(entity1);
                 Log.d("raj", responseString);
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-            return null;
+            return false;
         }
     }
 
