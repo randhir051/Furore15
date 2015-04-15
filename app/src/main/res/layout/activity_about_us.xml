@@ -79,7 +79,7 @@
                     android:id="@+id/darshan"
                     android:layout_width="@dimen/about_us_circle_view_height"
                     android:layout_height="@dimen/about_us_circle_view_height"
-                    android:src="@drawable/darshan"
+                    android:src="@drawable/darshan_"
                     app:border_width="2dp"
                     app:border_color="@color/accent" />
                 <LinearLayout

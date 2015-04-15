@@ -315,6 +315,12 @@ public class SelfieTimeline extends ActionBarActivity {
 
     public class imageUrlLoader extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            main_cpb.setVisibility(View.VISIBLE);
+
+        }
 
         @Override
         protected Void doInBackground(Void... params) {

@@ -33,4 +33,7 @@
         <item name="spb_colors">@array/pb_colors</item>
         <item name="spb_progressiveStart_activated">true</item>
     </style>
+
+    <style name="notificationText" parent="android:TextAppearance.StatusBar.EventContent.Title"/>
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title"/>
 </resources>
