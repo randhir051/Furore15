@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/toolbar_gradient"
-    tools:context="com.example.dsi.furore.uploadPreview">
+    tools:context="com.cse.dsi.furore.uploadPreview">
 
     <include
         layout="@layout/app_bar"

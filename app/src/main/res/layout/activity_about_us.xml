@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="@drawable/toolbar_gradient"
-    tools:context="com.example.dsi.furore.AboutUs">
+    tools:context="com.cse.dsi.furore.AboutUs">
 
     <include
         android:id="@+id/app_bar"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dsi.furore">
+    package="com.cse.dsi.furore">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -18,31 +18,31 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.cse.dsi.furore.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelfieTimeline"
+            android:name="com.cse.dsi.furore.SelfieTimeline"
             android:launchMode="singleTop"
             android:label="@string/title_activity_selfie_timeline">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.MainActivity" />
+                android:value="com.cse.dsi.furore.MainActivity" />
         </activity>
 
         <service
-            android:name=".uploadImage"
+            android:name="com.cse.dsi.furore.uploadImage"
             android:exported="true" />
 
         <activity
-            android:name=".SelfieDetails"
+            android:name="com.cse.dsi.furore.SelfieDetails"
             android:label="@string/title_activity_selfie_details">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.SelfieTimeline" />
+                android:value="com.cse.dsi.furore.SelfieTimeline" />
         </activity>
         <activity
-            android:name=".Splash"
+            android:name="com.cse.dsi.furore.Splash"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +52,7 @@
 
         </activity>
         <activity
-            android:name=".Facebook"
+            android:name="com.cse.dsi.furore.Facebook"
             android:label="@string/title_activity_facebook" />
         <activity
             android:name="com.facebook.LoginActivity"
@@ -63,39 +63,39 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".FuroreSchedule"
+            android:name="com.cse.dsi.furore.FuroreSchedule"
             android:label="@string/title_activity_furore_timeline">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.MainActivity" />
+                android:value="com.cse.dsi.furore.MainActivity" />
             </activity>
         <activity
-            android:name=".AboutUs"
+            android:name="com.cse.dsi.furore.AboutUs"
             android:label="@string/title_activity_about_us">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.MainActivity" />
+                android:value="com.cse.dsi.furore.MainActivity" />
         </activity>
         <activity
-            android:name=".uploadPreview"
+            android:name="com.cse.dsi.furore.uploadPreview"
             android:label="@string/title_activity_upload_preview">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.SelfieTimeline" />
+                android:value="com.cse.dsi.furore.SelfieTimeline" />
         </activity>
         <activity
-            android:name=".DJNight"
+            android:name="com.cse.dsi.furore.DJNight"
             android:label="@string/title_activity_upload_preview">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.MainActivity" />
+                android:value="com.cse.dsi.furore.MainActivity" />
         </activity>
         <activity
-            android:name=".Sponsors"
+            android:name="com.cse.dsi.furore.Sponsors"
             android:label="@string/title_activity_upload_preview">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dsi.furore.MainActivity" />
+                android:value="com.cse.dsi.furore.MainActivity" />
         </activity>
     </application>
 

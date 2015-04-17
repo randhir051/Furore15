@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@drawable/toolbar_gradient"
     android:fitsSystemWindows="true"
-    tools:context="com.example.dsi.furore.SelfieTimeline">
+    tools:context="com.cse.dsi.furore.SelfieTimeline">
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
