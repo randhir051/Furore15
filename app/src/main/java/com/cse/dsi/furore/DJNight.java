@@ -1,12 +1,17 @@
 package com.cse.dsi.furore;
 
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+
+import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 
 public class DJNight extends ActionBarActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +22,7 @@ public class DJNight extends ActionBarActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
 
     @Override
@@ -40,4 +46,5 @@ public class DJNight extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

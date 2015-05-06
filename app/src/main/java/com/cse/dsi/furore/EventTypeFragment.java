@@ -54,6 +54,7 @@ public class EventTypeFragment extends Fragment {
                 ((MainActivity) getActivity()).list.setData(adapter.data.get(position).name);
                 //((MainActivity) getActivity()).list.adapter.notifyDataSetChanged();
                 ((MainActivity) getActivity()).mPager.setCurrentItem(1, true);
+                ((MainActivity) getActivity()).toolbar.setTitle(data.get(position).name);
             }
 
             @Override

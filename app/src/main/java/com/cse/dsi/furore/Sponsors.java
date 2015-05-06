@@ -22,7 +22,7 @@ public class Sponsors extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView fb,insta, twi, you;
+        TextView fb,insta, twi, you, web;
 
         fb = (TextView) findViewById(R.id.facebook);
         String linkText1 = "<a href='https://www.facebook.com/furore15'>Facebook</a>";
@@ -43,6 +43,11 @@ public class Sponsors extends ActionBarActivity {
         String linkText4 = "<a href='https://www.youtube.com/channel/UCkgRMRCTult6T7tkxwJ95nw'>YouTube</a>";
         you.setText(Html.fromHtml(linkText4));
         you.setMovementMethod(LinkMovementMethod.getInstance());
+
+        web = (TextView) findViewById(R.id.web);
+        String linkText5 = "<a href='http://furore15.com/'>Visit the website</a>";
+        web.setText(Html.fromHtml(linkText5));
+        web.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

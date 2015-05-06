@@ -30,14 +30,26 @@ public class MainActivity extends ActionBarActivity {
     JSONparser jsonParserGet = new JSONparser();
     SharedPreferences prefs;
     NavigationDrawerFragment drawerFragment;
-
+    public Toolbar toolbar;
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+        switch (mPager.getCurrentItem()){
+            case 0:
+                super.onBackPressed();
+                break;
+            case 1:
+                toolbar.setTitle("Furore");
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+                break;
+            case 2:
+                toolbar.setTitle(list.categoryName);
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+                break;
+            default:
+                toolbar.setTitle("Furore");
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
         }
+
     }
 
     class myPagerAdapter extends FragmentPagerAdapter {
@@ -73,11 +85,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         prefs = getSharedPreferences(Utility.PREFS, 0);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Furore");
 
 

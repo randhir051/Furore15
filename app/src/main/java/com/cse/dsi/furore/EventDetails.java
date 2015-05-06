@@ -35,7 +35,7 @@ public class EventDetails extends Fragment {
         get.open();
         String[] data = get.getSingleEvent(id);
         get.close();
-        ((TextView) layout.findViewById(R.id.event_name)).setText(data[0]);
+//        ((TextView) layout.findViewById(R.id.event_name)).setText(data[0]);
         ((TextView) layout.findViewById(R.id.event_coordinator)).setText(data[1]);
         ((TextView) layout.findViewById(R.id.event_rules)).setText(data[2]+" ");
         ((TextView) layout.findViewById(R.id.fee)).setText("₹"+data[4]);
@@ -47,6 +47,8 @@ public class EventDetails extends Fragment {
         }
         else {
             ((TextView) layout.findViewById(R.id.cash2)).setText("₹"+cash[1]);
+            (layout.findViewById(R.id.cash2)).setVisibility(View.VISIBLE);
+            (layout.findViewById(R.id.hidethis)).setVisibility(View.VISIBLE);
         }
     }
 

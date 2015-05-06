@@ -6,8 +6,9 @@
     <com.nirhart.parallaxscroll.views.ParallaxScrollView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+        android:id="@+id/parallax"
         android:layout_height="match_parent"
-        app:parallax_factor="1.9" >
+        app:parallax_factor="4" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,18 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitStart"
-            android:src="@drawable/djnight_cover"/>
+            android:id="@+id/fade"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sunburn"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingTop="20dp"
             android:layout_margin="10dp"
             android:text="@string/dj_night_content1"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="20dp"
             android:layout_margin="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/dj_night_content2"/>
@@ -38,27 +42,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="20dp"
             android:text="@string/dj_night_content3"/>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitStart"
-            android:src="@drawable/brotha"/>
-
+            android:adjustViewBounds="true"
+            android:src="@drawable/djshaan"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/dj_night_content4"/>
-        <ImageView
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitStart"
-            android:src="@drawable/electrov"/>
+            android:background="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="1dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +69,82 @@
             android:layout_margin="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/dj_night_content5"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/dj_night_content6"/>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:src="@drawable/djrohankapoor"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/dj_night_content7"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/dj_night_content8"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:src="@drawable/brodhav"/>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/dj_night_content9"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/dj_night_content10"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:src="@drawable/eswara"/>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/dj_night_content11"/>
         </LinearLayout>
 </com.nirhart.parallaxscroll.views.ParallaxScrollView>
     <RelativeLayout

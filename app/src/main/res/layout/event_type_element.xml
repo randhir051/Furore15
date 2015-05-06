@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:clickable="true"
     android:longClickable="true"
+    android:layout_marginTop="1dp"
     android:layout_height="wrap_content">
 
     <!--<android.support.v7.widget.CardView-->

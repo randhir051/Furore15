@@ -52,6 +52,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
             holder.image.setImageResource(resId);
         } catch (Exception e) {
             Log.d("No resource ID found:", "" + resId + " / " + e);
+            holder.image.setImageResource(R.drawable.main_logo);
         }
         holder.name.setText(current.name);
         holder.image.setHeightRatio(getRandomHeight());

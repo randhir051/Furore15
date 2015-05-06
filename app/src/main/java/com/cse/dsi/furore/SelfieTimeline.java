@@ -378,7 +378,7 @@ public class SelfieTimeline extends ActionBarActivity {
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 75, fOut);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
             fOut.close();
         } catch (FileNotFoundException e) {

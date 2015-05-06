@@ -25,6 +25,7 @@ public class EventListFragment extends Fragment {
 
     private RecyclerView eventListRecyclerView;
     public EventListAdapter adapter;
+    public String categoryName;
     public StaggeredGridLayoutManager layoutManager;
     DBEventDetails get;
     List<Event> data = new ArrayList<>();
@@ -50,6 +51,7 @@ public class EventListFragment extends Fragment {
             public void onClick(View view, int position) {
                 ((MainActivity) getActivity()).details.setData(data.get(position).id);
                 ((MainActivity) getActivity()).mPager.setCurrentItem(3);
+                ((MainActivity) getActivity()).toolbar.setTitle(data.get(position).name);
 
             }
 
@@ -62,6 +64,7 @@ public class EventListFragment extends Fragment {
     }
 
     public void setData(String category) {
+        this.categoryName = category;
         data.clear();
         get = new DBEventDetails(getActivity());
         get.open();
